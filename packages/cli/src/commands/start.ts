@@ -13,20 +13,28 @@ export const builder: CommandBuilder = {
   },
   skipDB: {
     alias: 'skipDatabase',
+    boolean: true,
     description: 'Skip connecting to the database'
+  },
+  port: {
+    alias: 'p',
+    number: true,
+    description: 'Port to start the project on'
   }
 };
 
 interface StartArgs {
   dir?: string;
   skipDB: boolean;
+  port?: number;
 }
 
 export const handler: CommandModule<any, StartArgs>['handler'] = async args => {
-  const { dir, skipDB } = args;
+  const { dir, skipDB, port } = args;
 
   start(dir, {
-    skipDatabase: skipDB
+    skipDatabase: skipDB,
+    port
   });
 };
 
