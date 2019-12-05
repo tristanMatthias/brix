@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 import { CONFIG } from '../config';
+import { Env } from '../config/types';
 import { ErrorAuthInvalidToken } from '../errors';
 import { User } from '../models/User';
 import { CreateUser } from '../services/UserService';
@@ -36,7 +37,7 @@ export const createToken = async (
   expiresIn = '15m'
 ): Promise<{ token: string, expiry: number }> => {
   let expires = expiresIn;
-  if (process.env.NODE_ENV === 'development') expires = '7d';
+  if (CONFIG.env === Env.development) expires = '7d';
   const token = jwt.sign(data, CONFIG.accessTokenSecret, { expiresIn: expires });
   const expiry = (jwt.decode(token) as JWTVerifyResult).exp;
   return { token, expiry };
@@ -89,7 +90,7 @@ export const generateToken = async (
       socialId: user.socialId,
       socialPic: user.socialPic
     },
-    isDevelopment: process.env.NODE_ENV === 'development'
+    isDevelopment: CONFIG.env === Env.development
   };
   const { token: accessToken, expiry } = await createToken(data);
   return { accessToken, expiry };

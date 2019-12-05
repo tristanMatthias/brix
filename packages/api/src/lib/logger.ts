@@ -1,6 +1,7 @@
 import winston from 'winston';
 import { Env } from '../config/types';
 import path from 'path';
+import { CONFIG } from '../config';
 
 export const logger = winston.createLogger({
   level: 'info',
@@ -15,15 +16,16 @@ export const logger = winston.createLogger({
   ]
 });
 
-//
-// If we're not in production or test then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-if (![Env.production].includes(process.env.NODE_ENV as Env)) {
-  logger.add(new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.simple()
-    )
-  }));
-}
+
+export const setupLogger = () => {
+  // If we're not in production or test then log to the `console` with the format:
+  // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+  if (CONFIG.env !== Env.production) {
+    logger.add(new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      )
+    }));
+  }
+};

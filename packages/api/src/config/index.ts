@@ -34,7 +34,7 @@ export const updateConfig = async (config: Partial<API_CONFIG> | Env) => {
     } else newConfig = config;
 
     newConfig = {
-      ...CONFIGS[process.env.NODE_ENV as Env || 'development'],
+      ...CONFIGS[newConfig.env || process.env.NODE_ENV as Env || 'development'],
       ...CONFIG,
       ...newConfig
     };

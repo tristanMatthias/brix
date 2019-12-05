@@ -50,12 +50,12 @@ export const validateAPI = yup.object().shape({
   resolverDir: yup.string(),
 
   dbConnection: yup.object({
-    database: yup.string().required(),
-    username: yup.string().required(),
+    database: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),
+    username: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),
     dialect: yup.string(),
     password: yup.string(),
-    host: yup.string().required(),
-    port: yup.number().required()
+    host: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),
+    port: yup.number().when('skipDatabase', { is: false, then: yup.number().required() })
   })
     .test(validateProps([
       'database',
