@@ -1,6 +1,6 @@
 {
   "name": "@blokz/cli",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "description": "CLI for Blokz",
   "bin": {
     "blokz": "dist/index.js"
