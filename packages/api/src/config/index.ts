@@ -33,7 +33,11 @@ export const updateConfig = async (config: Partial<API_CONFIG> | Env) => {
       newConfig = CONFIGS[config];
     } else newConfig = config;
 
-    newConfig = { ...CONFIGS[process.env.NODE_ENV as Env || 'development'], ...newConfig };
+    newConfig = {
+      ...CONFIGS[process.env.NODE_ENV as Env || 'development'],
+      ...CONFIG,
+      ...newConfig
+    };
 
     await validateAPI.validate(newConfig);
     CONFIG = newConfig as API_CONFIG;

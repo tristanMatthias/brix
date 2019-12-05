@@ -26,7 +26,7 @@ const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => {
     load(CONFIG.resolverDir);
   } else {
     try {
-      load(dir || path.resolve(path.dirname(process.mainModule!.filename), 'gql/resolvers'));
+      load(dir || path.resolve(CONFIG.rootDir, 'gql/resolvers'));
     } catch (e) {
       resolvers = [DefaultResolver];
     }

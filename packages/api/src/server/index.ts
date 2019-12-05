@@ -10,12 +10,15 @@ import { Env, API_CONFIG } from '../config/types';
 import { setupDatabase } from '../lib/database';
 import { logger } from '../lib/logger';
 import { apollo } from './middleware/apollo';
+import { loadConfigFile } from '../config/loadConfigFile';
 
 
 let httpServer: Server;
 
 export const server = async (config?: Partial<API_CONFIG>) => {
+  await loadConfigFile(config ? config.rootDir : undefined);
   await updateConfig(config || process.env.NODE_ENV as Env);
+
 
   const db = CONFIG.skipDatabase ? null : await setupDatabase();
 

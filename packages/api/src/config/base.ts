@@ -19,6 +19,7 @@ config({
 export const CONFIG_BASE: Partial<API_CONFIG> = {
   env: process.env.NODE_ENV as Env || Env.production,
   port: parseInt(process.env.PORT!) || 4000,
+  rootDir: path.dirname(process.mainModule!.filename),
   skipDatabase: Boolean(process.env.SKIP_DB),
   dbConnection: {
     dialect: process.env.DB_DIALECT as Dialect || 'sqlite',

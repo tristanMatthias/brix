@@ -1,3 +1,5 @@
+import { Readable } from 'stream';
+
 import * as Config from './config/types';
 import * as Errors from './errors';
 import * as Auth from './lib/auth';
@@ -14,8 +16,8 @@ import { User as UserModel } from './models/User';
 import { server as Server } from './server';
 import { BaseService } from './services/BaseService';
 import { UserService } from './services/UserService';
-export { GraphQLUpload } from 'graphql-upload';
-import { Readable } from 'stream';
+
+export * from './types';
 
 export class Upload {
   filename: string;
