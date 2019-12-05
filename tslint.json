@@ -6,7 +6,7 @@
     "jsRules": {},
     "rules": {
         "align": false,
-        "no-default-export": true,
+        "no-default-export": false,
 
         "no-consecutive-blank-lines": [true, 2],
         "max-line-length": {
