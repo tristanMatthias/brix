@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 import path from 'path';
+import deepmerge from 'deepmerge';
 
 import { logger } from '../lib/logger';
 import { CONFIG_DEVELOPMENT } from './development';
@@ -33,11 +34,11 @@ export const updateConfig = async (config: Partial<API_CONFIG> | Env) => {
       newConfig = CONFIGS[config];
     } else newConfig = config;
 
-    newConfig = {
-      ...CONFIGS[newConfig.env || process.env.NODE_ENV as Env || 'development'],
-      ...CONFIG,
-      ...newConfig
-    };
+    newConfig = deepmerge.all([
+      CONFIGS[newConfig.env || process.env.NODE_ENV as Env || 'development'],
+      CONFIG,
+      newConfig
+    ]);
 
     await validateAPI.validate(newConfig);
     CONFIG = newConfig as API_CONFIG;

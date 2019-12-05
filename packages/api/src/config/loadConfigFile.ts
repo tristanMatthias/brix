@@ -26,6 +26,5 @@ export const loadConfigFile = async (dir: string = CONFIG_BASE.rootDir!) => {
     config = JSON.parse(json.toString());
   }
 
-
-  await updateConfig(config);
+  if (config && Object.keys(config).length) await updateConfig(config);
 };

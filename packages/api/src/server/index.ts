@@ -19,9 +19,8 @@ export const server = async (config?: Partial<API_CONFIG>) => {
   await loadConfigFile(config ? config.rootDir : undefined);
   await updateConfig(config || process.env.NODE_ENV as Env);
 
-  setupLogger();
-
-  const db = CONFIG.skipDatabase ? null : await setupDatabase();
+  await setupLogger();
+  const db = await setupDatabase();
 
   const app = express();
   httpServer = http.createServer(app);

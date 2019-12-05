@@ -11,6 +11,7 @@ Sequelize.Promise = global.Promise;
 
 
 export const setupDatabase = async (database?: string) => {
+  if (CONFIG.skipDatabase) return;
 
   const options: SequelizeOptions = {
     ...CONFIG.dbConnection,

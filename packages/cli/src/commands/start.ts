@@ -38,11 +38,10 @@ interface StartArgs {
 export const handler: CommandModule<any, StartArgs>['handler'] = async args => {
   const { dir, skipDB, port, prod } = args;
 
-  const config: Partial<API_CONFIG> = {
-    skipDatabase: skipDB
-  };
+  const config: Partial<API_CONFIG> = {};
   if (port) config.port = port;
   if (prod) config.env = Env.production;
+  if (skipDB !== undefined) config.skipDatabase = skipDB;
 
   start(dir, config);
 };
