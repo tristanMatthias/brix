@@ -33,7 +33,7 @@ export const setup = async (options: SetupOptions) => {
   await yarn.version('0.0.0');
 
   spinner.text = 'Generating files';
-  copy('.gitignore');
+  copy('ignoregit', '.gitignore');
   copy('lerna.json');
   copy('tsconfig.json');
   copy('tslint.json');
