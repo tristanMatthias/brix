@@ -10,14 +10,14 @@ import { CONFIG } from '../../config';
 import { ErrorAuthInvalidToken, ErrorAuthUnauthenticated } from '../../errors';
 import { authChecker } from '../../lib/auth';
 import { createContext as context, setContextFromToken, SubscriptionContext } from '../../lib/context';
-import { DefaultResolver } from '../../lib/defaultResolver';
+
+const defaultResolver = '../../lib/defaultResolver';
 
 const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => {
   let resolvers;
 
   const load = (dir: string) => {
     const pkg = require(dir);
-
     if (pkg.resolvers) resolvers = pkg.resolvers;
     else resolvers = pkg.default;
   };
@@ -28,10 +28,11 @@ const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => {
     try {
       load(dir || path.resolve(CONFIG.rootDir, 'gql/resolvers'));
     } catch (e) {
-      resolvers = [DefaultResolver];
+      if (e.code && e.code === 'MODULE_NOT_FOUND') resolvers = [require(defaultResolver)];
+      else throw e;
     }
   }
-  return resolvers || [DefaultResolver];
+  return resolvers || [require(defaultResolver)];
 };
 
 

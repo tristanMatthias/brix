@@ -31,7 +31,7 @@ export const server = async (config?: Partial<API_CONFIG>) => {
   app.use(helmet({
     xssFilter: true
   }));
-  apollo(app, httpServer);
+  await apollo(app, httpServer);
 
   // TODO: Pipeline injection
 
