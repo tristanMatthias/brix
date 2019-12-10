@@ -25,6 +25,11 @@ export const builder: CommandBuilder = {
     alias: 'production',
     boolean: true,
     description: 'Start the project in production mode (NODE_ENV=production)'
+  },
+  mocks: {
+    alias: 'm',
+    boolean: true,
+    description: 'Mock data based on the GQL schema (persistent)'
   }
 };
 
@@ -33,14 +38,16 @@ interface StartArgs {
   skipDB: boolean;
   port?: number;
   prod: boolean;
+  mocks: boolean;
 }
 
 export const handler: CommandModule<any, StartArgs>['handler'] = async args => {
-  const { dir, skipDB, port, prod } = args;
+  const { dir, skipDB, port, prod, mocks } = args;
 
   const config: Partial<API_CONFIG> = {};
   if (port) config.port = port;
   if (prod) config.env = Env.production;
+  if (mocks) config.mocks = true;
   if (skipDB !== undefined) config.skipDatabase = skipDB;
 
   start(dir, config);
