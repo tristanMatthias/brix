@@ -9,6 +9,7 @@ import * as Fingerprint from './lib/fingerprint';
 import * as GenerateSchemaFile from './lib/generateSchemaFile';
 import * as Logger from './lib/logger';
 import * as OAuth from './lib/OAuthProvider';
+import * as Schema from './lib/schema';
 import * as SchemaQuery from './lib/schemaQuery';
 import * as Tokens from './lib/tokens';
 import { BaseModel } from './models/BaseModel';
@@ -46,6 +47,7 @@ namespace API {
     export const oAuth = OAuth;
     export const schemaQuery = SchemaQuery;
     export const tokens = Tokens;
+    export const schema = Schema;
   }
 
   export module models {

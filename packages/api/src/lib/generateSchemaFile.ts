@@ -1,14 +1,14 @@
+import { generateTypeScriptTypes } from 'graphql-schema-typescript';
 import path from 'path';
 import { emitSchemaDefinitionFile } from 'type-graphql';
-import { generateTypeScriptTypes } from 'graphql-schema-typescript';
 
-import { schema } from '../server/middleware/apollo';
+import { buildSchema } from './schema';
 
 
 export const generateSchema = async (dir?: string) => {
   await emitSchemaDefinitionFile(
     path.resolve(process.cwd(), 'dist/schema.gql'),
-    await schema(dir)
+    await buildSchema(dir)
   );
 };
 
