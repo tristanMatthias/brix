@@ -48,7 +48,6 @@ const defaultMocks = {
  * @param dir Directory to load resolvers from
  */
 export const loadMocks = (schema: GraphQLSchema, dir?: string): IMocks | boolean => {
-  if (!CONFIG.mocks) return false;
   let mocks: IMocks | Boolean = true;
 
   const load = (dir: string) => {

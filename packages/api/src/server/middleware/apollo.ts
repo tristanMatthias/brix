@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { addMockFunctionsToSchema, ApolloServer } from 'apollo-server-express';
+import { addMockFunctionsToSchema, ApolloServer, IMocks } from 'apollo-server-express';
 import { Express } from 'express';
 import { Server } from 'http';
 
@@ -24,20 +24,19 @@ export const apollo = async (
   server: Server
 ) => {
 
-  const _schema = await buildSchema();
+  const schema = await buildSchema();
+  let mocks: IMocks | boolean = false;
 
   if (CONFIG.mocks) {
-    addMockFunctionsToSchema({
-      schema: _schema
-    });
+    addMockFunctionsToSchema({ schema });
+    mocks = loadMocks(schema);
   }
 
 
   const apolloServer = new ApolloServer({
-    schema: _schema,
+    schema,
     context,
-    mocks: loadMocks(_schema),
-    // mockEntireSchema: false,
+    mocks,
 
     subscriptions: {
       onConnect: async (connectionParams, _websocket, context) => {
