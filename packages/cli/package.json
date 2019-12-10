@@ -1,12 +1,12 @@
 {
   "name": "@blokz/cli",
-  "version": "0.0.1-alpha.12",
+  "version": "0.0.1-alpha.13",
   "description": "CLI for Blokz",
   "bin": {
     "blokz": "dist/index.js"
   },
   "dependencies": {
-    "@blokz/api": "^0.0.1-alpha.12",
+    "@blokz/api": "^0.0.1-alpha.13",
     "apollo-server-express": "^2.9.13",
     "chalk": "^3.0.0",
     "deepmerge": "^4.2.2",
