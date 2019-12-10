@@ -1,7 +1,8 @@
-import winston from 'winston';
-import { Env } from '../config/types';
 import path from 'path';
+import winston from 'winston';
+
 import { CONFIG } from '../config';
+import { Env } from '../config/types';
 
 export const logger = winston.createLogger({
   level: 'info',

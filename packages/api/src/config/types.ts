@@ -1,13 +1,29 @@
+
+export enum Env {
+  development = 'development',
+  production = 'production'
+}
+
 import { Dialect } from 'sequelize/types';
 import * as yup from 'yup';
+import { logger } from '../lib/logger';
 
 export type API_CONFIG = {
+  /** NODE_ENV to run the API in */
   env: Env;
+  /** Port to run the server on */
   port: number,
+  /** Root directory the API is running in */
   rootDir: string,
+  /** Mock the API from the schema (Disables resolvers) */
+  mocks: boolean;
 
+  /** Directory to load the resolvers from */
   resolverDir: string;
+  /** Directory to load the mocks from */
+  mocksDir: string;
 
+  /** Database connection details */
   dbConnection: {
     dialect: Dialect;
     database: string
@@ -16,17 +32,16 @@ export type API_CONFIG = {
     host: string
     port: number
   };
+  /** Disable a database connection */
   skipDatabase?: boolean;
 
+  /** JWT secret to encrypt all tokens with */
   accessTokenSecret: string,
 
+  /** What sites/hosts can access the API */
   corsAllowFrom: boolean | string | RegExp | (string | RegExp)[]
 };
 
-export enum Env {
-  development = 'development',
-  production = 'production'
-}
 
 
 const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
@@ -34,7 +49,7 @@ const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
   test: v => {
     for (const p of Object.keys(v)) {
       const prop = prefix ? `${prefix}.${p}` : p;
-      if (!valid.includes(p)) throw new Error(`Invalid option ${prop}`);
+      if (!valid.includes(p)) logger.warn(`Invalid option ${prop}`);
     }
     return true;
   }
@@ -46,6 +61,7 @@ export const validateAPI = yup.object().shape({
   port: yup.number().required(),
   rootDir: yup.string(),
   skipDatabase: yup.boolean(),
+  mocks: yup.boolean(),
 
   resolverDir: yup.string(),
 
@@ -73,6 +89,7 @@ export const validateAPI = yup.object().shape({
 }).test(validateProps([
   'env',
   'port',
+  'mocks',
   'rootDir',
   'resolverDir',
   'dbConnection',
