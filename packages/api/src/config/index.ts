@@ -32,7 +32,7 @@ export const updateConfig = async (config: Partial<API_CONFIG> | Env) => {
 
     if (typeof config === 'string') {
       newConfig = CONFIGS[config];
-    } else newConfig = config;
+    } else newConfig = config || {};
 
     newConfig = deepmerge.all([
       CONFIGS[newConfig.env || process.env.NODE_ENV as Env || 'development'],
