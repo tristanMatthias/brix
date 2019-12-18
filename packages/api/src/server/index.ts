@@ -31,6 +31,17 @@ export const server = async (config?: Partial<API_CONFIG>) => {
   app.use(helmet({
     xssFilter: true
   }));
+
+
+  if (CONFIG.middleware) {
+    if (CONFIG.middleware instanceof Array) {
+      CONFIG.middleware.forEach(mw => app.use(mw));
+    } else {
+      app.use(CONFIG.middleware);
+    }
+  }
+
+
   await apollo(app, httpServer);
 
   // TODO: Pipeline injection

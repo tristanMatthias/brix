@@ -7,6 +7,7 @@ export enum Env {
 import { Dialect } from 'sequelize/types';
 import * as yup from 'yup';
 import { logger } from '../lib/logger';
+import { RequestHandler, Router } from 'express';
 
 export type API_CONFIG = {
   /** NODE_ENV to run the API in */
@@ -39,9 +40,10 @@ export type API_CONFIG = {
   accessTokenSecret: string,
 
   /** What sites/hosts can access the API */
-  corsAllowFrom: boolean | string | RegExp | (string | RegExp)[]
-};
+  corsAllowFrom: boolean | string | RegExp | (string | RegExp)[];
 
+  middleware: RequestHandler | Router | (RequestHandler | Router)[]
+};
 
 
 const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
