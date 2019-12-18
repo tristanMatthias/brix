@@ -1,6 +1,6 @@
 {
   "name": "@blokz/api",
-  "version": "0.0.1-alpha.14",
+  "version": "0.0.1",
   "description": "API library",
   "author": "Tristan Matthias <hello@tristanmatthias.com>",
   "license": "MIT",
