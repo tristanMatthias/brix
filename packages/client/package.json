@@ -1,6 +1,6 @@
 {
   "name": "@brix/client",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "React app for Sketch Site",
   "main": "index.js",
   "license": "MIT",
