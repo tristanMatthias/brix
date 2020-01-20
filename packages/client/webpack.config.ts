@@ -1,6 +1,6 @@
 import 'webpack-dev-server';
 
-import Copy from 'copy-webpack-plugin';
+// import Copy from 'copy-webpack-plugin';
 import ExtractText from 'extract-text-webpack-plugin';
 import HTMLWebpack from 'html-webpack-plugin';
 import { Configuration } from 'webpack';
@@ -49,11 +49,11 @@ const config: Configuration = {
     }),
     CSS,
     new favicon('./src/images/logo.jpg'),
-    new Copy([
-      // { from: './src/images/social', to: 'social' },
-      // { from: './src/images/', to: 'images' },
-      // { from: './_redirects' }
-    ]),
+    // new Copy([
+    // { from: './src/images/social', to: 'social' },
+    // { from: './src/images/', to: 'images' },
+    // { from: './_redirects' }
+    // ]),
     new replacePlugin({
       values: {
         '{{API_URL}}': isProd ? 'https://api.sketchsite.com' : 'http://localhost:4000',

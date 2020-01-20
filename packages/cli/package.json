@@ -5,6 +5,10 @@
   "bin": {
     "brix": "dist/index.js"
   },
+  "scripts": {
+    "build": "rimraf dist; tsc -p ./",
+    "dev": "yarn build -w"
+  },
   "dependencies": {
     "@brix/api": "^0.1.0",
     "apollo-server-express": "^2.9.13",
