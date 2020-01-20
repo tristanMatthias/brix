@@ -1,4 +1,4 @@
-import API from '@blokz/api';
+import API from '@brix/api';
 import path from 'path';
 import ora from 'ora';
 

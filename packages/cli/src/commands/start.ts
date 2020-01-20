@@ -1,10 +1,10 @@
-import { API_CONFIG, Env } from '@blokz/api';
+import { API_CONFIG, Env } from '@brix/api';
 import { CommandBuilder, CommandModule } from 'yargs';
 
 import { start } from '../lib/start';
 
 export const command = ['start [dir]', '$0 [dir]'];
-export const description = 'Run a Blokz project';
+export const description = 'Run a Brix project';
 
 
 export const builder: CommandBuilder = {

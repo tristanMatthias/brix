@@ -22,7 +22,7 @@ export interface SetupOptions {
 }
 
 export const setup = async (options: SetupOptions) => {
-  const spinner = ora(`Creating new blokz project`).start();
+  const spinner = ora(`Creating new brix project`).start();
   const goBack = await chdir(options.dir);
 
   spinner.text = 'Installing dependencies';
@@ -45,7 +45,7 @@ export const setup = async (options: SetupOptions) => {
     }
   });
 
-  spinner.succeed(chalk.green('Successfully created your Blokz project'));
+  spinner.succeed(chalk.green('Successfully created your Brix project'));
   goBack();
 
   if (options.api) await addAPI();

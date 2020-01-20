@@ -50,7 +50,7 @@ const lookupModelByTableName = (tableName: string) =>
 export const handleSequelizeError = (e: Error | ErrorGeneral | SequelizeError): Error => {
 
   // If it's a custom error, don't handle it here
-  if ((e as ErrorGeneral).blokzError) return e;
+  if ((e as ErrorGeneral).brixError) return e;
 
   switch (e.constructor) {
 

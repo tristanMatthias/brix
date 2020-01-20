@@ -4,7 +4,7 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR, UNAUTHORIZED, NOT_FOUND } from 'htt
 import { ErrorCode } from './codes';
 
 export class ErrorBase<T = undefined> extends ApolloError {
-  blokzError = true;
+  brixError = true;
   code: ErrorCode;
   status?: number;
   details: T;

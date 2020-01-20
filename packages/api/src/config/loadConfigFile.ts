@@ -13,8 +13,8 @@ export const loadConfigFile = async (dir: string = CONFIG_BASE.rootDir!) => {
 
   const find = (p: string[] | string) => findup(p, { cwd: dir });
 
-  const fYaml = await find(['blokz.yml', 'blockz.yaml']);
-  const fJson = await find(['blokz.json', '.blockzrc']);
+  const fYaml = await find(['brix.yml', 'blockz.yaml']);
+  const fJson = await find(['brix.json', '.blockzrc']);
 
 
   if (fYaml) yml = await fs.readFile(fYaml);

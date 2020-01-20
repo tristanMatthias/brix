@@ -1,12 +1,12 @@
 {
-  "name": "@blokz/cli",
+  "name": "@brix/cli",
   "version": "0.0.1",
-  "description": "CLI for Blokz",
+  "description": "CLI for Brix",
   "bin": {
-    "blokz": "dist/index.js"
+    "brix": "dist/index.js"
   },
   "dependencies": {
-    "@blokz/api": "^0.0.1",
+    "@brix/api": "^0.0.1",
     "apollo-server-express": "^2.9.13",
     "chalk": "^3.0.0",
     "deepmerge": "^4.2.2",

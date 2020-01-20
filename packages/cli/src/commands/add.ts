@@ -3,12 +3,12 @@ import { CommandBuilder, CommandModule } from 'yargs';
 import { addAPI } from '../lib/addAPI';
 
 export const command = 'add <type>';
-export const description = 'Add a Blokz package to the project';
+export const description = 'Add a Brix package to the project';
 
 
 export const builder: CommandBuilder = {
   type: {
-    describe: 'Blokz package',
+    describe: 'Brix package',
     choices: ['api']
   }
 };

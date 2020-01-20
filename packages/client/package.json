@@ -1,5 +1,5 @@
 {
-  "name": "@blokz/client",
+  "name": "@brix/client",
   "version": "0.0.1",
   "description": "React app for Sketch Site",
   "main": "index.js",

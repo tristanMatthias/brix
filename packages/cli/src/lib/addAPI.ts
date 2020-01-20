@@ -8,12 +8,12 @@ import { editJSON } from './editJSON';
 
 
 const packages = [
-  '@blokz/api',
+  '@brix/api',
   'type-graphql'
 ];
 
 export const addAPI = async () => {
-  const spinner = ora(`Adding an API to your Blokz project`).start();
+  const spinner = ora(`Adding an API to your Brix project`).start();
   const goBack = await chdir('packages/api');
 
   // Setup child package
@@ -36,7 +36,7 @@ export const addAPI = async () => {
     }
   });
 
-  spinner.succeed(chalk.green('Successfully added an API your Blokz project'));
+  spinner.succeed(chalk.green('Successfully added an API your Brix project'));
 
   goBack();
 };

@@ -1,4 +1,4 @@
-import blokz, { API_CONFIG } from '@blokz/api';
+import brix, { API_CONFIG } from '@brix/api';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -26,12 +26,12 @@ export const start = async (dir?: string, config?: Partial<API_CONFIG>) => {
 
     // Check if @blockz/api exists in package.json and run from cwd
   } else if (fs.existsSync(pkg)) {
-    const isBlokzDir = (await fs.readJSON(pkg)).dependencies['@blokz/api'];
-    if (isBlokzDir && !fs.existsSync(pkgDist)) await build();
+    const isBrixDir = (await fs.readJSON(pkg)).dependencies['@brix/api'];
+    if (isBrixDir && !fs.existsSync(pkgDist)) await build();
     rootDir = pkgDist;
   }
 
-  await blokz.server({
+  await brix.server({
     ...config,
     rootDir
   });

@@ -47,9 +47,9 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@blokz/api@^0.0.1-alpha.12":
+"@brix/api@^0.0.1-alpha.12":
   version "0.0.1-alpha.12"
-  resolved "https://registry.yarnpkg.com/@blokz/api/-/api-0.0.1-alpha.12.tgz#efee2ba66de664a9184a2f24c4490857e6d23139"
+  resolved "https://registry.yarnpkg.com/@brix/api/-/api-0.0.1-alpha.12.tgz#efee2ba66de664a9184a2f24c4490857e6d23139"
   integrity sha512-uBGudvt0JGx/nupAovSxDYeFDgd9t//s4aiJnjWjbaaViQU0f6GCVT5z13HqpKmwKDilYSWgZd7upyns2M2CLA==
   dependencies:
     "@types/bluebird" "^3.5.29"

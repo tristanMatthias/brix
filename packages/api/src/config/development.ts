@@ -12,7 +12,7 @@ export const CONFIG_DEVELOPMENT: API_CONFIG = {
   corsAllowFrom: /.*/,
   dbConnection: {
     dialect: 'sqlite',
-    database: process.env.DB_DATABASE || 'blokz',
+    database: process.env.DB_DATABASE || 'brix',
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || '',
     host: process.env.DB_HOST || 'localhost',
