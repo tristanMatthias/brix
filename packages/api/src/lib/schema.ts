@@ -47,6 +47,13 @@ const defaultMocks = {
  * Load the resolvers for the schema, and default to gql/resolvers/index.js
  * @param dir Directory to load resolvers from
  */
+
+
+/**
+ * Load mock generators for the types in the supplied schema.
+ * @param schema Schema object for looking up types
+ * @param dir Directory to load the mocks from
+ */
 export const loadMocks = (schema: GraphQLSchema, dir?: string): IMocks | boolean => {
   let mocks: IMocks | Boolean = true;
 

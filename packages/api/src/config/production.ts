@@ -1,5 +1,5 @@
 import { CONFIG_BASE } from './base';
-import { API_CONFIG, Env } from './types';
+import { ApiConfig, Env } from './types';
 
 /*******************************************************************************
  *
@@ -8,8 +8,8 @@ import { API_CONFIG, Env } from './types';
  ******************************************************************************/
 
 
-export const CONFIG_PRODUCTION: API_CONFIG = {
-  ...CONFIG_BASE as API_CONFIG,
+export const CONFIG_PRODUCTION: ApiConfig = {
+  ...CONFIG_BASE as ApiConfig,
   env: Env.production,
   corsAllowFrom: true
 };

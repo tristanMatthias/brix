@@ -4,10 +4,10 @@
  *
  ******************************************************************************/
 import { CONFIG_BASE } from './base';
-import { API_CONFIG, Env } from './types';
+import { ApiConfig, Env } from './types';
 
-export const CONFIG_DEVELOPMENT: API_CONFIG = {
-  ...CONFIG_BASE as API_CONFIG,
+export const CONFIG_DEVELOPMENT: ApiConfig = {
+  ...CONFIG_BASE as ApiConfig,
   env: Env.development,
   corsAllowFrom: /.*/,
   dbConnection: {

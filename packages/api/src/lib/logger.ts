@@ -4,6 +4,9 @@ import winston from 'winston';
 import { CONFIG } from '../config';
 import { Env } from '../config/types';
 
+/**
+ * Winston logger instance
+ */
 export const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),

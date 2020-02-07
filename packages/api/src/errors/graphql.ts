@@ -10,6 +10,10 @@ const gqlRegex = {
   required: /Variable "\$(\w+)" .* Field (\w*) of required type (\w+)! was not provided.$/
 };
 
+/**
+ * Prettifies GraphQL errors for better client handling
+ * @param e GraphQL error to wrap
+ */
 export const handleGraphQLError = (e: GraphQLError): Error => {
 
   // Required field missing

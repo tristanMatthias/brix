@@ -5,11 +5,15 @@ import { ErrorAuthInvalidAuthorizationHeader } from '../errors';
 import { fingerprint } from './fingerprint';
 import { JWTUser, verifyToken } from './tokens';
 
-
+/** Brix context to use in Apollo */
 export interface Context {
+  /** Unique fingerprint for the request */
   fingerprint: string;
+  /** User object decoded from JWT */
   user?: JWTUser;
+  /** JWT is validated */
   valid: boolean;
+  /** JWT retrieved from the `Authorization` header */
   accessToken: string | null;
 }
 

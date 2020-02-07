@@ -3,7 +3,7 @@ import path from 'path';
 import { Dialect } from 'sequelize/types';
 import shortid from 'shortid';
 
-import { API_CONFIG, Env } from './types';
+import { ApiConfig, Env } from './types';
 
 
 /*******************************************************************************
@@ -16,7 +16,7 @@ config({
   path: process.env.ENV || path.resolve(process.cwd(), '.env')
 });
 
-export const CONFIG_BASE: Partial<API_CONFIG> = {
+export const CONFIG_BASE: Partial<ApiConfig> = {
   env: process.env.NODE_ENV as Env || Env.production,
   port: parseInt(process.env.PORT!) || 4000,
   rootDir: path.dirname(process.mainModule!.filename),

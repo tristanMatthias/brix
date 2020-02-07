@@ -1,7 +1,12 @@
 import fetch from 'node-fetch';
 import fs from 'fs-extra';
 
-const generateFragments = async (
+/**
+ * Queries a GQL endpoint for the union fragments, and generates a JSON file
+ * @param url URL to load the gql schema from
+ * @param dest Destination to save the JSOn file
+ */
+export const generateFragments = async (
   url = 'http://localhost:4000/graphql',
   dest = './fragments.json'
 ) => {
@@ -36,8 +41,6 @@ const generateFragments = async (
   await fs.writeFile(dest, JSON.stringify(data));
   return data;
 };
-
-export default generateFragments;
 
 // File is called from command line
 if (require.main === module) generateFragments();

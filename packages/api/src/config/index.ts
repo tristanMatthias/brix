@@ -5,26 +5,28 @@ import deepmerge from 'deepmerge';
 import { logger } from '../lib/logger';
 import { CONFIG_DEVELOPMENT } from './development';
 import { CONFIG_PRODUCTION } from './production';
-import { API_CONFIG, Env, validateAPI } from './types';
+import { ApiConfig, Env, validateConfig } from './types';
 
 
-const CONFIGS: { [env in Env]: API_CONFIG } = {
+const CONFIGS: { [env in Env]: ApiConfig } = {
   development: CONFIG_DEVELOPMENT,
   production: CONFIG_PRODUCTION
 };
 
-export const dotEnv = () => {
-  config({
-    path: path.resolve(process.cwd(), '.env')
-  });
-};
+// Allow for `.env` files to override config
+const dotEnv = () => config({ path: path.resolve(process.cwd(), '.env') });
 dotEnv();
 
 
-// @ts-ignore
-export let CONFIG: API_CONFIG = {};
+// @ts-ignore Allow for initial empty config
+export let CONFIG: ApiConfig = {};
 
-export const updateConfig = async (config: Partial<API_CONFIG> | Env) => {
+
+/**
+ * Merge and update configuration options for the global `CONFIG`
+ * @param config Partial `ApiConfig` to merge with existing config
+ */
+export const updateConfig = async (config: Partial<ApiConfig> | Env) => {
   dotEnv();
 
   try {
@@ -40,8 +42,8 @@ export const updateConfig = async (config: Partial<API_CONFIG> | Env) => {
       newConfig
     ]);
 
-    await validateAPI.validate(newConfig);
-    CONFIG = newConfig as API_CONFIG;
+    await validateConfig.validate(newConfig);
+    CONFIG = newConfig as ApiConfig;
 
   } catch (e) {
     logger.error(`${e.message} in CONFIG`);

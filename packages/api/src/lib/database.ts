@@ -5,11 +5,17 @@ import { CONFIG } from '../config';
 import { Env } from '../config/types';
 import { logger } from '../lib/logger';
 
+/** The Sequelize global instance. Is populated by the `setupDatabase` function */
 export let db: Sequelize;
-// @ts-ignore
+
+// @ts-ignore Workaround for overriding default promise library in Sequelize
 Sequelize.Promise = global.Promise;
 
 
+/**
+ * Attempt to connect to the database via the global `ApiConfig`
+ * @param database Database name
+ */
 export const setupDatabase = async (database?: string) => {
   if (CONFIG.skipDatabase) return;
 

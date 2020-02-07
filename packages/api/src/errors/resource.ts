@@ -2,6 +2,7 @@
 import { ErrorBadRequest, ErrorNotFound } from './general';
 import { ErrorCode } from './codes';
 
+/** Resource not found error (404) */
 export class ErrorResourceNotFound extends ErrorNotFound {
   code = ErrorCode.ResourceNotFound;
   constructor(resourceName: string, value?: string | number, property: string = 'id') {
@@ -9,6 +10,7 @@ export class ErrorResourceNotFound extends ErrorNotFound {
   }
 }
 
+/** Existing resource / unique error (400) */
 export class ErrorResourceUnique extends ErrorBadRequest {
   code = ErrorCode.ResourceUnique;
   constructor(

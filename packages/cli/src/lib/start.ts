@@ -1,10 +1,10 @@
-import brix, { API_CONFIG } from '@brix/api';
+import brix, { ApiConfig } from '@brix/api';
 import fs from 'fs-extra';
 import path from 'path';
 
 import { build } from './build';
 
-export const start = async (dir?: string, config?: Partial<API_CONFIG>) => {
+export const start = async (dir?: string, config?: Partial<ApiConfig>) => {
   let rootDir;
 
   const api = path.join(process.cwd(), 'packages/api');

@@ -1,4 +1,8 @@
 
+/**
+ * Brix server environment.
+ * @default development
+ */
 export enum Env {
   development = 'development',
   production = 'production'
@@ -9,7 +13,20 @@ import * as yup from 'yup';
 import { logger } from '../lib/logger';
 import { RequestHandler, Router } from 'express';
 
-export type API_CONFIG = {
+/**
+ * Configuration for Brix API instance. This config can be passed directly
+ * into the server.
+ *
+ * @example
+ * const server = new API.server({
+ *   skipDatabase: true,
+ *   resolverDir: './resolvers'
+ * })
+ *
+ * Each setting will be ovreloaded by a `brix.yml`, `.brixrc`, etc, file.
+ * Additionally, each setting can be overridden with an environment variable.
+ */
+export type ApiConfig = {
   /** NODE_ENV to run the API in */
   env: Env;
   /** Port to run the server on */
@@ -20,17 +37,25 @@ export type API_CONFIG = {
   mocks: boolean;
 
   /** Directory to load the resolvers from */
-  resolverDir: string;
+  resolverDir?: string;
   /** Directory to load the mocks from */
-  mocksDir: string;
+  mocksDir?: string;
+  /** Directory to load the middleware from */
+  middlewareDir?: string;
 
   /** Database connection details */
   dbConnection: {
+    /** Type of database to connect to */
     dialect: Dialect;
+    /** Database nam */
     database: string
+    /** Database user */
     username: string
+    /** Database password */
     password: string
+    /** Database host/url */
     host: string
+    /** Port to connect to */
     port: number
   };
   /** Disable a database connection */
@@ -39,13 +64,19 @@ export type API_CONFIG = {
   /** JWT secret to encrypt all tokens with */
   accessTokenSecret: string,
 
-  /** What sites/hosts can access the API */
+  /** Which sites/hosts can access the API */
   corsAllowFrom: boolean | string | RegExp | (string | RegExp)[];
 
+  /** Load Express Routers/Middleware into the server */
   middleware: RequestHandler | Router | (RequestHandler | Router)[]
 };
 
 
+/**
+ * Ensure that a Yup object doesn't have extra properties
+ * @param valid Valid properties allowed for the object
+ * @param prefix String to prefix the keys with
+ */
 const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
   name: 'ExtraProps',
   test: v => {
@@ -58,7 +89,10 @@ const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
 });
 
 
-export const validateAPI = yup.object().shape({
+/**
+ * Validates an `ApiConfig` object against the valid schema
+ */
+export const validateConfig = yup.object().shape({
   env: yup.string().required(),
   port: yup.number().required(),
   rootDir: yup.string(),
@@ -66,6 +100,8 @@ export const validateAPI = yup.object().shape({
   mocks: yup.boolean(),
 
   resolverDir: yup.string(),
+  mocksDir: yup.string(),
+  middlewareDir: yup.string(),
 
   dbConnection: yup.object({
     database: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),

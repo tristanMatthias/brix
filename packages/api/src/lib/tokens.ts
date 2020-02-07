@@ -66,15 +66,10 @@ export const verifyToken = async (
   return data;
 };
 
-
 /**
- * Helper function to generate the access token for the
- * current user.
+ * Ggenerate an access token for the current user.
  * @param fingerprint Unique fingerprint of the requesting client
  * @param user User data to encrypt for future requests
- * @param defaultOrganization Whether this token is for the user's default org
- * @param role The role this user has on the org (could be null if no org)
- * @param organizationId The organization for this token
  */
 export const generateToken = async (
   fingerprint: string,

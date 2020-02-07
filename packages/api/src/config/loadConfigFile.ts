@@ -4,12 +4,18 @@ import yaml from 'yaml';
 
 import { updateConfig } from '.';
 import { CONFIG_BASE } from './base';
-import { API_CONFIG } from './types';
+import { ApiConfig } from './types';
 
+/**
+ * Load a Brix configuration file. Brix will attempt to load it from the root
+ * project directory, and look for `brix.yml`, `brix.yaml`, `brix.json` and `.brixrc`
+ * files.
+ * @param dir Directory to load the config file from
+ */
 export const loadConfigFile = async (dir: string = CONFIG_BASE.rootDir!) => {
   let yml;
   let json;
-  let config: Partial<API_CONFIG> = {};
+  let config: Partial<ApiConfig> = {};
 
   const find = (p: string[] | string) => findup(p, { cwd: dir });
 
