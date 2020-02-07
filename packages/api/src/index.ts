@@ -6,11 +6,11 @@ import * as Auth from './lib/auth';
 import * as Context from './lib/context';
 import * as Database from './lib/database';
 import * as Fingerprint from './lib/fingerprint';
+import GenerateFragments from './lib/generateFragments';
 import * as GenerateSchemaFile from './lib/generateSchemaFile';
 import * as Logger from './lib/logger';
 import * as OAuth from './lib/OAuthProvider';
 import * as Schema from './lib/schema';
-import * as SchemaQuery from './lib/schemaQuery';
 import * as Tokens from './lib/tokens';
 import { BaseModel } from './models/BaseModel';
 import { User as UserModel } from './models/User';
@@ -43,9 +43,9 @@ namespace API {
     export const database = Database;
     export const fingerprint = Fingerprint;
     export const generateSchemaFile = GenerateSchemaFile;
+    export const generateFragments = GenerateFragments;
     export const logger = Logger;
     export const oAuth = OAuth;
-    export const schemaQuery = SchemaQuery;
     export const tokens = Tokens;
     export const schema = Schema;
   }
