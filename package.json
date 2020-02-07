@@ -5,6 +5,7 @@
   "scripts": {
     "build": "lerna run build",
     "publish:patch": "lerna publish patch",
+    "publish:pre": "lerna publish --canary --preid alpha",
     "publish:minor": "lerna publish minor"
   },
   "dependencies": {
