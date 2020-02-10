@@ -7,5 +7,5 @@ export const generateTypes = async (dir?: string) => {
   const spinner = ora(`Generating types`).start();
   await API.lib.generateSchemaFile.generateSchema(dir || path.resolve(process.cwd(), 'dist/gql/resolvers'));
   await API.lib.generateSchemaFile.generateTypes();
-  spinner.succeed('Generated types');
+  spinner.succeed('Generated types to dist/schema.d.ts');
 };

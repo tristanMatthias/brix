@@ -4,7 +4,10 @@ import path from 'path';
 
 import { build } from './build';
 
-export const start = async (dir?: string, config?: Partial<ApiConfig>) => {
+export const start = async (
+  dir?: string,
+  config?: Partial<ApiConfig>
+): Promise<{ httpServer: import('http').Server }> => {
   let rootDir;
 
   const api = path.join(process.cwd(), 'packages/api');
@@ -31,7 +34,7 @@ export const start = async (dir?: string, config?: Partial<ApiConfig>) => {
     rootDir = pkgDist;
   }
 
-  await brix.server({
+  return await brix.server({
     ...config,
     rootDir
   });
