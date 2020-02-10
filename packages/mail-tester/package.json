@@ -20,5 +20,8 @@
     "@types/mailparser": "^2.7.0",
     "@types/smtp-server": "^3.5.3",
     "@types/uuid": "^3.4.7"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
