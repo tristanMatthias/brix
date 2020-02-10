@@ -1,0 +1,24 @@
+{
+  "name": "@brix/mail-tester",
+  "version": "0.0.0",
+  "description": "SMTP Local client for testing emails locally",
+  "main": "index.js",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "test": "jest"
+  },
+  "dependencies": {
+    "mailparser": "^2.7.7",
+    "nodemailer": "^6.4.2",
+    "smtp-server": "^3.5.0",
+    "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/mailparser": "^2.7.0",
+    "@types/smtp-server": "^3.5.3",
+    "@types/uuid": "^3.4.7"
+  }
+}
