@@ -1,6 +1,6 @@
 {
   "name": "@brix/cli",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "CLI for Brix",
   "bin": {
     "brix": "dist/index.js"
@@ -10,7 +10,7 @@
     "dev": "yarn build -w"
   },
   "dependencies": {
-    "@brix/api": "^0.1.2",
+    "@brix/api": "^0.1.3",
     "apollo-server-express": "^2.9.13",
     "chalk": "^3.0.0",
     "deepmerge": "^4.2.2",
