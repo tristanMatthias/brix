@@ -9,7 +9,6 @@ import { CONFIG } from '../config';
 import { authChecker } from '../lib/auth';
 import { logger } from '../lib/logger';
 
-
 /**
  * Load the resolvers for the schema, and default to gql/resolvers/index.js
  * @param dir Directory to load resolvers from
@@ -85,14 +84,16 @@ export const loadMocks = (schema: GraphQLSchema, dir?: string): IMocks | boolean
 };
 
 
+let schema: GraphQLSchema;
 /**
  * Generate a GQL schema from resolvers, and loads them if not supplied
  * @param resolvers Object of GQL resolvers. Will load default if none passed
  */
-export const buildSchema = (resolvers?: BuildSchemaOptions['resolvers'] | string) => {
+export const buildSchema = async (resolvers?: BuildSchemaOptions['resolvers'] | string) => {
+  if (schema) return schema;
   const r = (typeof resolvers === 'string' || !resolvers) ? loadResolvers(resolvers) : resolvers;
 
-  return buildSchemaGQL({
+  return schema = await buildSchemaGQL({
     dateScalarMode: 'isoDate',
     validate: false,
     resolvers: r,

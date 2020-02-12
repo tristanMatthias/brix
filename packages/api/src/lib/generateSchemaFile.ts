@@ -25,14 +25,9 @@ export const generateSchema = async (dir?: string, out?: string) => {
  * @param out Definition file to write (.d.ts)
  */
 export const generateTypes = async (schema?: string, out?: string) => {
-  generateTypeScriptTypes(schema || 'dist/schema.gql', out || 'dist/schema.d.ts', {
+  await generateTypeScriptTypes(schema || 'dist/schema.gql', out || 'dist/schema.d.ts', {
     typePrefix: ''
-  })
-    .then(() => process.exit(0))
-    .catch(err => {
-      console.error(err);
-      process.exit(1);
-    });
+  });
 };
 
 
