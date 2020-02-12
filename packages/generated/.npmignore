@@ -1,0 +1,10 @@
+src/
+*.log
+webpack.config.ts
+coverage
+jest.config.js
+
+# Generated files
+./*.js
+./*.d.ts
+queries/

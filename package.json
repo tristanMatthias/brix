@@ -9,7 +9,8 @@
     "publish:minor": "lerna publish minor"
   },
   "dependencies": {
-    "lerna": "^3.18.4"
+    "lerna": "^3.18.4",
+    "ts-morph": "^6.0.2"
   },
   "workspaces": [
     "packages/*"
