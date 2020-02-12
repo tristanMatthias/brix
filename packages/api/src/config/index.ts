@@ -44,7 +44,7 @@ export const updateConfig = async (config: Partial<ApiConfig> | Env) => {
       newConfig
     ]);
 
-    await validateConfig.validate(newConfig);
+    await validateConfig.validate(newConfig, { strict: true });
     CONFIG = newConfig as ApiConfig;
 
   } catch (e) {

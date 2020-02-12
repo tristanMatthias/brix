@@ -6,6 +6,8 @@ import { updateConfig, CONFIG } from '.';
 import { CONFIG_BASE, dirOrDist } from './base';
 import { ApiConfig } from './types';
 
+let loaded = false;
+
 /**
  * Load a Brix configuration file. Brix will attempt to load it from the root
  * project directory, and look for `brix.yml`, `brix.yaml`, `brix.json` and `.brixrc`
@@ -13,6 +15,8 @@ import { ApiConfig } from './types';
  * @param dir Directory to load the config file from
  */
 export const loadConfig = async (dir: string = CONFIG_BASE.rootDir!) => {
+  if (loaded) return CONFIG;
+
   if (dir && dir !== CONFIG_BASE.rootDir) {
     await updateConfig({ rootDir: dirOrDist(dir) });
   }
@@ -37,5 +41,6 @@ export const loadConfig = async (dir: string = CONFIG_BASE.rootDir!) => {
   }
 
   if (config && Object.keys(config).length) await updateConfig(config);
+  loaded = true;
   return CONFIG;
 };
