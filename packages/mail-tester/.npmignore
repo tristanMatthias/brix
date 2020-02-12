@@ -1,0 +1,6 @@
+src/
+*.log
+tsconfig.json
+webpack.config.ts
+coverage
+jest.config.js
