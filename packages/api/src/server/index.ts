@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import http, { Server } from 'http';
 
 import { CONFIG, updateConfig } from '../config';
-import { loadConfigFile } from '../config/loadConfigFile';
+import { loadConfig } from '../config/loadConfigFile';
 import { ApiConfig, Env } from '../config/types';
 import { setupDatabase } from '../lib/database';
 import { logger, setupLogger } from '../lib/logger';
@@ -23,7 +23,7 @@ let httpServer: Server;
  */
 export const server = async (config?: Partial<ApiConfig>) => {
 
-  await loadConfigFile(config ? config.rootDir : undefined);
+  await loadConfig(config ? config.rootDir : undefined);
   await updateConfig(config || process.env.NODE_ENV as Env);
 
   await setupLogger();

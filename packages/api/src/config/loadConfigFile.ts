@@ -2,8 +2,8 @@ import findup from 'find-up';
 import fs from 'fs-extra';
 import yaml from 'yaml';
 
-import { updateConfig } from '.';
-import { CONFIG_BASE } from './base';
+import { updateConfig, CONFIG } from '.';
+import { CONFIG_BASE, dirOrDist } from './base';
 import { ApiConfig } from './types';
 
 /**
@@ -12,7 +12,11 @@ import { ApiConfig } from './types';
  * files.
  * @param dir Directory to load the config file from
  */
-export const loadConfigFile = async (dir: string = CONFIG_BASE.rootDir!) => {
+export const loadConfig = async (dir: string = CONFIG_BASE.rootDir!) => {
+  if (dir && dir !== CONFIG_BASE.rootDir) {
+    await updateConfig({ rootDir: dirOrDist(dir) });
+  }
+
   let yml;
   let json;
   let config: Partial<ApiConfig> = {};
@@ -33,4 +37,5 @@ export const loadConfigFile = async (dir: string = CONFIG_BASE.rootDir!) => {
   }
 
   if (config && Object.keys(config).length) await updateConfig(config);
+  return CONFIG;
 };

@@ -2,6 +2,7 @@ import { generateTypeScriptTypes } from 'graphql-schema-typescript';
 import path from 'path';
 import { emitSchemaDefinitionFile } from 'type-graphql';
 
+import { dirOrDist } from '../config/base';
 import { buildSchema } from './schema';
 
 /**
@@ -9,9 +10,9 @@ import { buildSchema } from './schema';
  * your API types/queries/etc for a front end application
  * @param dir Directory to load the schema gql file from
  */
-export const generateSchema = async (dir?: string) => {
+export const generateSchema = async (dir?: string, out?: string) => {
   await emitSchemaDefinitionFile(
-    path.resolve(process.cwd(), 'dist/schema.gql'),
+    path.resolve(out || dirOrDist(process.cwd()), 'schema.gql'),
     await buildSchema(dir)
   );
 };

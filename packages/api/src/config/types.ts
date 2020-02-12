@@ -5,6 +5,7 @@
  */
 export enum Env {
   development = 'development',
+  test = 'test',
   production = 'production'
 }
 
@@ -12,6 +13,7 @@ import { Dialect } from 'sequelize/types';
 import * as yup from 'yup';
 import { logger } from '../lib/logger';
 import { RequestHandler, Router } from 'express';
+export { loadConfig } from './loadConfigFile';
 
 /**
  * Configuration for Brix API instance. This config can be passed directly

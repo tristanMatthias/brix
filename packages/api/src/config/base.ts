@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import path from 'path';
 import { Dialect } from 'sequelize/types';
 import shortid from 'shortid';
+import fs from 'fs-extra';
 
 import { ApiConfig, Env } from './types';
 
@@ -16,10 +17,20 @@ config({
   path: process.env.ENV || path.resolve(process.cwd(), '.env')
 });
 
+
+export const dirOrDist = (dir: string) => {
+  const dist = path.join(dir, 'dist');
+  if (fs.existsSync(dist)) return dist;
+  return dir;
+};
+
 export const CONFIG_BASE: Partial<ApiConfig> = {
   env: process.env.NODE_ENV as Env || Env.production,
   port: parseInt(process.env.PORT!) || 4000,
-  rootDir: path.dirname(process.mainModule!.filename),
+  rootDir: dirOrDist(process.mainModule
+    ? path.dirname(process.mainModule!.filename)
+    : process.cwd()
+  ),
   mocks: Boolean(process.env.MOCKS) || false,
   skipDatabase: Boolean(process.env.SKIP_DB),
   dbConnection: {

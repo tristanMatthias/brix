@@ -1,15 +1,17 @@
+import deepmerge from 'deepmerge';
 import { config } from 'dotenv';
 import path from 'path';
-import deepmerge from 'deepmerge';
 
 import { logger } from '../lib/logger';
 import { CONFIG_DEVELOPMENT } from './development';
 import { CONFIG_PRODUCTION } from './production';
+import { CONFIG_TEST } from './test';
 import { ApiConfig, Env, validateConfig } from './types';
 
 
 const CONFIGS: { [env in Env]: ApiConfig } = {
   development: CONFIG_DEVELOPMENT,
+  test: CONFIG_TEST,
   production: CONFIG_PRODUCTION
 };
 
