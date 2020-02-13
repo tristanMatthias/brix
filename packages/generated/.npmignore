@@ -12,5 +12,12 @@ shapes.d.ts
 shapes.js
 TestClient.d.ts
 TestClient.js
-!dist
-!dist/testClient.js
+
+# Ensure dist files
+!dist/schema.d.ts
+!dist/queries
+!dist/schema.gql
+!dist/shapes.d.ts
+!dist/shapes.js
+!dist/TestClient.d.ts
+!dist/TestClient.js
