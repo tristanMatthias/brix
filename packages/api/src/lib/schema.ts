@@ -18,7 +18,14 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
   const defaultResolver = '../lib/defaultResolver';
 
   const load = (dir: string) => {
-    const pkg = require(dir);
+    let pkg;
+    try {
+      pkg = require(dir);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+
     if (pkg.resolvers) resolvers = pkg.resolvers;
     else resolvers = pkg.default;
   };

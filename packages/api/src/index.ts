@@ -17,6 +17,8 @@ import { User as UserModel } from './models/User';
 import { server as Server } from './server';
 import { BaseService } from './services/BaseService';
 import { UserService } from './services/UserService';
+import { GraphQLJSON as gqlJson } from './lib/GraphQLJSON';
+
 
 export * from './types';
 
@@ -43,6 +45,8 @@ namespace API {
   export const config = Config;
   export const server = Server;
   export const errors = Errors;
+
+  export const GraphQLJSON = gqlJson;
 
   export module services {
     export const Base = BaseService;

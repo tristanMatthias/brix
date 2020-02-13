@@ -9,6 +9,7 @@ export class Upload {
   createReadStream: () => Readable;
 }
 
+// TODO: Remove
 @ObjectType()
 export class DefaultEntity {
   @Field(() => GraphQLUpload)
