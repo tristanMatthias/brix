@@ -5,6 +5,10 @@ coverage
 jest.config.js
 
 # Generated files
-./*.js
-./*.d.ts
-queries/
+schema.d.ts
+queries
+schema.gql
+shapes.d.ts
+shapes.js
+TestClient.d.ts
+TestClient.js

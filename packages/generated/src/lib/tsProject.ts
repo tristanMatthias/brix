@@ -1,14 +1,37 @@
 import path from 'path';
 import fs from 'fs-extra';
-import { Project } from 'ts-morph';
+import { Project, ScriptTarget, ModuleKind, ModuleResolutionKind } from 'ts-morph';
+import { } from 'typescript';
 
 export const tsProject = new Project({
-  tsConfigFilePath: path.resolve(__dirname, '../../tsconfig.json'),
   addFilesFromTsConfig: false,
   compilerOptions: {
     outDir: path.resolve(__dirname, '../../'),
-    sourceMap: false,
-    declaration: true
+    rootDir: path.resolve(__dirname, '../../src'),
+    declaration: true,
+    target: ScriptTarget.ESNext,
+
+
+    module: ModuleKind.CommonJS,
+    strict: true,
+    noUnusedLocals: true,
+    esModuleInterop: true,
+    experimentalDecorators: true,
+    emitDecoratorMetadata: true,
+    resolveJsonModule: true,
+    forceConsistentCasingInFileNames: true,
+    composite: false,
+    sourceMap: true,
+    moduleResolution: ModuleResolutionKind.NodeJs,
+    removeComments: false,
+    noImplicitAny: true,
+    strictNullChecks: true,
+    strictFunctionTypes: true,
+    strictPropertyInitialization: false,
+    noImplicitThis: true,
+    noUnusedParameters: true,
+    noImplicitReturns: true,
+    noFallthroughCasesInSwitch: true
   }
 });
 

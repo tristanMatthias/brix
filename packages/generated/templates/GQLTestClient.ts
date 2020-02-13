@@ -1,16 +1,16 @@
+import API, { ApiConfig, Upload } from '@brix/api';
+import { MailTester } from '@brix/mail-tester';
 import formData from 'form-data';
 import getPort from 'get-port';
+import { Server } from 'http';
 import fetch from 'isomorphic-fetch';
 import { Sequelize } from 'sequelize/types';
 import { Readable } from 'stream';
 import uuid from 'uuid';
+
 /** %IMPORT% */
 
-import API, { Upload, ApiConfig } from '@brix/api';
 // import { createDatabase, dropDatabase } from '../../src/lib/database';
-import { MailTester } from '@brix/mail-tester';
-import { Server } from 'http';
-
 export class TestClient {
 
   emailServer?: MailTester;
