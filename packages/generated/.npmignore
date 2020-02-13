@@ -12,4 +12,5 @@ shapes.d.ts
 shapes.js
 TestClient.d.ts
 TestClient.js
+!dist
 !dist/testClient.js
