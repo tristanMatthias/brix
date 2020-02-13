@@ -1,32 +1,51 @@
 import * as gen from '@brix/generated';
-import ora from 'ora';
 import chalk from 'chalk';
+import ora from 'ora';
 
-export const generate = async () => {
-  const spinner = ora('Beginning generation').start();
+export type GenerateType = 'all' | 'TestClient' | 'schema' | 'queries' | 'shapes';
 
-  // TestClient
-  spinner.text = `Generating ${chalk.yellow('@brix/generated/TestClient')}`;
-  await gen.generateGQLTestClient();
-  spinner.succeed(chalk.green(`Successfully generated ${chalk.yellow('@brix/generated/TestClient')}`));
-
-  // schema.gql and schema.d.ts
-  spinner.text = `Generating ${chalk.yellow('@brix/generated/schema')}`;
-  await gen.generateSchemaTypes();
-  spinner.succeed(chalk.green(`Successfully generated ${chalk.yellow('@brix/generated/schema')}`));
-
-
-  // Queries
+const wrap = (name: string, func: Function) => async () => {
+  const colored = chalk.yellow(`@brix/generated/${name}`);
+  const spinner = ora(chalk.blue(`Generating ${colored}`)).start();
   try {
-    spinner.text = `Generating ${chalk.yellow('@brix/generated/queries...')}`;
-    const queryGenerator = new gen.QueryGenerator();
-    await queryGenerator.generate();
-    spinner.succeed(chalk.green(`Successfully generated ${chalk.yellow('@brix/generated/queries')}`));
-
+    await func();
   } catch (e) {
-    spinner.fail(chalk.red(e.message));
+    spinner.fail(chalk.redBright(`Failed to generated ${colored}`));
+    console.error(chalk.redBright(e));
     return;
   }
 
-  spinner.succeed(chalk.green(`Successfully generated ${chalk.yellow('@brix/generated')}`));
+  spinner.succeed(chalk.green(`Successfully generated ${colored}`));
+};
+
+const testClient = wrap('TestClient', gen.generateGQLTestClient);
+const schema = wrap('schema', gen.generateSchemaTypes);
+const queries = wrap('queries', gen.generateQueries);
+const shapes = wrap('schema', gen.generateShapes);
+
+
+export const generate = async (type?: GenerateType) => {
+
+  switch (type) {
+    case 'TestClient':
+      await testClient();
+      break;
+    case 'schema':
+      await schema();
+      break;
+    case 'queries':
+      await queries();
+      break;
+    case 'shapes':
+      await shapes();
+      break;
+
+    case 'all':
+    default:
+      await gen.clean();
+      await testClient();
+      await schema();
+      await queries();
+      await shapes();
+  }
 };

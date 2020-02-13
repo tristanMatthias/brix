@@ -1,12 +1,21 @@
 import { CommandBuilder, CommandModule } from 'yargs';
 
-import { generate } from '../lib/generate';
+import { generate, GenerateType } from '../lib/generate';
 
 
-export const command = 'generate';
-export const description = 'Generate typed files';
-export const builder: CommandBuilder = {};
+export const command = 'generate [type]';
+export const description = 'Generate typed code under @brix/generated';
+export const builder: CommandBuilder<{ type: GenerateType }> = {
 
-export const handler: CommandModule['handler'] = async () => {
-  await generate();
+  type: {
+    default: 'all',
+    describe: 'Type of code to generate',
+    choices: ['all', 'TestClient', 'schema', 'queries', 'shapes']
+  }
+};
+
+export const handler: CommandModule<any, { type: GenerateType }>['handler'] = async ({
+  type
+}) => {
+  await generate(type);
 };

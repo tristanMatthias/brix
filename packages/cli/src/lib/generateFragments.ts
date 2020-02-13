@@ -6,7 +6,8 @@ import { start } from './start';
 
 export const generateFragments = async (url?: string, dest?: string) => {
   const spinner = ora(`Generating fragments`).start();
-  const { httpServer } = await start(undefined, {
+
+  const { httpServer } = await start(process.cwd(), {
     // Disable logging
     env: Env.production
   });
