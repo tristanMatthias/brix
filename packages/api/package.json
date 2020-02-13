@@ -1,6 +1,6 @@
 {
   "name": "@brix/api",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "API library",
   "author": "Tristan Matthias <hello@tristanmatthias.com>",
   "license": "MIT",
