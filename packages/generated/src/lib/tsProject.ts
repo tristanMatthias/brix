@@ -7,7 +7,8 @@ export const tsProject = new Project({
   addFilesFromTsConfig: false,
   compilerOptions: {
     outDir: path.resolve(__dirname, '../../'),
-    sourceMap: false
+    sourceMap: false,
+    declaration: true
   }
 });
 
@@ -18,5 +19,12 @@ export const compileFile = async (filename: string, source: string) =>
 
 export const compile = async (filename: string, contents: string) => {
   const file = tsProject.createSourceFile(filename, contents);
-  return file.emit();
+  const result = await file.emit();
+
+  const err = result.getEmitSkipped();
+  if (err) {
+    throw new Error(`Error in generated ${filename}:\n\n${
+      result.getDiagnostics()[0].getMessageText().toString()
+      }\n\n`);
+  } else return true;
 };

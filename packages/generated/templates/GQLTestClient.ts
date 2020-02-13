@@ -4,10 +4,9 @@ import fetch from 'isomorphic-fetch';
 import { Sequelize } from 'sequelize/types';
 import { Readable } from 'stream';
 import uuid from 'uuid';
-
 /** %IMPORT% */
 
-import API, { Upload } from '@brix/api';
+import API, { Upload, ApiConfig } from '@brix/api';
 // import { createDatabase, dropDatabase } from '../../src/lib/database';
 import { MailTester } from '@brix/mail-tester';
 import { Server } from 'http';
@@ -23,6 +22,7 @@ export class TestClient {
   private _dbName: string = `brix-test-${uuid.v4()}`;
 
   private _server: Server;
+  private _serverConfig: Partial<ApiConfig>;
   private _db: Sequelize;
   private _url: string;
 
@@ -33,7 +33,8 @@ export class TestClient {
 
   private _token?: string;
 
-  constructor() {
+  constructor(config?: Partial<ApiConfig>) {
+    this._serverConfig = config || {};
     try {
       this._mutations = require('./queries/mutations');
     } catch (e) {
@@ -50,7 +51,7 @@ export class TestClient {
    * Start the API on a random available port and create a test database
    */
   async start(emailServer: boolean = false) {
-    const port = await getPort();
+    const port = await getPort({ port: 4000 });
     this._url = `http://localhost:${port}/graphql`;
 
     // TODO: Database integration
@@ -58,7 +59,11 @@ export class TestClient {
 
     process.env.DB_DATABASE = this._dbName;
 
-    const { db, httpServer } = await API.server({ port });
+    const { db, httpServer } = await API.server({
+      ...this._serverConfig,
+      port,
+      rootDir: process.cwd()
+    });
 
     this._db = db!;
     this._server = httpServer;
@@ -130,6 +135,7 @@ export class TestClient {
   ): Promise<Return> {
     // Lookup the query
     const query = (type === 'mutation' ? this._mutations : this._queries)[name];
+    if (!query) throw new Error(`[TestClient] No gql file generated for ${type} ${query}`);
 
     // Extract files into object and set to null on variables
     // SEE: https://github.com/jaydenseric/graphql-multipart-request-spec
