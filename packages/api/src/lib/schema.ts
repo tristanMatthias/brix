@@ -3,11 +3,13 @@ import 'reflect-metadata';
 import { IMocks } from 'apollo-server-express';
 import { GraphQLSchema } from 'graphql';
 import path from 'path';
+import fs from 'fs-extra';
 import { buildSchema as buildSchemaGQL, BuildSchemaOptions } from 'type-graphql';
 
 import { CONFIG } from '../config';
 import { authChecker } from '../lib/auth';
 import { logger } from '../lib/logger';
+import { dirOrDist } from '../config/base';
 
 /**
  * Load the resolvers for the schema, and default to gql/resolvers/index.js
@@ -18,9 +20,12 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
   const defaultResolver = '../lib/defaultResolver';
 
   const load = (dir: string) => {
+    const dd = dirOrDist(dir);
+    if (!fs.existsSync(dd)) throw new Error();
+
     let pkg;
     try {
-      pkg = require(dir);
+      pkg = require(dirOrDist(dir));
     } catch (e) {
       console.log(e);
       throw e;
@@ -34,7 +39,8 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
     load(CONFIG.resolverDir);
   } else {
     try {
-      load(dir || path.resolve(CONFIG.rootDir, 'gql/resolvers'));
+      const dd = dirOrDist(dir || CONFIG.rootDir);
+      load(path.resolve(dd, 'gql/resolvers'));
     } catch (e) {
       if (e.code && e.code === 'MODULE_NOT_FOUND') resolvers = [require(defaultResolver)];
       else throw e;
@@ -47,12 +53,6 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
 const defaultMocks = {
   DateTime: () => new Date(+(new Date()) - Math.floor(Math.random() * 10000000000))
 };
-
-
-/**
- * Load the resolvers for the schema, and default to gql/resolvers/index.js
- * @param dir Directory to load resolvers from
- */
 
 
 /**
