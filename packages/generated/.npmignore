@@ -12,3 +12,4 @@ shapes.d.ts
 shapes.js
 TestClient.d.ts
 TestClient.js
+!src/testClient.js
