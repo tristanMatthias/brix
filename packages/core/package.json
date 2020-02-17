@@ -33,5 +33,8 @@
     "@types/find-root": "^1.1.1",
     "@types/resolve-from": "^5.0.1",
     "@types/stack-trace": "^0.0.29"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
