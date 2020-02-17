@@ -1,6 +1,6 @@
 import { Config } from '../config';
 import { BrixConfigPlugin } from '../config/types';
-import { ErrorPluginRegistered, ErrorPluginsNotBuilt, ErrorPluginUnknown, ErrorRequiredPluginMissing } from '../errors';
+import { ErrorPluginRegistered, ErrorPluginsNotBuilt, ErrorPluginUnknown, ErrorRequiredPluginMissing, ErrorPluginNotAFunction } from '../errors';
 import { logger } from '../lib/logger';
 import { importLib } from '../lib/resolveFrom';
 import { ClassType, ScalarsTypeMap } from './types';
@@ -24,6 +24,9 @@ export interface BrixPluginOptions {
   scalars?: ScalarsTypeMap[];
   /** GQL Resolvers to register in Brix */
   resolvers?: ClassType<any>[];
+}
+export interface BrixPluginSettings extends BrixPluginOptions {
+  package: string;
 }
 
 export interface BrixPluginData {
@@ -57,7 +60,7 @@ export abstract class BrixPlugins {
     if (!this._buildData) throw new ErrorPluginsNotBuilt();
     return this._buildData.scalars;
   }
-  private static _plugins: { [name: string]: BrixPluginOptions } = {};
+  private static _plugins: { [name: string]: BrixPluginSettings } = {};
   private static _buildData?: BrixPluginData;
 
 
@@ -74,10 +77,15 @@ export abstract class BrixPlugins {
   static register(options: BrixPluginOptions) {
     const calledFrom = stack.get()[1].getFileName();
     const root = findRoot(calledFrom);
-    const pkg = require(`${root}/package.json`).name;
+    const pkg: string = require(`${root}/package.json`).name;
 
     if (this._plugins[pkg]) throw new ErrorPluginRegistered(options.name);
-    else this._plugins[pkg] = options;
+    else {
+      this._plugins[pkg] = {
+        package: pkg,
+        ...options
+      };
+    }
   }
 
   /**
@@ -105,14 +113,13 @@ export abstract class BrixPlugins {
       if (!pkg) pkg = await attemptLoad(`brix-plugin-${plugin.name}`);
       if (!pkg) pkg = await attemptLoad(plugin.name);
       if (!pkg) throw new ErrorPluginUnknown(plugin.name);
+      if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(plugin.name);
       await (pkg as PluginPkg)(p.options);
     }));
 
     this._checkRequired();
 
     Object.keys(this._plugins).map(n => logger.info(`Loaded plugin ${n}`));
-
-    console.log(this._plugins);
 
     return this._buildData = {
       entities: this._getEntities(),
@@ -129,7 +136,7 @@ export abstract class BrixPlugins {
       if (!p.requires) return;
       p.requires.forEach(required => {
         // TODO: Install required plugin automatically
-        if (!this._plugins[required]) throw new ErrorRequiredPluginMissing(p.name, required);
+        if (!this._plugins[required]) throw new ErrorRequiredPluginMissing(p.package, required);
       });
     });
 

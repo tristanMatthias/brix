@@ -29,10 +29,17 @@ export class ErrorPluginUnknown extends BaseError {
   }
 }
 
+export class ErrorPluginNotAFunction extends BaseError {
+  constructor(plugin: string) {
+    // TODO: Add help install text
+    super(`${chalk.yellow(plugin)} does not export a default function.`);
+  }
+}
+
 export class ErrorRequiredPluginMissing extends BaseError {
   constructor(plugin: string, required: string) {
     // TODO: Add help install text
-    super(`Plugin ${chalk.yellow(plugin)} required the ${chalk.yellow(required)} plugin to be installed.`);
+    super(`Plugin ${chalk.yellow(plugin)} requires the ${chalk.yellow(required)} plugin to be installed.`);
   }
 }
 
