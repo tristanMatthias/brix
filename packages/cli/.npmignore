@@ -1,3 +1,5 @@
 src/
 *.log
 tsconfig.json
+
+!templates/tsconfig.json

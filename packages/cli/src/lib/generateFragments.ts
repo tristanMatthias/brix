@@ -1,7 +1,8 @@
-import API, { Env } from '@brix/api';
+import API from '@brix/api';
 import ora from 'ora';
 
 import { start } from './start';
+import { Env } from '@brix/core';
 
 
 export const generateFragments = async (url?: string, dest?: string) => {

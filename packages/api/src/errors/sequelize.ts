@@ -20,8 +20,8 @@ import {
 
 import { ErrorGeneral, ErrorResourceNotFound, ErrorResourceUnique } from '.';
 import { db } from '../lib/database';
-import { logger } from '../lib/logger';
 import { ErrorValidationMin, ErrorValidationMax } from './validation';
+import { logger } from '@brix/core';
 
 
 type SequelizeError =

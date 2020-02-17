@@ -1,10 +1,8 @@
 import { GraphQLError } from 'graphql';
 
-import { CONFIG } from '../config';
-import { Env } from '../config/types';
-import { logger } from '../lib/logger';
 import { ErrorGeneral } from './general';
 import { ErrorValidationRequired } from './validation';
+import { Config, Env, logger } from '@brix/core';
 
 const gqlRegex = {
   required: /Variable "\$(\w+)" .* Field (\w*) of required type (\w+)! was not provided.$/
@@ -23,9 +21,7 @@ export const handleGraphQLError = (e: GraphQLError): Error => {
   }
 
   // If on dev or test and it's an unknown error, return it
-  if ([Env.development].includes(CONFIG.env as Env)) {
-    return e;
-  }
+  if ([Env.development].includes(Config.env)) return e;
 
   logger.error(e);
   // Otherwise return a general error in prod-like environment

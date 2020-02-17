@@ -3,13 +3,10 @@ import 'reflect-metadata';
 import { IMocks } from 'apollo-server-express';
 import { GraphQLSchema } from 'graphql';
 import path from 'path';
-import fs from 'fs-extra';
 import { buildSchema as buildSchemaGQL, BuildSchemaOptions } from 'type-graphql';
 
-import { CONFIG } from '../config';
 import { authChecker } from '../lib/auth';
-import { logger } from '../lib/logger';
-import { dirOrDist } from '../config/base';
+import { BrixPlugins, dirOrDist, logger, Config } from '@brix/core';
 
 /**
  * Load the resolvers for the schema, and default to gql/resolvers/index.js
@@ -20,14 +17,11 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
   const defaultResolver = '../lib/defaultResolver';
 
   const load = (dir: string) => {
-    const dd = dirOrDist(dir);
-    if (!fs.existsSync(dd)) throw new Error();
-
     let pkg;
     try {
       pkg = require(dirOrDist(dir));
     } catch (e) {
-      console.log(e);
+      if (e.code !== 'MODULE_NOT_FOUND') logger.error(e);
       throw e;
     }
 
@@ -35,11 +29,11 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
     else resolvers = pkg.default;
   };
 
-  if (CONFIG.resolverDir) {
-    load(CONFIG.resolverDir);
+  if (Config.resolverDir) {
+    load(Config.resolverDir);
   } else {
     try {
-      const dd = dirOrDist(dir || CONFIG.rootDir);
+      const dd = dirOrDist(dir || Config.rootDir);
       load(path.resolve(dd, 'gql/resolvers'));
     } catch (e) {
       if (e.code && e.code === 'MODULE_NOT_FOUND') resolvers = [require(defaultResolver)];
@@ -69,11 +63,11 @@ export const loadMocks = (schema: GraphQLSchema, dir?: string): IMocks | boolean
     else mocks = pkg.default;
   };
 
-  if (CONFIG.mocksDir) {
-    load(CONFIG.mocksDir);
+  if (Config.mocksDir) {
+    load(Config.mocksDir);
   } else {
     try {
-      load(dir || path.resolve(CONFIG.rootDir, 'gql/mocks'));
+      load(dir || path.resolve(Config.rootDir, 'gql/mocks'));
     } catch (e) {
       if (e.code && e.code === 'MODULE_NOT_FOUND') mocks = true;
       else throw e;
@@ -100,10 +94,12 @@ export const buildSchema = async (resolvers?: BuildSchemaOptions['resolvers'] | 
   if (schema) return schema;
   const r = (typeof resolvers === 'string' || !resolvers) ? loadResolvers(resolvers) : resolvers;
 
+  await BrixPlugins.build();
+
   return schema = await buildSchemaGQL({
     dateScalarMode: 'isoDate',
     validate: false,
-    resolvers: r,
+    resolvers: [...r, ...BrixPlugins.resolvers],
     authChecker
   });
 };

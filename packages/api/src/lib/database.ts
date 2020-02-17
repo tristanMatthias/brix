@@ -1,9 +1,7 @@
 import path from 'path';
 import { DataType, Sequelize, Sequelize as TSSequelize, SequelizeOptions } from 'sequelize-typescript';
+import { Config, Env, logger } from '@brix/core';
 
-import { CONFIG } from '../config';
-import { Env } from '../config/types';
-import { logger } from '../lib/logger';
 
 /** The Sequelize global instance. Is populated by the `setupDatabase` function */
 export let db: Sequelize;
@@ -13,14 +11,14 @@ Sequelize.Promise = global.Promise;
 
 
 /**
- * Attempt to connect to the database via the global `ApiConfig`
+ * Attempt to connect to the database via the global `BrixConfig`
  * @param database Database name
  */
 export const setupDatabase = async (database?: string) => {
-  if (CONFIG.skipDatabase) return;
+  if (Config.skipDatabase) return;
 
   const options: SequelizeOptions = {
-    ...CONFIG.dbConnection,
+    ...Config.dbConnection,
     logging: false,
     modelPaths: [
       path.resolve(__dirname, '../models/**/!(BaseModel)*')
@@ -33,7 +31,7 @@ export const setupDatabase = async (database?: string) => {
 
 
   if (database) options.database = database;
-  if (CONFIG.env === Env.development) {
+  if (Config.env === Env.development) {
     options.storage = path.resolve(process.cwd(), `../../${options.database}.db`);
   }
 

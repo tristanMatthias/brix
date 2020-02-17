@@ -4,6 +4,7 @@ import path from 'path';
 
 import { compile } from './lib/tsProject';
 import { argType, Field } from './testClient';
+import { Config } from '@brix/core';
 
 const DEFAULT_TYPES = [
   'Query',
@@ -48,7 +49,7 @@ const fieldToYup = (field: Field) => {
 
 
 export const generateShapes = async () => {
-  await API.config.loadConfig(process.cwd());
+  await Config.loadConfig(process.cwd());
 
   const schema = await API.lib.schema.buildSchema();
 

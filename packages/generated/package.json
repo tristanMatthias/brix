@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@brix/api": "^0.2.0",
+    "@brix/core": "^0.2.0",
     "@brix/mail-tester": "^0.2.0",
     "del": "^5.1.0",
     "graphql": "14.5.8",

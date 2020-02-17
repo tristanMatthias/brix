@@ -1,4 +1,5 @@
-import API, { ApiConfig, Upload } from '@brix/api';
+import API, { Upload } from '@brix/api';
+import { BrixConfig } from '@brix/core';
 import { MailTester } from '@brix/mail-tester';
 import formData from 'form-data';
 import getPort from 'get-port';
@@ -22,7 +23,7 @@ export class TestClient {
   private _dbName: string = `brix-test-${uuid.v4()}`;
 
   private _server: Server;
-  private _serverConfig: Partial<ApiConfig>;
+  private _serverConfig: Partial<BrixConfig>;
   private _db: Sequelize;
   private _url: string;
 
@@ -33,7 +34,7 @@ export class TestClient {
 
   private _token?: string;
 
-  constructor(config?: Partial<ApiConfig>) {
+  constructor(config?: Partial<BrixConfig>) {
     this._serverConfig = config || {};
     try {
       this._mutations = require('./queries/mutations');

@@ -1,6 +1,5 @@
 import { Readable } from 'stream';
 
-import * as Config from './config/types';
 import * as Errors from './errors';
 import * as Auth from './lib/auth';
 import * as Context from './lib/context';
@@ -8,7 +7,6 @@ import * as Database from './lib/database';
 import * as Fingerprint from './lib/fingerprint';
 import { generateFragments as GenerateFragments } from './lib/generateFragments';
 import * as GenerateSchemaFile from './lib/generateSchemaFile';
-import * as Logger from './lib/logger';
 import * as OAuth from './lib/OAuthProvider';
 import * as Schema from './lib/schema';
 import * as Tokens from './lib/tokens';
@@ -42,7 +40,6 @@ export class Upload {
 
 namespace API {
   /** Configuration helpers */
-  export const config = Config;
   export const server = Server;
   export const errors = Errors;
 
@@ -60,7 +57,6 @@ namespace API {
     export const fingerprint = Fingerprint;
     export const generateSchemaFile = GenerateSchemaFile;
     export const generateFragments = GenerateFragments;
-    export const logger = Logger;
     export const oAuth = OAuth;
     export const tokens = Tokens;
     export const schema = Schema;

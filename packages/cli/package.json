@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@brix/api": "^0.2.0",
+    "@brix/core": "^0.2.0",
     "@brix/generated": "^0.2.0",
     "apollo-server-express": "^2.9.13",
     "chalk": "^3.0.0",

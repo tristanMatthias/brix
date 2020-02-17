@@ -11,6 +11,7 @@
     "dev": "yarn build -w"
   },
   "dependencies": {
+    "@brix/core": "^0.2.0",
     "@types/bluebird": "^3.5.29",
     "@types/cors": "^2.8.6",
     "@types/dot-object": "^1.7.0",

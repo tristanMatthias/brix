@@ -5,6 +5,7 @@ import { GraphQLArgument, GraphQLNamedType, GraphQLObjectType, GraphQLSchema, Gr
 import path from 'path';
 
 import { Field, FieldMap } from './testClient';
+import { Config } from '@brix/core';
 
 
 export type ArgDict = { [key: string]: GraphQLArgument };
@@ -232,7 +233,7 @@ export const generateQueries = async (
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
 
-  await API.config.loadConfig(process.cwd());
+  await Config.loadConfig(process.cwd());
 
   schema = await API.lib.schema.buildSchema();
 

@@ -1,3 +1,8 @@
+import chalk from 'chalk';
+import { RequestHandler, Router } from 'express';
+import { Dialect } from 'sequelize/types';
+import * as yup from 'yup';
+
 
 /**
  * Brix server environment.
@@ -8,12 +13,6 @@ export enum Env {
   test = 'test',
   production = 'production'
 }
-
-import { Dialect } from 'sequelize/types';
-import * as yup from 'yup';
-import { logger } from '../lib/logger';
-import { RequestHandler, Router } from 'express';
-export { loadConfig } from './loadConfigFile';
 
 /**
  * Configuration for Brix API instance. This config can be passed directly
@@ -28,13 +27,13 @@ export { loadConfig } from './loadConfigFile';
  * Each setting will be ovreloaded by a `brix.yml`, `.brixrc`, etc, file.
  * Additionally, each setting can be overridden with an environment variable.
  */
-export type ApiConfig = {
+export interface BrixConfig {
   /** NODE_ENV to run the API in */
   env: Env;
   /** Port to run the server on */
-  port: number,
+  port: number;
   /** Root directory the API is running in */
-  rootDir: string,
+  rootDir: string;
   /** Mock the API from the schema (Disables resolvers) */
   mocks: boolean;
 
@@ -64,14 +63,23 @@ export type ApiConfig = {
   skipDatabase?: boolean;
 
   /** JWT secret to encrypt all tokens with */
-  accessTokenSecret: string,
+  accessTokenSecret: string;
 
   /** Which sites/hosts can access the API */
   corsAllowFrom: boolean | string | RegExp | (string | RegExp)[];
 
   /** Load Express Routers/Middleware into the server */
-  middleware: RequestHandler | Router | (RequestHandler | Router)[]
-};
+  middleware: RequestHandler | Router | (RequestHandler | Router)[];
+
+  plugins: BrixConfigPlugin[];
+}
+
+export interface BrixConfigPlugin {
+  name: string;
+  options: {
+    [setting: string]: any
+  };
+}
 
 
 /**
@@ -84,7 +92,7 @@ const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
   test: v => {
     for (const p of Object.keys(v)) {
       const prop = prefix ? `${prefix}.${p}` : p;
-      if (!valid.includes(p)) logger.warn(`Invalid option ${prop}`);
+      if (!valid.includes(p)) throw new Error(`Invalid option ${chalk.yellow(prop)}`);
     }
     return true;
   }
@@ -92,7 +100,7 @@ const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
 
 
 /**
- * Validates an `ApiConfig` object against the valid schema
+ * Validates an `BrixConfig` object against the valid schema
  */
 export const validateConfig = yup.object().shape({
   env: yup.string().required(),
@@ -130,10 +138,14 @@ export const validateConfig = yup.object().shape({
   'env',
   'port',
   'mocks',
+  'mocksDir',
   'rootDir',
   'resolverDir',
+  'middlewareDir',
+  'middleware',
   'dbConnection',
   'skipDatabase',
   'accessTokenSecret',
-  'corsAllowFrom'
+  'corsAllowFrom',
+  'plugins'
 ]));

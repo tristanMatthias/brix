@@ -1,12 +1,13 @@
-import brix, { ApiConfig } from '@brix/api';
+import brix from '@brix/api';
 import fs from 'fs-extra';
 import path from 'path';
 
 import { build } from './build';
+import { BrixConfig } from '@brix/core';
 
 export const start = async (
   dir?: string,
-  config?: Partial<ApiConfig>
+  config?: Partial<BrixConfig>
 ): Promise<{ httpServer: import('http').Server }> => {
   let rootDir;
 

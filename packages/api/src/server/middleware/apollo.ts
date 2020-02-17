@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 
+import { Config } from '@brix/core';
 import { addMockFunctionsToSchema, ApolloServer, IMocks } from 'apollo-server-express';
 import { Express } from 'express';
 import { Server } from 'http';
 
-import { CONFIG } from '../../config';
 import { ErrorAuthInvalidToken, ErrorAuthUnauthenticated } from '../../errors';
 import { createContext as context, setContextFromToken, SubscriptionContext } from '../../lib/context';
 import { buildSchema, loadMocks } from '../../lib/schema';
@@ -27,7 +27,7 @@ export const apollo = async (
   const schema = await buildSchema();
   let mocks: IMocks | boolean = false;
 
-  if (CONFIG.mocks) {
+  if (Config.mocks) {
     addMockFunctionsToSchema({ schema });
     mocks = loadMocks(schema);
   }
@@ -60,7 +60,7 @@ export const apollo = async (
 
   apolloServer.applyMiddleware({
     app, cors: {
-      origin: CONFIG.corsAllowFrom,
+      origin: Config.corsAllowFrom,
       credentials: true,
       optionsSuccessStatus: 200
     }

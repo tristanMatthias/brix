@@ -1,9 +1,10 @@
+import { dirOrDist } from '@brix/core';
 import { generateTypeScriptTypes } from 'graphql-schema-typescript';
 import path from 'path';
 import { emitSchemaDefinitionFile } from 'type-graphql';
 
-import { dirOrDist } from '../config/base';
 import { buildSchema } from './schema';
+
 
 /**
  * Generates a schema.gql file based on a Graph API schema

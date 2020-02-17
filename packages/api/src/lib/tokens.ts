@@ -1,7 +1,6 @@
+import { Config, Env } from '@brix/core';
 import jwt from 'jsonwebtoken';
 
-import { CONFIG } from '../config';
-import { Env } from '../config/types';
 import { ErrorAuthInvalidToken } from '../errors';
 import { User } from '../models/User';
 import { CreateUser } from '../services/UserService';
@@ -37,8 +36,8 @@ export const createToken = async (
   expiresIn = '15m'
 ): Promise<{ token: string, expiry: number }> => {
   let expires = expiresIn;
-  if (CONFIG.env === Env.development) expires = '7d';
-  const token = jwt.sign(data, CONFIG.accessTokenSecret, { expiresIn: expires });
+  if (Config.env === Env.development) expires = '7d';
+  const token = jwt.sign(data, Config.accessTokenSecret, { expiresIn: expires });
   const expiry = (jwt.decode(token) as JWTVerifyResult).exp;
   return { token, expiry };
 };
@@ -55,7 +54,7 @@ export const verifyToken = async (
 
   let data;
   try {
-    data = jwt.verify(token, CONFIG.accessTokenSecret) as JWTVerifyResult;
+    data = jwt.verify(token, Config.accessTokenSecret) as JWTVerifyResult;
   } catch (e) {
     throw new ErrorAuthInvalidToken();
   }
@@ -85,7 +84,7 @@ export const generateToken = async (
       socialId: user.socialId,
       socialPic: user.socialPic
     },
-    isDevelopment: CONFIG.env === Env.development
+    isDevelopment: Config.env === Env.development
   };
   const { token: accessToken, expiry } = await createToken(data);
   return { accessToken, expiry };

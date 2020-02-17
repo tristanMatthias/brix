@@ -3,6 +3,7 @@ dist/
 *.log
 coverage/
 
+packages/core-experiment
 
 # Generated files
 packages/generated/*.js

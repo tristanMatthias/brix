@@ -1,5 +1,5 @@
-import { ApiConfig, Env } from '@brix/api';
 import { CommandBuilder, CommandModule } from 'yargs';
+import { BrixConfig, Env } from '@brix/core';
 
 import { start } from '../lib/start';
 
@@ -44,7 +44,7 @@ interface StartArgs {
 export const handler: CommandModule<any, StartArgs>['handler'] = async args => {
   const { dir, skipDB, port, prod, mocks } = args;
 
-  const config: Partial<ApiConfig> = {};
+  const config: Partial<BrixConfig> = {};
   if (port) config.port = port;
   if (prod) config.env = Env.production;
   if (mocks) config.mocks = true;

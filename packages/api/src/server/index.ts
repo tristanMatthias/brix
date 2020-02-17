@@ -1,15 +1,12 @@
 import 'reflect-metadata';
 
+import { BrixConfig, Config, Env, logger, setupLogger, BrixPlugins } from '@brix/core';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import http, { Server } from 'http';
 
-import { CONFIG, updateConfig } from '../config';
-import { loadConfig } from '../config/loadConfigFile';
-import { ApiConfig, Env } from '../config/types';
 import { setupDatabase } from '../lib/database';
-import { logger, setupLogger } from '../lib/logger';
 import { apollo } from './middleware/apollo';
 import { loadMiddleware } from './middleware/loadMiddleware';
 
@@ -21,10 +18,14 @@ let httpServer: Server;
  * instance.
  * @param config The API config to override all settings with (highest priority)
  */
-export const server = async (config?: Partial<ApiConfig>) => {
+export const server = async (config?: Partial<BrixConfig>) => {
 
-  await loadConfig(config ? config.rootDir : undefined);
-  await updateConfig(config || process.env.NODE_ENV as Env);
+  await Config.loadEnv(process.env.NODE_ENV as Env || 'development');
+  await Config.loadConfig(config ? config.rootDir : undefined);
+  await Config.update(config || process.env.NODE_ENV as Env);
+
+  await BrixPlugins.build();
+
 
   await setupLogger();
   const db = await setupDatabase();
@@ -34,7 +35,7 @@ export const server = async (config?: Partial<ApiConfig>) => {
 
   // Middleware
   app.use(cors({
-    origin: CONFIG.corsAllowFrom
+    origin: Config.corsAllowFrom
   }));
   app.use(helmet({
     xssFilter: true
@@ -44,8 +45,8 @@ export const server = async (config?: Partial<ApiConfig>) => {
   await apollo(app, httpServer);
 
 
-  await new Promise(res => httpServer.listen(CONFIG.port, res));
-  logger.info(`🚀 Server ready at http://localhost:${CONFIG.port}/graphql`);
+  await new Promise(res => httpServer.listen(Config.port, res));
+  logger.info(`🚀 Server ready at http://localhost:${Config.port}/graphql`);
   return { httpServer, db };
 
 };

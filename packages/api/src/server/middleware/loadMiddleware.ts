@@ -1,28 +1,27 @@
+import { Config, logger } from '@brix/core';
 import chalk from 'chalk';
 import { Express } from 'express';
 import fs from 'fs-extra';
 import path from 'path';
 
-import { CONFIG } from '../../config';
-import { logger } from '../../lib/logger';
 
 /**
- * Load middleware from the `CONFIG`, or else from the middleware directory
+ * Load middleware from the `Config`, or else from the middleware directory
  * @param app Express application
  */
 export const loadMiddleware = async (app: Express) => {
 
   // Load middleware from what was passed in explicitly
-  if (CONFIG.middleware) {
-    if (CONFIG.middleware instanceof Array) {
-      CONFIG.middleware.forEach(mw => app.use(mw));
+  if (Config.middleware) {
+    if (Config.middleware instanceof Array) {
+      Config.middleware.forEach(mw => app.use(mw));
 
-    } else app.use(CONFIG.middleware);
+    } else app.use(Config.middleware);
 
 
   } else {
     // Load middleware from the project root
-    const dir = CONFIG.middlewareDir || path.join(CONFIG.rootDir, 'middleware');
+    const dir = Config.middlewareDir || path.join(Config.rootDir, 'middleware');
 
     if (await fs.pathExists(dir)) {
       const files = (await fs.readdir(dir)).filter(f => f.endsWith('.js'));

@@ -1,12 +1,10 @@
 import path from 'path';
 import winston from 'winston';
 
-import { CONFIG } from '../config';
 import { Env } from '../config/types';
+import { Config } from '../config';
 
-/**
- * Winston logger instance
- */
+/** * Winston logger instance */
 export const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -21,10 +19,13 @@ export const logger = winston.createLogger({
 });
 
 
+/**
+ * Setup the logger instance depending on the current Env
+ */
 export const setupLogger = () => {
   // If we're not in production or test then log to the `console` with the format:
   // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-  if (CONFIG.env !== Env.production) {
+  if (Config.env !== Env.production) {
     logger.add(new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
