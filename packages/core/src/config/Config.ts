@@ -8,7 +8,8 @@ import yaml from 'yaml';
 import { ErrorInvalidConfigOption } from '../errors';
 import { dirOrDist } from '../lib/dirOrDist';
 import { CONFIG_BASE, CONFIG_DEVELOPMENT, CONFIG_PRODUCTION, CONFIG_TEST, CONFIGS } from './defaults';
-import { BrixConfig, Env, validateConfig } from './types';
+import { BrixConfig, Env } from './types';
+import { validateConfig } from './validate';
 
 
 // Allow for `.env` files to override config
@@ -32,6 +33,7 @@ export abstract class Config {
   static corsAllowFrom: BrixConfig['corsAllowFrom'];
   static middleware: BrixConfig['middleware'];
   static plugins: BrixConfig['plugins'];
+  static clsNamespace: BrixConfig['clsNamespace'];
 
   private static loaded = false;
 
@@ -127,7 +129,8 @@ export abstract class Config {
       accessTokenSecret: this.accessTokenSecret,
       corsAllowFrom: this.corsAllowFrom,
       middleware: this.middleware,
-      plugins: this.plugins
+      plugins: this.plugins,
+      clsNamespace: this.clsNamespace
     };
   }
 

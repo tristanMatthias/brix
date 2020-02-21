@@ -1,11 +1,24 @@
+import { Express, Handler, Request } from 'express';
+import findRoot from 'find-root';
+import stack from 'stack-trace';
+
 import { Config } from '../config';
-import { BrixConfigPlugin } from '../config/types';
-import { ErrorPluginRegistered, ErrorPluginsNotBuilt, ErrorPluginUnknown, ErrorRequiredPluginMissing, ErrorPluginNotAFunction } from '../errors';
+import { BrixConfigPlugin, BrixContext } from '../config/types';
+import {
+  ErrorPluginNotAFunction,
+  ErrorPluginRegistered,
+  ErrorPluginsNotBuilt,
+  ErrorPluginUnknown,
+  ErrorRequiredPluginMissing,
+} from '../errors';
 import { logger } from '../lib/logger';
 import { importLib } from '../lib/resolveFrom';
 import { ClassType, ScalarsTypeMap } from './types';
-import stack from 'stack-trace';
-import findRoot from 'find-root';
+
+
+export type MiddlewareFunction = (app: Express) => Handler | void | Promise<Handler | void>;
+export type BrixContextMiddleware = (req: Request, context: Partial<BrixContext>) => Partial<BrixContext>;
+export type BrixAuthChecker = (context: BrixContext, roles: string[]) => Promise<boolean> | boolean;
 
 
 /**
@@ -24,6 +37,12 @@ export interface BrixPluginOptions {
   scalars?: ScalarsTypeMap[];
   /** GQL Resolvers to register in Brix */
   resolvers?: ClassType<any>[];
+  /** Express middlewares to register in Brix */
+  middlewares?: MiddlewareFunction[];
+  /** Apollo Context middleware to register in Brix */
+  contextMiddlewares?: BrixContextMiddleware[];
+  /** type-graphql Auth checker to register in Brix */
+  authCheckers?: BrixAuthChecker[];
 }
 export interface BrixPluginSettings extends BrixPluginOptions {
   package: string;
@@ -36,6 +55,12 @@ export interface BrixPluginData {
   scalars: ScalarsTypeMap[];
   /** Array of GQL Resolvers */
   resolvers: ClassType<any>[];
+  /** Array of Express middlewares */
+  middlewares: MiddlewareFunction[];
+  /** Array of Apollo context middlewares */
+  contextMiddlewares: BrixContextMiddleware[];
+  /** type-graphql Auth checker to register in Brix */
+  authCheckers: BrixAuthChecker[];
 }
 
 export type PluginPkg = (options?: any) => any;
@@ -59,6 +84,21 @@ export abstract class BrixPlugins {
   static get scalars() {
     if (!this._buildData) throw new ErrorPluginsNotBuilt();
     return this._buildData.scalars;
+  }
+  /** Array of Express middlewares */
+  static get middlewares() {
+    if (!this._buildData) throw new ErrorPluginsNotBuilt();
+    return this._buildData.middlewares;
+  }
+  /** Array of Apollo context middlewares */
+  static get contextMiddlewares() {
+    if (!this._buildData) throw new ErrorPluginsNotBuilt();
+    return this._buildData.contextMiddlewares;
+  }
+  /** Array of BrixAuthCheckers to use in `type-graphql` */
+  static get authCheckers() {
+    if (!this._buildData) throw new ErrorPluginsNotBuilt();
+    return this._buildData.authCheckers;
   }
   private static _plugins: { [name: string]: BrixPluginSettings } = {};
   private static _buildData?: BrixPluginData;
@@ -105,26 +145,31 @@ export abstract class BrixPlugins {
       }
     });
 
-    await Promise.all(Config.plugins.map(async p => {
-      const plugin = this.formatPlugin(p);
-      let pkg;
-      if (!pkg) pkg = await attemptLoad(`@brix/${plugin.name}`);
-      if (!pkg) pkg = await attemptLoad(`@brix/plugin-${plugin.name}`);
-      if (!pkg) pkg = await attemptLoad(`brix-plugin-${plugin.name}`);
-      if (!pkg) pkg = await attemptLoad(plugin.name);
-      if (!pkg) throw new ErrorPluginUnknown(plugin.name);
-      if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(plugin.name);
-      await (pkg as PluginPkg)(p.options);
-    }));
+    if (Config.plugins) {
+      await Promise.all(Config.plugins.map(async p => {
+        const plugin = this.formatPlugin(p);
+        let pkg;
+        if (!pkg) pkg = await attemptLoad(`@brix/${plugin.name}`);
+        if (!pkg) pkg = await attemptLoad(`@brix/plugin-${plugin.name}`);
+        if (!pkg) pkg = await attemptLoad(`brix-plugin-${plugin.name}`);
+        if (!pkg) pkg = await attemptLoad(plugin.name);
+        if (!pkg) throw new ErrorPluginUnknown(plugin.name);
+        if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(plugin.name);
+        await (pkg as PluginPkg)(p.options);
+      }));
+    }
 
     this._checkRequired();
 
     Object.keys(this._plugins).map(n => logger.info(`Loaded plugin ${n}`));
 
     return this._buildData = {
-      entities: this._getEntities(),
-      resolvers: this._getResolvers(),
-      scalars: this._getScalars()
+      entities: this._get('entities')!,
+      resolvers: this._get('resolvers')!,
+      scalars: this._get('scalars')!,
+      middlewares: this._get('middlewares')!,
+      contextMiddlewares: this._get('contextMiddlewares')!,
+      authCheckers: this._get('authCheckers')!
     };
   }
 
@@ -141,22 +186,6 @@ export abstract class BrixPlugins {
     });
 
     return true;
-  }
-
-
-  /** * Retrieve all entities from registered plugins */
-  private static _getEntities() {
-    return this._get('entities')!;
-  }
-
-  /** * Retrieve all resolvers from registered plugins */
-  private static _getResolvers() {
-    return this._get('resolvers')!;
-  }
-
-  /** * Retrieve all scalars from registered plugins */
-  private static _getScalars() {
-    return this._get('scalars')!;
   }
 
   /**

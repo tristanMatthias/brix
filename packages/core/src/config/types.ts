@@ -1,7 +1,5 @@
-import chalk from 'chalk';
 import { RequestHandler, Router } from 'express';
 import { Dialect } from 'sequelize/types';
-import * as yup from 'yup';
 
 
 /**
@@ -71,7 +69,13 @@ export interface BrixConfig {
   /** Load Express Routers/Middleware into the server */
   middleware: RequestHandler | Router | (RequestHandler | Router)[];
 
+  // /** Load Apollo Context middleware into the server */
+  // contextMiddleware: BrixContextMiddleware[];
+
   plugins: BrixConfigPlugin[];
+
+  /** Namespace for the CLS */
+  clsNamespace: string;
 }
 
 export interface BrixConfigPlugin {
@@ -81,71 +85,23 @@ export interface BrixConfigPlugin {
   };
 }
 
+/** Brix context to use in Apollo */
+export interface BrixContext {
+  /** Unique fingerprint for the request */
+  fingerprint: string;
+  /** User object decoded from JWT */
+  user?: BrixContextUser;
+  /** JWT is validated */
+  valid: boolean;
+  /** JWT retrieved from the `Authorization` header */
+  accessToken: string | null;
+  /** Role associated to the user */
+  role?: string;
+}
 
-/**
- * Ensure that a Yup object doesn't have extra properties
- * @param valid Valid properties allowed for the object
- * @param prefix String to prefix the keys with
- */
-const validateProps = (valid: string[], prefix?: string): yup.TestOptions => ({
-  name: 'ExtraProps',
-  test: v => {
-    for (const p of Object.keys(v)) {
-      const prop = prefix ? `${prefix}.${p}` : p;
-      if (!valid.includes(p)) throw new Error(`Invalid option ${chalk.yellow(prop)}`);
-    }
-    return true;
-  }
-});
-
-
-/**
- * Validates an `BrixConfig` object against the valid schema
- */
-export const validateConfig = yup.object().shape({
-  env: yup.string().required(),
-  port: yup.number().required(),
-  rootDir: yup.string(),
-  skipDatabase: yup.boolean(),
-  mocks: yup.boolean(),
-
-  resolverDir: yup.string(),
-  mocksDir: yup.string(),
-  middlewareDir: yup.string(),
-
-  dbConnection: yup.object({
-    database: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),
-    username: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),
-    dialect: yup.string(),
-    password: yup.string(),
-    host: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),
-    port: yup.number().when('skipDatabase', { is: false, then: yup.number().required() })
-  })
-    .test(validateProps([
-      'database',
-      'username',
-      'dialect',
-      'password',
-      'host',
-      'port'
-    ], 'dbConnection')),
-
-  accessTokenSecret: yup.string().required(),
-
-  corsAllowFrom: yup.mixed()
-
-}).test(validateProps([
-  'env',
-  'port',
-  'mocks',
-  'mocksDir',
-  'rootDir',
-  'resolverDir',
-  'middlewareDir',
-  'middleware',
-  'dbConnection',
-  'skipDatabase',
-  'accessTokenSecret',
-  'corsAllowFrom',
-  'plugins'
-]));
+export interface BrixContextUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
