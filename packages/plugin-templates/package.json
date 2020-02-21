@@ -1,0 +1,27 @@
+{
+  "name": "@brix/plugin-templates",
+  "version": "0.2.0",
+  "description": "Brix plugin to enable rendering of templates",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./"
+  },
+  "dependencies": {
+    "consolidate": "^0.15.1",
+    "pug": "^2.0.4",
+    "recursive-readdir": "^2.2.2",
+    "reflect-metadata": "^0.1.13"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/consolidate": "^0.14.0",
+    "@types/recursive-readdir": "^2.2.0"
+  }
+}
