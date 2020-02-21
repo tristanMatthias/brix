@@ -1,0 +1,20 @@
+{
+  "name": "@brix/model",
+  "version": "0.2.0",
+  "description": "Model library for loading models and generating database schemas",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./"
+  },
+  "dependencies": {
+    "@brix/core": "^0.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
