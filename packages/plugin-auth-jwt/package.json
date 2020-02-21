@@ -1,0 +1,20 @@
+{
+  "name": "@brix/plugin-auth-jwt",
+  "version": "0.2.0",
+  "description": "JWT authentication in Brix",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./"
+  },
+  "peerDependencies": {
+    "@brix/api": "^0.2.0",
+    "@brix/core": "^0.2.0",
+    "@brix/model": "^0.2.0",
+    "@brix/plugin-entity-user": "^0.2.0"
+  }
+}
