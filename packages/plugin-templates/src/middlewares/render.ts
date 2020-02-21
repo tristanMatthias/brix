@@ -3,14 +3,14 @@ import { Express, Router } from 'express';
 import path from 'path';
 import recursive from 'recursive-readdir';
 
-import { PluginCMSOptions } from '..';
+import { PluginTemplateOptions } from '..';
 import { logger } from '@brix/core';
 
 /**
  * Enables pages to be rendered
- * @param options CMS Options
+ * @param options Template Options
  */
-export const render = (options: PluginCMSOptions) =>
+export const render = (options: PluginTemplateOptions) =>
   async (app: Express) => {
     const viewDir = options.viewDir || path.resolve(process.cwd(), 'views');
     app.set('views', viewDir);

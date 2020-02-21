@@ -25,19 +25,14 @@ export enum ExpressTemplateLang {
   vuexpress = 'vuexpress'
 }
 
-export interface PluginCMSOptions {
+export interface PluginTemplateOptions {
   prefix?: string;
-  admin?: boolean;
   viewDir?: string;
 }
 
-export default (options: PluginCMSOptions = {}) => {
-  const requires: string[] = ['@brix/plugin-entity-user'];
-  if (options.admin) requires.push('@brix/plugin-cms-admin');
-
+export default (options: PluginTemplateOptions = {}) => {
   BrixPlugins.register({
-    name: 'CMS',
-    requires,
+    name: 'Templates',
     middlewares: [render(options)]
   });
 };
