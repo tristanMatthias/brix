@@ -1,0 +1,24 @@
+{
+  "name": "@brix/plugin-store-sequelize",
+  "version": "0.2.0",
+  "description": "Enable Sequelize as a store for Brix",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./"
+  },
+  "peerDependencies": {
+    "express": "^4.17.1"
+  },
+  "dependencies": {
+    "sequelize": "^5.21.4",
+    "sequelize-typescript": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.1"
+  }
+}
