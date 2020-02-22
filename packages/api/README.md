@@ -45,6 +45,10 @@ You can also pass in options directly into the `API.server()` method to override
 files or environment variables
 
 
+<!-- ## Configuration
+The core idea behind Brix is to manage as few  -->
+
+
 ## Loading Resolvers & Middleware
 
 ### Option 1: Directory structure
@@ -130,13 +134,14 @@ export default () => {
   BrixPlugins.register({
     name: 'My Auth',
     description: 'Custom authentication for your server',
+    // Register a new context middleware which stores the `clientToken` on the context
     contextMiddlewares: [(req, context) => {
-      context.someAuthData = 'something';
+      context.clientToken = getClientToken(req);
       return context;
     }],
-    // Register a new authChecker middleware
+    // Register a new authChecker middleware which checks the token on `@Authorization()`
     authCheckers: [(context, roles) => {
-      return context.someAuthData === 'something';
+      return validateToken(context.clientToken)
     }]
   });
 };
