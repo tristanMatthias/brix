@@ -1,0 +1,10 @@
+span.form-status {
+  display: block;
+  color: var(--color-valid);
+  font-size: var(--fs-medium);
+  margin-bottom: 1rem;
+
+  &.error {
+    color: var(--color-error);
+  }
+}

@@ -1,0 +1,29 @@
+button {
+  border-radius: var(--border-radius);
+  border: var(--button-border);
+  height: var(--comp-height);
+  padding: var(--comp-padding);
+  font-family: var(--ff-main);
+  font-size: var(--comp-fs);
+  box-shadow: var(--shadow-10);
+  background: var(--button-bg);
+  color: var(--button-color);
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background:var(--color-main-dark);
+  }
+  &:focus {
+    background:var(--color-main-dark);
+    box-shadow: vsar(--glow-main);
+  }
+  &:active {
+    background:var(--color-main-darkest);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

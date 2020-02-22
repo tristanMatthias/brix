@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2016",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strictPropertyInitialization": false,
+    "jsx": "react",
+    "declaration": false,
+    "types": [
+      "reflect-metadata"
+    ]
+  },
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.ts"
+  ]
+}

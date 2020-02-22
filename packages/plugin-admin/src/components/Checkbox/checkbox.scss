@@ -1,0 +1,85 @@
+@import '../../styles/functions.scss';
+
+.checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  height: var(--checkbox-size);
+  width: var(--checkbox-size);
+  cursor: pointer;
+
+  input {
+    // Hide checkbox visually but remain accessible to screen readers.
+    // Source: https://polished.js.org/docs/#hidevisually
+    border: 0;
+    clip: rect(0 0 0 0);
+    clippath: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    display: none;
+  }
+
+  span {
+    display: flex;
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    justify-content: center;
+    align-items: center;
+    border: var(--checkbox-border);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-time);
+    box-shadow: var(--shadow-inset);
+    background: var(--checkbox-bg);
+
+    .icon {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      color: var(--color-paper);
+    }
+  }
+
+  input:checked + span {
+    background: var(--color-main);
+    border: none;
+    box-shadow: var(--glow-main);
+
+    .icon {
+      animation: bounceIn 0.35s forwards;
+    }
+  }
+
+  &.indeterminate span {
+    background-color: var(--color-main-soft);
+    box-shadow: none;
+
+    .icon {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes bounceIn {
+  0%{
+    opacity: 0;
+    transform: scale(0.3) translate3d(0,0,0);
+  }
+  50%{
+    opacity: 0.9;
+    transform: scale(1.4);
+  }
+  80%{
+    opacity: 1;
+    transform: scale(0.89);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1) translate3d(0,0,0);
+  }
+}

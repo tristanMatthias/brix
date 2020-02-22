@@ -1,0 +1,29 @@
+main.login {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+
+  &:after {
+    content: '';
+    width: 100vw;
+    height: 80vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) skewY(-15deg);
+    background-color: var(--color-grey-10);
+    z-index: -1;
+  }
+
+  .card {
+    width: 30rem;
+  }
+
+  .logo {
+    height: 4rem;
+    margin-bottom: calc(var(--spacing) * 2);
+  }
+}

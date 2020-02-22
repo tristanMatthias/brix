@@ -1,0 +1,13 @@
+@import '../../styles/functions.scss';
+
+header.top {
+  height: var(--header-height);
+  background-color: var(--header-bg);
+  display: flex;
+  align-items: center;
+  padding: 0 spacing(3);
+
+  h1 {
+    margin-left: spacing();
+  }
+}

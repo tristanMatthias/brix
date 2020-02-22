@@ -1,0 +1,13 @@
+@import '../../styles/functions.scss';
+
+main {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.page-content {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  padding: spacing(2);
+  grid-gap: spacing(2);
+}

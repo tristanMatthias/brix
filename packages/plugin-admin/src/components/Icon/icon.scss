@@ -1,0 +1,43 @@
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  vertical-align: middle;
+  display: inline-block;
+
+  & + span {
+    vertical-align: middle;
+  }
+
+  // path {
+  //   stroke: currentColor;
+  //   stroke-width: 0.15rem;
+  //   fill: none;
+  // }
+  // path.no-stroke {
+  //   stroke: none;
+  //   fill: currentColor;
+  // }
+
+  &.is-small {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  &.is-medium {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  &.is-large {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+
+  &.is-loading {
+    animation: spin .8s linear infinite;
+  }
+}
