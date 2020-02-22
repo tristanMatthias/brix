@@ -1,4 +1,4 @@
-import { Config, logger } from '@brix/core';
+import { Config, logger, BrixPlugins } from '@brix/core';
 import chalk from 'chalk';
 import { Express } from 'express';
 import fs from 'fs-extra';
@@ -10,6 +10,13 @@ import path from 'path';
  * @param app Express application
  */
 export const loadMiddleware = async (app: Express) => {
+
+  await Promise.all(
+    BrixPlugins.middlewares.map(async mw => {
+      const res = await mw(app);
+      if (res) app.use(res);
+    })
+  );
 
   // Load middleware from what was passed in explicitly
   if (Config.middleware) {

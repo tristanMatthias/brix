@@ -14,6 +14,7 @@ import { buildSchema } from './schema';
 export const generateSchema = async (dir?: string, out?: string) => {
   await emitSchemaDefinitionFile(
     path.resolve(out || dirOrDist(process.cwd()), 'schema.gql'),
+    // @ts-ignore
     await buildSchema(dir)
   );
 };

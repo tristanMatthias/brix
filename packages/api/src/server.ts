@@ -6,9 +6,10 @@ import express from 'express';
 import helmet from 'helmet';
 import http, { Server } from 'http';
 
-import { setupDatabase } from '../lib/database';
+import { setupDatabase } from './lib/database';
 import { apollo } from './middleware/apollo';
 import { loadMiddleware } from './middleware/loadMiddleware';
+import { buildSchema } from './lib/schema';
 
 
 let httpServer: Server;
@@ -25,6 +26,7 @@ export const server = async (config?: Partial<BrixConfig>) => {
   await Config.update(config || process.env.NODE_ENV as Env);
 
   await BrixPlugins.build();
+  const schema = await buildSchema();
 
 
   await setupLogger();
@@ -42,7 +44,7 @@ export const server = async (config?: Partial<BrixConfig>) => {
   }));
 
   await loadMiddleware(app);
-  await apollo(app, httpServer);
+  await apollo(app, httpServer, schema);
 
 
   await new Promise(res => httpServer.listen(Config.port, res));

@@ -7,15 +7,9 @@ import * as Database from './lib/database';
 import * as Fingerprint from './lib/fingerprint';
 import { generateFragments as GenerateFragments } from './lib/generateFragments';
 import * as GenerateSchemaFile from './lib/generateSchemaFile';
-import * as OAuth from './lib/OAuthProvider';
-import * as Schema from './lib/schema';
-import * as Tokens from './lib/tokens';
-import { BaseModel } from './models/BaseModel';
-import { User as UserModel } from './models/User';
-import { server as Server } from './server';
-import { BaseService } from './services/BaseService';
-import { UserService } from './services/UserService';
 import { GraphQLJSON as gqlJson } from './lib/GraphQLJSON';
+import * as Schema from './lib/schema';
+import { server as Server } from './server';
 
 
 export * from './types';
@@ -45,11 +39,6 @@ namespace API {
 
   export const GraphQLJSON = gqlJson;
 
-  export module services {
-    export const Base = BaseService;
-    export const User = UserService;
-  }
-
   export module lib {
     export const auth = Auth;
     export const context = Context;
@@ -57,16 +46,8 @@ namespace API {
     export const fingerprint = Fingerprint;
     export const generateSchemaFile = GenerateSchemaFile;
     export const generateFragments = GenerateFragments;
-    export const oAuth = OAuth;
-    export const tokens = Tokens;
     export const schema = Schema;
   }
-
-  export module models {
-    export const Base = BaseModel;
-    export const User = UserModel;
-  }
-
 }
 
 // tslint:disable-next-line no-default-export

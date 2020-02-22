@@ -1,12 +1,11 @@
+import { BrixContext, BrixPlugins } from '@brix/core';
 import { AuthChecker } from 'type-graphql';
-import { Context, setContextFromToken } from './context';
-import { ErrorAuthUnauthenticated } from '../errors';
 
 
-export const authChecker: AuthChecker<Context> = async ({ context }) => {
-  // If unauthenticated, throw 400 error
-  if (!context.accessToken) throw new ErrorAuthUnauthenticated();
-  // Attempt to decrypt and verify the accessToken and assign data to context
-  await setContextFromToken(context.accessToken, context);
-  return true;
-};
+export const authChecker: AuthChecker<BrixContext> = async ({ context }, roles) =>
+  // Loop over every auth checker to ensure authentication
+  (await Promise.all(
+    BrixPlugins.authCheckers.map(async checker =>
+      await checker(context, roles)
+    )
+  )).every(r => r);

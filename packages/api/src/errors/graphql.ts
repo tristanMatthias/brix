@@ -27,3 +27,10 @@ export const handleGraphQLError = (e: GraphQLError): Error => {
   // Otherwise return a general error in prod-like environment
   return new ErrorGeneral();
 };
+
+
+export class ErrorGQLNoResolvers extends Error {
+  constructor() {
+    super('No resolvers could be found for GraphQL');
+  }
+}

@@ -1,20 +1,20 @@
 import 'reflect-metadata';
 
+import { BrixPlugins, Config, dirOrDist, logger } from '@brix/core';
 import { IMocks } from 'apollo-server-express';
 import { GraphQLSchema } from 'graphql';
 import path from 'path';
 import { buildSchema as buildSchemaGQL, BuildSchemaOptions } from 'type-graphql';
 
+import { ErrorGQLNoResolvers } from '../errors/graphql';
 import { authChecker } from '../lib/auth';
-import { BrixPlugins, dirOrDist, logger, Config } from '@brix/core';
 
 /**
  * Load the resolvers for the schema, and default to gql/resolvers/index.js
  * @param dir Directory to load resolvers from
  */
 export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => {
-  let resolvers;
-  const defaultResolver = '../lib/defaultResolver';
+  let resolvers: BuildSchemaOptions['resolvers'] = [];
 
   const load = (dir: string) => {
     let pkg;
@@ -36,11 +36,10 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
       const dd = dirOrDist(dir || Config.rootDir);
       load(path.resolve(dd, 'gql/resolvers'));
     } catch (e) {
-      if (e.code && e.code === 'MODULE_NOT_FOUND') resolvers = [require(defaultResolver)];
-      else throw e;
+      if (e.code !== 'MODULE_NOT_FOUND') throw e;
     }
   }
-  return resolvers || [require(defaultResolver)];
+  return resolvers;
 };
 
 
@@ -94,12 +93,15 @@ export const buildSchema = async (resolvers?: BuildSchemaOptions['resolvers'] | 
   if (schema) return schema;
   const r = (typeof resolvers === 'string' || !resolvers) ? loadResolvers(resolvers) : resolvers;
 
-  await BrixPlugins.build();
+  const { resolvers: pluginResolvers } = await BrixPlugins.build();
+  const _resolvers = [...r ?? [], ...pluginResolvers];
+
+  if (!_resolvers.length) throw new ErrorGQLNoResolvers();
 
   return schema = await buildSchemaGQL({
     dateScalarMode: 'isoDate',
     validate: false,
-    resolvers: [...r, ...BrixPlugins.resolvers],
+    resolvers: _resolvers,
     authChecker
   });
 };

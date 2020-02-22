@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
     "outDir": "./dist",
     "rootDir": "./src",
     "strictPropertyInitialization": false,

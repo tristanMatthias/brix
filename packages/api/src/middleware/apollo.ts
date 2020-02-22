@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import { Config } from '@brix/core';
 import { addMockFunctionsToSchema, ApolloServer, IMocks } from 'apollo-server-express';
 import { Express } from 'express';
+import { GraphQLSchema } from 'graphql';
 import { Server } from 'http';
 
-import { ErrorAuthInvalidToken, ErrorAuthUnauthenticated } from '../../errors';
-import { createContext as context, setContextFromToken, SubscriptionContext } from '../../lib/context';
-import { buildSchema, loadMocks } from '../../lib/schema';
+import { createContext as context } from '../lib/context';
+import { loadMocks } from '../lib/schema';
 
 
 export interface SubscriptionOptions { token: string; }
@@ -21,10 +21,10 @@ export interface SubscriptionOptions { token: string; }
  */
 export const apollo = async (
   app: Express,
-  server: Server
+  server: Server,
+  schema: GraphQLSchema
 ) => {
 
-  const schema = await buildSchema();
   let mocks: IMocks | boolean = false;
 
   if (Config.mocks) {
@@ -36,26 +36,26 @@ export const apollo = async (
   const apolloServer = new ApolloServer({
     schema,
     context,
-    mocks,
+    mocks
 
-    subscriptions: {
-      onConnect: async (connectionParams, _websocket, context) => {
-        const token = (connectionParams as SubscriptionOptions).token;
-        if (token) {
-          try {
-            await setContextFromToken(
-              token,
-              context as unknown as SubscriptionContext
-            );
-            return context;
-          } catch (e) {
-            throw new ErrorAuthInvalidToken();
-          }
-        }
+    // subscriptions: {
+    //   onConnect: async (connectionParams, _websocket, context) => {
+    //     const token = (connectionParams as SubscriptionOptions).token;
+    //     if (token) {
+    //       try {
+    //         await setContextFromToken(
+    //           token,
+    //           context as unknown as SubscriptionContext
+    //         );
+    //         return context;
+    //       } catch (e) {
+    //         throw new ErrorAuthInvalidToken();
+    //       }
+    //     }
 
-        throw new ErrorAuthUnauthenticated();
-      }
-    }
+    //     throw new ErrorAuthUnauthenticated();
+    //   }
+    // }
   });
 
   apolloServer.applyMiddleware({
