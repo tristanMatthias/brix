@@ -13,10 +13,8 @@
     "@brix/api": "^0.2.0",
     "@brix/core": "^0.2.0",
     "@brix/generated": "^0.2.0",
-    "apollo-server-express": "^2.9.13",
     "chalk": "^3.0.0",
     "deepmerge": "^4.2.2",
-    "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
     "ora": "^4.0.3",
     "yargs": "^15.0.2",
@@ -31,5 +29,8 @@
   },
   "resolutions": {
     "graphql": "14.5.8"
+  },
+  "peerDependencies": {
+    "type-graphql": "^0.17.6"
   }
 }

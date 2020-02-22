@@ -12,7 +12,8 @@
     "build": "rimraf dist; tsc -p ./"
   },
   "peerDependencies": {
-    "type-graphql": "^0.17.6",
-    "@brix/model": "^0.2.0"
+    "@brix/model": "^0.2.0",
+    "@brix/core": "^0.2.0",
+    "type-graphql": "^0.17.6"
   }
 }

@@ -17,6 +17,10 @@
     "recursive-readdir": "^2.2.2",
     "reflect-metadata": "^0.1.13"
   },
+  "peerDependencies": {
+    "@brix/core": "^0.2.0",
+    "express": "^4.17.1"
+  },
   "publishConfig": {
     "access": "public"
   },

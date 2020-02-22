@@ -9,11 +9,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./",
     "test": "jest"
   },
   "dependencies": {
+    "get-port": "^5.1.1",
     "mailparser": "^2.7.7",
     "nodemailer": "^6.4.2",
+    "rxjs": "^6.5.4",
     "smtp-server": "^3.5.0",
     "uuid": "^3.4.0"
   },

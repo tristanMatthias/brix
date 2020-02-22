@@ -3,20 +3,20 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "lerna run build",
+    "build": "lerna run build --ignore @brix/core-experiment --concurrency 2",
+    "clean-build": "yarn lerna clean -y; rimraf node_modules; yarn; yarn lerna link; yarn build",
     "publish:patch": "lerna publish patch",
     "publish:pre": "lerna publish --canary --preid alpha",
     "publish:minor": "lerna publish minor"
-  },
-  "dependencies": {
-    "lerna": "^3.18.4",
-    "ts-morph": "^6.0.2"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
+    "graphql": "^14.5.8",
+    "lerna": "^3.18.4",
     "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.1",
     "jest": "^25.1.0",
     "jest-extended": "^0.11.5",
     "rimraf": "^3.0.0",

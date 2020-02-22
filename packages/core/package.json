@@ -13,7 +13,7 @@
   },
   "peerDependencies": {
     "chalk": "^3.0.0",
-    "graphql": "^14.6.0",
+    "graphql": "^14.5.8",
     "sequelize": "^5.21.4",
     "shortid": "^2.2.15",
     "type-graphql": "^0.17.6"
@@ -23,10 +23,10 @@
     "bcrypt": "^3.0.8",
     "cls-hooked": "^4.2.2",
     "deepmerge": "^4.2.2",
+    "dotenv": "^8.2.0",
     "find-root": "^1.1.0",
     "find-up": "^4.1.0",
     "fs-extra": "^8.1.0",
-    "import-from": "^3.0.0",
     "resolve-from": "^5.0.0",
     "stack-trace": "^0.0.10",
     "uuid": "^3.4.0",
@@ -36,11 +36,18 @@
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/cls-hooked": "^4.3.0",
+    "@types/dotenv": "^8.2.0",
     "@types/find-root": "^1.1.1",
     "@types/resolve-from": "^5.0.1",
-    "@types/stack-trace": "^0.0.29"
+    "@types/shortid": "^0.0.29",
+    "@types/stack-trace": "^0.0.29",
+    "@types/yaml": "^1.2.0",
+    "@types/yup": "^0.26.32"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "resolutions": {
+    "graphql": "^14.5.8"
   }
 }

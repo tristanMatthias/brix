@@ -15,6 +15,13 @@
     "@brix/api": "^0.2.0",
     "@brix/core": "^0.2.0",
     "@brix/model": "^0.2.0",
-    "@brix/plugin-entity-user": "^0.2.0"
+    "@brix/plugin-entity-user": "^0.2.0",
+    "type-graphql": "^0.17.6"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.3.7"
   }
 }
