@@ -13,8 +13,10 @@ Under the hood, `@brix/api` uses these brilliant technologies:
 ---
 - [🔌 Brix API Module](#%f0%9f%94%8c-brix-api-module)
   - [Installation](#installation)
-  - [Running with `@brix/cli`](#running-with-brixcli)
-  - [Running an API manually (without the `@brix/cli`)](#running-an-api-manually-without-the-brixcli)
+  - [Usage](#usage)
+    - [With `@brix/cli`](#with-brixcli)
+    - [Manually (without the `@brix/cli`)](#manually-without-the-brixcli)
+  - [Configuration](#configuration)
   - [Loading Resolvers & Middleware](#loading-resolvers--middleware)
     - [Option 1: Directory structure](#option-1-directory-structure)
     - [Option 2: Manually pass in resolvers/middleware](#option-2-manually-pass-in-resolversmiddleware)
@@ -28,10 +30,16 @@ Under the hood, `@brix/api` uses these brilliant technologies:
 yarn add @brix/api
 ```
 
-## Running with [`@brix/cli`](../cli)
+## Usage
+### With [`@brix/cli`](../cli)
 Once your project is setup, simply run `brix` or `brix start` to start your server.
+```
+$ brix
+info: ✅ Database connected
+info: 🚀 Server ready at http://localhost:4000/graphql
+```
 
-## Running an API manually (without the [`@brix/cli`](../cli))
+### Manually (without the [`@brix/cli`](../cli))
 ```ts
 import API from '@brix/api';
 
@@ -45,8 +53,26 @@ You can also pass in options directly into the `API.server()` method to override
 files or environment variables
 
 
-<!-- ## Configuration
-The core idea behind Brix is to manage as few  -->
+## Configuration
+The core idea behind Brix is to manage as few things as possible. We achieve this with a single configuration file that allows you to control everything your environment does.
+
+**Example `brix.yaml`**
+```yaml
+plugins:
+  - name: store-sequelize # Use Sequelize to manage data
+  - name: entity-user # Enable users
+  - name: auth-jwt # Use JWT strategy for authentication
+  - name: templates # Serve template files (.pug, .hbs, etc) from a directory
+  - name: admin # Admin portal for managing Brix
+dbConnection:
+  dialect: postgres # Brix is database agnostic
+  host: yourdb.com
+  port: 5432
+  username: root
+accessTokenSecret: secretStuff
+```
+
+Configuration can be overridden by passing a `BrixConfig` object to the `API.server()` and additionally through `.env` files or environment variables.
 
 
 ## Loading Resolvers & Middleware
