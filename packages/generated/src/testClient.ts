@@ -65,13 +65,15 @@ export const generateTestClientQuery = (
     return v.name + (isRequired ? ':' : '?:') + (isArray ? `${type}[]` : type);
   }).join(', ');
 
+  const variables = field.args.length ? `, { ${field.args.map(f => f.name).join(', ')} }` : '';
+
   let returnType = fieldType(field);
   if (field.type.toString().startsWith('[')) returnType = `${returnType}[]`;
 
 
   return `
     async ${name}(${args}): Promise<${returnType}> {
-      return this._request<${returnType}>('query', '${name}');
+      return this._request<${returnType}>('query', '${name}'${variables});
     }
   `;
 };

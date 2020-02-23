@@ -88,7 +88,7 @@ export class TestClient {
 
     if (this.emailServer) await this.emailServer.close();
 
-    await new Promise(res => this._server.close(res));
+    if (this._server) await new Promise(res => this._server.close(res));
   }
 
 
