@@ -15,5 +15,8 @@
     "@brix/core": "^0.2.0",
     "@brix/model": "^0.2.0",
     "type-graphql": "^0.17.6"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
