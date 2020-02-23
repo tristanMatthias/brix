@@ -1,3 +1,5 @@
 # Generated stuff
 schema.gql
 queries/
+/shapes.js*
+/TestClient.js*

@@ -1,9 +1,8 @@
 import path from 'path';
-import { Dialect } from 'sequelize/types';
 import shortid from 'shortid';
 
 import { dirOrDist } from '../lib/dirOrDist';
-import { BrixConfig, Env } from './types';
+import { BrixConfig, DBDialect, Env } from './types';
 
 export const CONFIG_BASE: Partial<BrixConfig> = {
   env: process.env.NODE_ENV as Env || Env.production,
@@ -15,7 +14,7 @@ export const CONFIG_BASE: Partial<BrixConfig> = {
   mocks: Boolean(process.env.MOCKS) || false,
   skipDatabase: Boolean(process.env.SKIP_DB),
   dbConnection: {
-    dialect: process.env.DB_DIALECT as Dialect || 'sqlite',
+    dialect: process.env.DB_DIALECT as DBDialect || 'sqlite',
     database: process.env.DB_DATABASE!,
     username: process.env.DB_USERNAME!,
     password: process.env.DB_PASSWORD!,

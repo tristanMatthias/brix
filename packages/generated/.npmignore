@@ -9,15 +9,15 @@ schema.d.ts
 queries
 schema.gql
 shapes.d.ts
-shapes.js
+shapes.js*
 TestClient.d.ts
-TestClient.js
+TestClient.js*
 
 # Ensure dist files
 !dist/schema.d.ts
 !dist/queries
 !dist/schema.gql
 !dist/shapes.d.ts
-!dist/shapes.js
+!dist/shapes.js*
 !dist/TestClient.d.ts
-!dist/TestClient.js
+!dist/TestClient.js*

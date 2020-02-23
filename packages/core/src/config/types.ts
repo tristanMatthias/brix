@@ -1,6 +1,6 @@
 import { RequestHandler, Router } from 'express';
-import { Dialect } from 'sequelize/types';
 
+export type DBDialect = 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'mariadb';
 
 /**
  * Brix server environment.
@@ -45,7 +45,7 @@ export interface BrixConfig {
   /** Database connection details */
   dbConnection: {
     /** Type of database to connect to */
-    dialect: Dialect;
+    dialect: DBDialect;
     /** Database nam */
     database: string
     /** Database user */
