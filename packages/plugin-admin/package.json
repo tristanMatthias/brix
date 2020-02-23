@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-admin",
-  "version": "0.2.1",
+  "version": "0.2.2-alpha.0+118e459",
   "description": "Admin for Brix",
   "main": "index.js",
   "repository": "https://github.com/tristanMatthias/brix",
@@ -51,5 +51,6 @@
   },
   "peerDependencies": {
     "@brix/core": "^0.2.0"
-  }
+  },
+  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
 }

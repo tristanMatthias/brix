@@ -1,6 +1,6 @@
 {
   "name": "@brix/generated",
-  "version": "0.2.1",
+  "version": "0.2.2-alpha.0+118e459",
   "description": "Generated files for Brix. Do not install manually!",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,9 +12,9 @@
     "build": "rimraf dist/; tsc -p ./"
   },
   "dependencies": {
-    "@brix/api": "^0.2.1",
-    "@brix/core": "^0.2.1",
-    "@brix/mail-tester": "^0.2.1",
+    "@brix/api": "^0.2.2-alpha.0+118e459",
+    "@brix/core": "^0.2.2-alpha.0+118e459",
+    "@brix/mail-tester": "^0.2.2-alpha.0+118e459",
     "del": "^5.1.0",
     "form-data": "^3.0.0",
     "fs-extra": "^8.1.0",
@@ -33,5 +33,6 @@
   },
   "resolutions": {
     "graphql": "14.5.8"
-  }
+  },
+  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
 }

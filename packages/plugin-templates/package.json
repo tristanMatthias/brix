@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-templates",
-  "version": "0.2.1",
+  "version": "0.2.2-alpha.0+118e459",
   "description": "Brix plugin to enable rendering of templates",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,5 +27,6 @@
   "devDependencies": {
     "@types/consolidate": "^0.14.0",
     "@types/recursive-readdir": "^2.2.0"
-  }
+  },
+  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
 }

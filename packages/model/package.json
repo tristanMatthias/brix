@@ -1,6 +1,6 @@
 {
   "name": "@brix/model",
-  "version": "0.2.1",
+  "version": "0.2.2-alpha.0+118e459",
   "description": "Model library for loading models and generating database schemas",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,9 +12,10 @@
     "build": "rimraf dist; tsc -p ./"
   },
   "dependencies": {
-    "@brix/core": "^0.2.1"
+    "@brix/core": "^0.2.2-alpha.0+118e459"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
 }

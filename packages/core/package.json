@@ -1,6 +1,6 @@
 {
   "name": "@brix/core",
-  "version": "0.2.1",
+  "version": "0.2.2-alpha.0+118e459",
   "description": "Core library for Brix apps and plugins",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -49,5 +49,6 @@
   },
   "resolutions": {
     "graphql": "^14.5.8"
-  }
+  },
+  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
 }
