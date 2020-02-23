@@ -1,6 +1,6 @@
 {
   "name": "@brix/api",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "API library",
   "author": "Tristan Matthias <hello@tristanmatthias.com>",
   "license": "MIT",
@@ -11,8 +11,8 @@
     "dev": "yarn build -w"
   },
   "dependencies": {
-    "@brix/core": "^0.2.0",
-    "@brix/model": "^0.2.0",
+    "@brix/core": "^0.2.1",
+    "@brix/model": "^0.2.1",
     "apollo-server-core": "^2.9.13",
     "apollo-server-express": "^2.9.13",
     "chalk": "^3.0.0",

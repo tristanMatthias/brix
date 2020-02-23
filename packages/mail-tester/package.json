@@ -1,6 +1,6 @@
 {
   "name": "@brix/mail-tester",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "SMTP Local client for testing emails locally",
   "main": "dist/MailTester.js",
   "types": "dist/MailTester.d.ts",

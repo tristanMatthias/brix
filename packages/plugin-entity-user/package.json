@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-entity-user",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Core of Brix.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,8 +12,8 @@
     "build": "rimraf dist; tsc -p ./"
   },
   "peerDependencies": {
-    "@brix/model": "^0.2.0",
     "@brix/core": "^0.2.0",
+    "@brix/model": "^0.2.0",
     "type-graphql": "^0.17.6"
   }
 }

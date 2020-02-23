@@ -1,6 +1,6 @@
 {
   "name": "@brix/generated",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Generated files for Brix. Do not install manually!",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,9 +12,9 @@
     "build": "rimraf dist/; tsc -p ./"
   },
   "dependencies": {
-    "@brix/api": "^0.2.0",
-    "@brix/core": "^0.2.0",
-    "@brix/mail-tester": "^0.2.0",
+    "@brix/api": "^0.2.1",
+    "@brix/core": "^0.2.1",
+    "@brix/mail-tester": "^0.2.1",
     "del": "^5.1.0",
     "form-data": "^3.0.0",
     "fs-extra": "^8.1.0",

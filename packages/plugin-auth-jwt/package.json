@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-auth-jwt",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "JWT authentication in Brix",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

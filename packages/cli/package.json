@@ -1,6 +1,6 @@
 {
   "name": "@brix/cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "CLI for Brix",
   "bin": {
     "brix": "dist/index.js"
@@ -10,9 +10,9 @@
     "dev": "yarn build -w"
   },
   "dependencies": {
-    "@brix/api": "^0.2.0",
-    "@brix/core": "^0.2.0",
-    "@brix/generated": "^0.2.0",
+    "@brix/api": "^0.2.1",
+    "@brix/core": "^0.2.1",
+    "@brix/generated": "^0.2.1",
     "chalk": "^3.0.0",
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",

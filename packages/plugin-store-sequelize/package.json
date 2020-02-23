@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-store-sequelize",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Enable Sequelize as a store for Brix",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
