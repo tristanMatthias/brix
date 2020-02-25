@@ -5,7 +5,7 @@ import { GraphQLArgument, GraphQLNamedType, GraphQLObjectType, GraphQLSchema, Gr
 import path from 'path';
 
 import { Field, FieldMap } from './testClient';
-import { Config } from '@brix/core';
+import { Config, logger } from '@brix/core';
 
 
 export type ArgDict = { [key: string]: GraphQLArgument };
@@ -200,7 +200,7 @@ export const generateQueries = async (
         outputFolderName = 'subscriptions';
         break;
       default:
-        console.log('[gqlg warning]:', 'description is required');
+        logger.warning('[gqlg]: description is required');
     }
 
     const writeFolder = path.join(dest, `./${outputFolderName}`);

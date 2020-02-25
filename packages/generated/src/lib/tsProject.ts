@@ -41,7 +41,7 @@ export const compileFile = async (filename: string, source: string) =>
 
 
 export const compile = async (filename: string, contents: string) => {
-  const file = tsProject.createSourceFile(filename, contents);
+  const file = tsProject.createSourceFile(filename, contents, { overwrite: true });
   const result = await file.emit();
 
   const err = result.getEmitSkipped();
