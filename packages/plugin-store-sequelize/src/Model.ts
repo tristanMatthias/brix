@@ -22,4 +22,13 @@ export class SequelizeModel<T> implements BrixStoreModel<T> {
   async findOne(options: BrixStoreModelFindOptions<T>) {
     return (await this._seqModel.findOne(options as FindOptions)) as unknown as T;
   }
+
+  async deleteById(id: string) {
+    return Boolean(await this._seqModel.destroy({ where: { id } }));
+  }
+
+  async updateById(id: string, values: Partial<T>) {
+    const updated = await this._seqModel.update({ values }, { where: { id } });
+    return updated[0] as unknown as T;
+  }
 }

@@ -53,6 +53,10 @@ export type BrixStoreModel<T> = {
   findById(id: string): Promise<T>
   /** Find a record with filter options */
   findOne(options: BrixStoreModelFindOptions<T>): Promise<T>;
+  /** Delete a record by the ID */
+  deleteById(id: string): Promise<boolean>;
+  /** Update a record by the ID */
+  updateById(id: string, values: Partial<T>): Promise<T>;
 };
 
 /**
