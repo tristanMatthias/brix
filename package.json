@@ -5,9 +5,9 @@
   "scripts": {
     "build": "lerna run build --concurrency 2",
     "clean-build": "yarn lerna clean -y; rimraf node_modules; yarn; yarn lerna link; yarn build",
-    "publish:patch": "lerna publish patch",
-    "publish:pre": "lerna publish --canary --preid alpha",
-    "publish:minor": "lerna publish minor"
+    "publish:patch": "yarn build && lerna publish patch",
+    "publish:pre": "yarn build && lerna publish --canary --preid alpha",
+    "publish:minor": "yarn build && lerna publish minor"
   },
   "workspaces": [
     "packages/*"

@@ -14,6 +14,7 @@
     "@brix/core": "^0.2.2-alpha.0+118e459",
     "@brix/generated": "^0.2.2-alpha.0+118e459",
     "chalk": "^3.0.0",
+    "chokidar": "^3.3.1",
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",
     "ora": "^4.0.3",
