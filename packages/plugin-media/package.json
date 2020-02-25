@@ -21,7 +21,9 @@
   },
   "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a",
   "dependencies": {
+    "cloudinary": "^1.19.0",
     "fs-extra": "^8.1.0",
+    "request-promise": "^4.2.5",
     "uuid": "^3.4.0"
   }
 }
