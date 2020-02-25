@@ -1,11 +1,10 @@
-import API from '@brix/api';
+import { buildSchema, Config, logger } from '@brix/core';
 import del from 'del';
 import fs from 'fs-extra';
 import { GraphQLArgument, GraphQLNamedType, GraphQLObjectType, GraphQLSchema, GraphQLUnionType } from 'graphql';
 import path from 'path';
 
 import { Field, FieldMap } from './testClient';
-import { Config, logger } from '@brix/core';
 
 
 export type ArgDict = { [key: string]: GraphQLArgument };
@@ -235,7 +234,7 @@ export const generateQueries = async (
 
   await Config.loadConfig(process.cwd());
 
-  schema = await API.lib.schema.buildSchema();
+  schema = await buildSchema();
 
   try {
     await del(dest);

@@ -48,3 +48,11 @@ export class ErrorPluginsNotBuilt extends BaseError {
     super(`BrixPlugins is not built. Try running BrixPlugins.build() first.`);
   }
 }
+
+
+// --------------------------------------------------------------------- GraphQL
+export class ErrorGQLNoResolvers extends Error {
+  constructor() {
+    super('No resolvers could be found for GraphQL');
+  }
+}

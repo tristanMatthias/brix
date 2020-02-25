@@ -1,14 +1,14 @@
 import 'reflect-metadata';
 
-import { BrixConfig, BrixPlugins, Config, Env, logger, setupLogger } from '@brix/core';
+import { BrixConfig, BrixPlugins, buildSchema, Config, Env, logger, setupLogger } from '@brix/core';
 import chalk from 'chalk';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import http, { Server } from 'http';
 
+import { authChecker } from './lib/auth';
 import { setupDatabase } from './lib/database';
-import { buildSchema } from './lib/schema';
 import { apollo } from './middleware/apollo';
 import { loadMiddleware } from './middleware/loadMiddleware';
 
@@ -27,7 +27,7 @@ export const server = async (config?: Partial<BrixConfig>) => {
   await Config.update(config || process.env.NODE_ENV as Env);
 
   await BrixPlugins.build();
-  const schema = await buildSchema();
+  const schema = await buildSchema(undefined, authChecker);
 
 
   await setupLogger();

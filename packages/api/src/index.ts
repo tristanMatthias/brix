@@ -3,9 +3,6 @@ import * as Auth from './lib/auth';
 import * as Context from './lib/context';
 import * as Database from './lib/database';
 import * as Fingerprint from './lib/fingerprint';
-import { generateFragments as GenerateFragments } from './lib/generateFragments';
-import * as GenerateSchemaFile from './lib/generateSchemaFile';
-import * as Schema from './lib/schema';
 import { server as Server } from './server';
 
 
@@ -21,9 +18,6 @@ namespace API {
     export const context = Context;
     export const database = Database;
     export const fingerprint = Fingerprint;
-    export const generateSchemaFile = GenerateSchemaFile;
-    export const generateFragments = GenerateFragments;
-    export const schema = Schema;
   }
 }
 

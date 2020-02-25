@@ -4,7 +4,7 @@ import ora from 'ora';
 
 export type GenerateType = 'all' | 'TestClient' | 'schema' | 'queries' | 'shapes';
 
-const wrap = (name: string, func: Function) => async (progress: boolean = true) => {
+const wrap = (name: GenerateType, func: Function) => async (progress: boolean = true) => {
   let spinner;
   const colored = chalk.yellow(`@brix/generated/${name}`);
   if (progress) spinner = ora(chalk.blue(`Generating ${colored}`)).start();

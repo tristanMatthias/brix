@@ -64,7 +64,7 @@ export const setupLogger = () => {
             default:
             case 'info':
               icon = 'ℹ️ ';
-              color = 'blueBright';
+              color = 'dim';
               break;
           }
           return chalk[color](`${icon} ${info.message}`);

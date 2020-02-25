@@ -1,8 +1,7 @@
-import API from '@brix/api';
+import { Env, generateFragments as gen } from '@brix/core';
 import ora from 'ora';
 
 import { start } from './start';
-import { Env } from '@brix/core';
 
 
 export const generateFragments = async (url?: string, dest?: string) => {
@@ -12,7 +11,7 @@ export const generateFragments = async (url?: string, dest?: string) => {
     // Disable logging
     env: Env.production
   });
-  await API.lib.generateFragments(url, dest);
+  await gen(url, dest);
   await httpServer.close();
   spinner.succeed(`Generated fragments to ${dest}`);
 };

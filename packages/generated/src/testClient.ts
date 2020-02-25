@@ -1,10 +1,9 @@
-import API from '@brix/api';
+import { buildSchema, Config } from '@brix/core';
 import fs from 'fs-extra';
 import { GraphQLField, GraphQLFieldMap } from 'graphql';
 import path from 'path';
 
 import { compile } from './lib/tsProject';
-import { Config } from '@brix/core';
 
 export type FieldMap = GraphQLFieldMap<any, any, { [key: string]: any; }>;
 export type Field = GraphQLField<any, any, { [key: string]: any; }>;
@@ -82,7 +81,7 @@ export const generateTestClientQuery = (
 export const generateGQLTestClient = async () => {
   await Config.loadConfig(process.cwd());
 
-  const schema = await API.lib.schema.buildSchema();
+  const schema = await buildSchema();
   const query = schema.getQueryType()!;
   const queries = query.getFields();
 

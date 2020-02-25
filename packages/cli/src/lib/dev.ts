@@ -1,22 +1,24 @@
-import { Config, logger, setupLogger } from '@brix/core';
-import chalk from 'chalk';
+import { Config, logger, setupLogger, schemaToJSON } from '@brix/core';
+// import chalk from 'chalk';
 import { watch } from 'chokidar';
 import fs from 'fs-extra';
-import ora from 'ora';
+// import ora from 'ora';
 import path from 'path';
 import { Project } from 'ts-morph';
 
 import { generate } from './generate';
 import { start } from './start';
+import { getMetadataStorage } from 'type-graphql/dist/metadata/getMetadataStorage';
+
 
 /**
  * Start a dev server and watch for changes (also rebuilds @brix/generated)
  * @param dir Directory to watch
  */
 export const dev = async (dir: string = process.cwd()) => {
+  console.clear();
   // Setup env
   await Config.loadEnv('development');
-  await Config.update({ logLevel: 'info' });
   await setupLogger();
 
   logger.info('Starting Brix in dev mode');
@@ -27,9 +29,6 @@ export const dev = async (dir: string = process.cwd()) => {
 
   // Load TS project
   const tsConfigFilePath = path.join(dir, 'tsconfig.json');
-  const isTS = fs.existsSync(tsConfigFilePath);
-  let project: Project;
-  if (isTS) project = new Project({ tsConfigFilePath });
 
 
   // Restart dev server function
@@ -46,17 +45,56 @@ export const dev = async (dir: string = process.cwd()) => {
   // Start the server
   restart();
 
+  let currentBuild: Promise<any>;
+
   // Rebuild TS project and @brix/generated on file change, then restart server
   watch(watchDir)
     .on('change', async (_file) => {
-      const spinner = ora(chalk.cyanBright(`Rebuilding…`)).start();
+      if (currentBuild) await currentBuild;
+      currentBuild = new Promise(async (res) => {
+        console.clear();
+        // Is Typescript project
+        if (fs.existsSync(tsConfigFilePath)) {
+          logger.info('Building typescript');
+          const project = new Project({ tsConfigFilePath });
 
-      await project?.emit();
-      const generated = await generate('all', false);
-      if (!generated) return;
+          const diagnostics = project.getPreEmitDiagnostics();
 
-      spinner.text = 'Restarting server';
-      await restart();
-      spinner.stop();
+          if (diagnostics.length) {
+            console.log('\n\n', project.formatDiagnosticsWithColorAndContext(diagnostics), '\n\n');
+            return res();
+
+          } {
+            const emitResult = await project.emit();
+
+            for (const diagnostic of emitResult.getDiagnostics()) {
+              logger.error(diagnostic.getMessageText().toString());
+            }
+
+            const projectRoot = path.dirname(tsConfigFilePath);
+            Object.keys(require.cache).forEach(f => {
+              if (f.startsWith(projectRoot)) delete require.cache[f];
+            });
+
+            const md = getMetadataStorage();
+            md.clear();
+            logger.success('Building typescript done!');
+          }
+
+        }
+
+        const { changed } = await schemaToJSON();
+
+        if (changed) {
+          logger.info('Regenerating @brix/generated');
+          const generated = await generate('all', false);
+          if (!generated) return;
+          logger.success('Regenerating done!');
+        } else {
+          logger.info('No changes found. Skipping regeneration');
+        }
+        await restart();
+        res();
+      });
     });
 };

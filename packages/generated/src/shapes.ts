@@ -1,10 +1,10 @@
-import API from '@brix/api';
+import { buildSchema, Config } from '@brix/core';
 import { GraphQLObjectType, GraphQLUnionType } from 'graphql';
 import path from 'path';
 
 import { compile } from './lib/tsProject';
 import { argType, Field } from './testClient';
-import { Config } from '@brix/core';
+
 
 const DEFAULT_TYPES = [
   'Query',
@@ -51,7 +51,7 @@ const fieldToYup = (field: Field) => {
 export const generateShapes = async () => {
   await Config.loadConfig(process.cwd());
 
-  const schema = await API.lib.schema.buildSchema();
+  const schema = await buildSchema();
 
   const map = Object.values(schema.getTypeMap());
 

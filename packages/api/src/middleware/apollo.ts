@@ -7,7 +7,7 @@ import { GraphQLSchema } from 'graphql';
 import { Server } from 'http';
 
 import { createContext as context } from '../lib/context';
-import { loadMocks } from '../lib/schema';
+import { loadMocks } from '../lib/mocks';
 
 
 export interface SubscriptionOptions { token: string; }
