@@ -52,7 +52,7 @@ export class TestClient {
    * Start the API on a random available port and create a test database
    */
   async start(emailServer: boolean = false) {
-    const port = await getPort({ port: 4000 });
+    const port = await getPort();
     this._url = `http://localhost:${port}/graphql`;
 
     // TODO: Database integration
