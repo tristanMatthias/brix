@@ -77,7 +77,7 @@ export const setupLogger = () => {
   }
 
 
-  if (Config.logLevel) logger.transports[1].level = Config.logLevel;
+  if (Config.logLevel && logger.transports[1]) logger.transports[1].level = Config.logLevel;
 
   setup = true;
 };
