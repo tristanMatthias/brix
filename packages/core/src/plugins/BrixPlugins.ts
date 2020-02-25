@@ -31,8 +31,8 @@ export interface BrixPluginOptions {
   description?: string;
   /** List of other Brix plugins this plugin relies on */
   requires?: string[];
-  /** GQL Entities to register in Brix */
-  entities?: ClassType<any>[];
+  // /** GQL Entities to register in Brix */
+  // entities?: ClassType<any>[];
   /** GQL Scalars to register in Brix */
   scalars?: ScalarsTypeMap[];
   /** GQL Resolvers to register in Brix */
@@ -49,8 +49,8 @@ export interface BrixPluginSettings extends BrixPluginOptions {
 }
 
 export interface BrixPluginData {
-  /** Array of GQL Entities */
-  entities: ClassType<any>[];
+  // /** Array of GQL Entities */
+  // entities: ClassType<any>[];
   /** Array of GQL Scalars */
   scalars: ScalarsTypeMap[];
   /** Array of GQL Resolvers */
@@ -70,11 +70,11 @@ export type PluginPkg = (options?: any) => any;
  * Brix plugin management
  */
 export abstract class BrixPlugins {
-  /** Array of GQL Entities */
-  static get entities() {
-    if (!this._buildData) throw new ErrorPluginsNotBuilt();
-    return this._buildData.entities;
-  }
+  // /** Array of GQL Entities */
+  // static get entities() {
+  //   if (!this._buildData) throw new ErrorPluginsNotBuilt();
+  //   return this._buildData.entities;
+  // }
   /** Array of GQL Scalars */
   static get resolvers() {
     if (!this._buildData) throw new ErrorPluginsNotBuilt();
@@ -146,6 +146,7 @@ export abstract class BrixPlugins {
     });
 
     if (Config.plugins) {
+
       await Promise.all(Config.plugins.map(async p => {
         const plugin = this.formatPlugin(p);
         let pkg;
@@ -164,7 +165,7 @@ export abstract class BrixPlugins {
     Object.keys(this._plugins).map(n => logger.info(`Loaded plugin ${n}`));
 
     return this._buildData = {
-      entities: this._get('entities')!,
+      // entities: this._get('entities')!,
       resolvers: this._get('resolvers')!,
       scalars: this._get('scalars')!,
       middlewares: this._get('middlewares')!,

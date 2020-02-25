@@ -1,6 +1,6 @@
 /**
  * For some strange reason, graphql-type-json does not work with type-graphql
- * and namually writing this out does
+ * and manually writing this out does
  * @see https://github.com/taion/graphql-type-json/blob/master/src/index.js
  */
 

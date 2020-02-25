@@ -3,7 +3,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "lerna run build --ignore @brix/core-experiment --concurrency 2",
+    "build": "lerna run build --concurrency 2",
     "clean-build": "yarn lerna clean -y; rimraf node_modules; yarn; yarn lerna link; yarn build",
     "publish:patch": "lerna publish patch",
     "publish:pre": "lerna publish --canary --preid alpha",
@@ -29,6 +29,7 @@
     "access": "public"
   },
   "resolutions": {
-    "graphql": "^14.5.8"
+    "graphql": "^14.5.8",
+    "graphql-upload": "8.1.0"
   }
 }
