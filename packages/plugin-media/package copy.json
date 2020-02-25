@@ -1,0 +1,23 @@
+{
+  "name": "@brix/plugin-entity-user",
+  "version": "0.2.2-alpha.0+118e459",
+  "description": "Core of Brix.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./"
+  },
+  "peerDependencies": {
+    "@brix/core": "^0.2.0",
+    "@brix/model": "^0.2.0",
+    "type-graphql": "^0.17.6"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
+}
