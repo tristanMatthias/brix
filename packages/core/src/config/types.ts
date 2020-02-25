@@ -76,6 +76,15 @@ export interface BrixConfig {
 
   /** Namespace for the CLS */
   clsNamespace: string;
+
+  /**
+   * Level of the logs to show.
+   * `error`: Only logs errors
+   * `warning` Logs errors and warnings
+   * `info` Logs errors, warnings, and info
+   * `success` Logs everything
+   */
+  logLevel: 'error' | 'warning' | 'info' | 'success';
 }
 
 export interface BrixConfigPlugin {

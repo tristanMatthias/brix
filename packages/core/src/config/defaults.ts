@@ -38,19 +38,22 @@ export const CONFIG_DEVELOPMENT: Partial<BrixConfig> = {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432
   },
-  accessTokenSecret: 'dev-secret'
+  accessTokenSecret: 'dev-secret',
+  logLevel: 'success'
 };
 
 export const CONFIG_TEST: Partial<BrixConfig> = {
   ...CONFIG_DEVELOPMENT as BrixConfig,
-  env: Env.test
+  env: Env.test,
+  logLevel: 'warning'
 };
 
 
 export const CONFIG_PRODUCTION: Partial<BrixConfig> = {
   ...CONFIG_BASE,
   env: Env.production,
-  corsAllowFrom: true
+  corsAllowFrom: true,
+  logLevel: 'error'
 };
 
 

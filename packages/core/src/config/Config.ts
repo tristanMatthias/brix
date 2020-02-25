@@ -34,8 +34,9 @@ export abstract class Config {
   static middleware: BrixConfig['middleware'];
   static plugins: BrixConfig['plugins'];
   static clsNamespace: BrixConfig['clsNamespace'];
+  static logLevel: BrixConfig['logLevel'];
 
-  private static loaded = false;
+  private static loaded?: Partial<BrixConfig>;
 
   static reset() {
     return Object.assign(this, CONFIG_BASE);
@@ -63,30 +64,34 @@ export abstract class Config {
    * @param dir Directory to load the config file from
    */
   static async loadConfig(dir: string = CONFIG_BASE.rootDir!) {
-    if (this.loaded) return this.toJSON();
-
-    if (dir && dir !== CONFIG_BASE.rootDir) {
-      await this.update({ rootDir: dirOrDist(dir) });
-    }
-
-    let yml;
-    let json;
     let config: Partial<BrixConfig> = {};
 
-    const find = (p: string[] | string) => findup(p, { cwd: dir });
+    if (this.loaded) config = this.loaded;
+    else {
+      if (dir && dir !== CONFIG_BASE.rootDir) {
+        await this.update({ rootDir: dirOrDist(dir) });
+      }
 
-    const fYaml = await find(['brix.yml', 'brix.yaml']);
-    const fJson = await find(['brix.json', '.brixrc']);
+      let yml;
+      let json;
 
 
-    if (fYaml) yml = await fs.readFile(fYaml);
-    else if (fJson) json = await fs.readFile(fJson);
+      const find = (p: string[] | string) => findup(p, { cwd: dir });
 
-    if (yml) config = yaml.parse(yml.toString());
-    else if (json) config = JSON.parse(json.toString());
+      const fYaml = await find(['brix.yml', 'brix.yaml']);
+      const fJson = await find(['brix.json', '.brixrc']);
+
+
+      if (fYaml) yml = await fs.readFile(fYaml);
+      else if (fJson) json = await fs.readFile(fJson);
+
+      if (yml) config = yaml.parse(yml.toString());
+      else if (json) config = JSON.parse(json.toString());
+      this.loaded = config;
+    }
+
 
     if (config && Object.keys(config).length) await this.update(config);
-    this.loaded = true;
     return this.toJSON();
   }
 
@@ -130,7 +135,8 @@ export abstract class Config {
       corsAllowFrom: this.corsAllowFrom,
       middleware: this.middleware,
       plugins: this.plugins,
-      clsNamespace: this.clsNamespace
+      clsNamespace: this.clsNamespace,
+      logLevel: this.logLevel
     };
   }
 

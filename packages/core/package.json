@@ -38,6 +38,7 @@
     "graphql-upload": "8.1.0",
     "resolve-from": "^5.0.0",
     "stack-trace": "^0.0.10",
+    "ts-morph": "^7.0.0",
     "uuid": "^3.4.0",
     "winston": "^3.2.1",
     "yaml": "^1.7.2"

@@ -1,15 +1,16 @@
 import 'reflect-metadata';
 
-import { BrixConfig, Config, Env, logger, setupLogger, BrixPlugins } from '@brix/core';
+import { BrixConfig, BrixPlugins, Config, Env, logger, setupLogger } from '@brix/core';
+import chalk from 'chalk';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import http, { Server } from 'http';
 
 import { setupDatabase } from './lib/database';
+import { buildSchema } from './lib/schema';
 import { apollo } from './middleware/apollo';
 import { loadMiddleware } from './middleware/loadMiddleware';
-import { buildSchema } from './lib/schema';
 
 
 let httpServer: Server;
@@ -48,7 +49,7 @@ export const server = async (config?: Partial<BrixConfig>) => {
 
 
   await new Promise(res => httpServer.listen(Config.port, res));
-  logger.info(`🚀 Server ready at http://localhost:${Config.port}/graphql`);
+  logger.success(`🚀 Server ready at ${chalk.yellow(`http://localhost:${Config.port}/graphql`)}`);
   return { httpServer, db };
 
 };
