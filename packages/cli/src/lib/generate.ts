@@ -21,7 +21,7 @@ const wrap = (name: string, func: Function) => async (progress: boolean = true) 
 const testClient = wrap('TestClient', gen.generateGQLTestClient);
 const schema = wrap('schema', gen.generateSchemaTypes);
 const queries = wrap('queries', gen.generateQueries);
-const shapes = wrap('schema', gen.generateShapes);
+const shapes = wrap('shapes', gen.generateShapes);
 
 
 export const generate = async (type?: GenerateType, progress = true) => {
