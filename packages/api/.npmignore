@@ -2,3 +2,4 @@ src/
 *.log
 tsconfig.json
 coverage/
+tests/

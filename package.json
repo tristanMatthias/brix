@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "lerna run build --concurrency 2",
+    "test": "jest",
     "clean-build": "yarn lerna clean -y; rimraf node_modules; yarn; yarn lerna link; yarn build",
     "publish:patch": "yarn build && lerna publish patch",
     "publish:pre": "yarn build && lerna publish --canary --preid alpha",

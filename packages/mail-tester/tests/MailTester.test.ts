@@ -102,7 +102,7 @@ describe('MailTester', () => {
 
     const logger = new MailTester(true);
     await logger.setup();
-    expect(console.log).toBeCalledTimes(4);
+    expect(console.log).toBeCalledTimes(3);
     await logger.close();
 
     console.log = old;
