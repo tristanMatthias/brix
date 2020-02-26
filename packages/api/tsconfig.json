@@ -5,5 +5,11 @@
     "rootDir": "./src",
     "strictPropertyInitialization": false,
     "declaration": true
-  }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "./tests"
+  ]
 }

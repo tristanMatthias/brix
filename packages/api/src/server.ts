@@ -21,10 +21,9 @@ let httpServer: Server;
  * @param config The API config to override all settings with (highest priority)
  */
 export const server = async (config?: Partial<BrixConfig>) => {
-
   await Config.loadEnv(process.env.NODE_ENV as Env || 'development');
   await Config.loadConfig(config ? config.rootDir : undefined);
-  await Config.update(config || process.env.NODE_ENV as Env);
+  await Config.update(config || process.env.NODE_ENV as Env || 'development');
 
   await BrixPlugins.build();
   const schema = await buildSchema(undefined, authChecker);

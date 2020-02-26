@@ -1,4 +1,4 @@
-import { Config, logger, BrixPlugins } from '@brix/core';
+import { Config, logger, BrixPlugins, BrixConfig } from '@brix/core';
 import chalk from 'chalk';
 import { Express } from 'express';
 import fs from 'fs-extra';
@@ -19,33 +19,34 @@ export const loadMiddleware = async (app: Express) => {
   );
 
   // Load middleware from what was passed in explicitly
-  if (Config.middleware) {
-    if (Config.middleware instanceof Array) {
-      Config.middleware.forEach(mw => app.use(mw));
+  if (Config.middleware instanceof Array && Config.middleware.length) {
+    Config.middleware.forEach(mw => app.use(mw));
+  } else if (typeof Config.middleware === 'function') {
+    app.use(Config.middleware);
 
-    } else app.use(Config.middleware);
-
-
-  } else {
     // Load middleware from the project root
+  } else {
     const dir = Config.middlewareDir || path.join(Config.rootDir, 'middleware');
-
     if (await fs.pathExists(dir)) {
-      const files = (await fs.readdir(dir)).filter(f => f.endsWith('.js'));
-      files.forEach(async f => {
+      const files = (await fs.readdir(dir)).filter(f => f.endsWith('.js') || f.endsWith('.ts'));
+
+      const mws: BrixConfig['middleware'] = await Promise.all(files.map(async f => {
         const fp = path.join(dir, f);
         const mw = await import(fp);
 
-        if (!mw.default) {
-          return logger.error(
+        if (typeof mw.default !== 'function') {
+          logger.error(
             `'${chalk.yellow(fp)}' does not export a default Express router or middleware function`
           );
+          return false;
         }
 
         app.use(mw.default);
         logger.info(`Loaded middleware ${chalk.yellow(f)}`);
-        return mw;
-      });
+        return mw.default;
+      }));
+
+      await Config.update({ middleware: mws.filter(mw => mw) });
     }
   }
 };
