@@ -52,13 +52,11 @@ describe('Config.loadEnv()', () => {
 
 
 describe('Config.loadConfig()', () => {
-  it('should load config from rootDir', async () => {
-    const old = CONFIG_BASE.rootDir;
-    CONFIG_BASE.rootDir = path.join(__dirname, './projects/config/yml');
+  it('should load config from Config.rootDir', async () => {
+    await Config.update({ rootDir: path.join(__dirname, './projects/config/yml') });
     await Config.loadConfig();
     expect(Config.port).toEqual(1234);
     expect(Config.clsNamespace).toEqual('yml');
-    CONFIG_BASE.rootDir = old;
   });
 
   it('should load config from dir passed in', async () => {

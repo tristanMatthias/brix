@@ -68,12 +68,12 @@ export abstract class Config {
    * files.
    * @param dir Directory to load the config file from
    */
-  static async loadConfig(dir: string = CONFIG_BASE.rootDir!) {
+  static async loadConfig(dir: string = Config.rootDir!) {
     let config: Partial<BrixConfig> = {};
 
-    if (this.loaded && (!dir || dir === CONFIG_BASE.rootDir)) config = this.loaded;
+    if (this.loaded && (!dir || dir === Config.rootDir)) config = this.loaded;
     else {
-      if (dir && dir !== CONFIG_BASE.rootDir) {
+      if (dir && dir !== Config.rootDir) {
         await this.update({ rootDir: dirOrDist(dir) });
       }
 
@@ -86,12 +86,15 @@ export abstract class Config {
       const fYaml = await find(['brix.yml', 'brix.yaml']);
       const fJson = await find(['brix.json', '.brixrc']);
 
+      if (!fYaml && !fJson) throw new ErrorInvalidConfigOption(dir);
 
       if (fYaml) yml = await fs.readFile(fYaml);
       else if (fJson) json = await fs.readFile(fJson);
 
+
       if (yml) config = yaml.parse(yml.toString());
       else if (json) config = JSON.parse(json.toString());
+
       this.loaded = config;
     }
 

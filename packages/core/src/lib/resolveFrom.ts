@@ -1,6 +1,7 @@
 import findRoot from 'find-root';
 import path from 'path';
 import resolveFrom from 'resolve-from';
+import { Config } from '../config';
 
 /**
  * A fallback require context function that attempts to load the library path
@@ -10,10 +11,10 @@ import resolveFrom from 'resolve-from';
  * @param context Directory to resolve from
  * @param prefix Prefix of library
  */
-export const resolveLib = async (lib: string, context: string = process.cwd(), prefix: string = '') => {
+export const resolveLib = async (lib: string, context: string = Config.rootDir, prefix: string = '') => {
   // If trying to load a relative module
   if (lib.startsWith('/')) return lib;
-  if (lib.startsWith('.')) return path.resolve(process.cwd(), lib);
+  if (lib.startsWith('.')) return path.resolve(Config.rootDir, lib);
 
   // Attempt to load module relative to where it's called with opt. prefix
   // EG: lib: user, prefix: brix-plugin-
@@ -34,7 +35,7 @@ export const resolveLib = async (lib: string, context: string = process.cwd(), p
  * @param context Directory to resolve from
  * @param returnDefault If the lib exports a default object, return default
  */
-export const importLib = async (lib: string, context: string = process.cwd(), returnDefault = true) => {
+export const importLib = async (lib: string, context: string = Config.rootDir, returnDefault = true) => {
   const p = await resolveLib(lib, context);
   if (!p) return false;
 

@@ -18,6 +18,12 @@ export class ErrorInvalidEnvironment extends BaseError {
   }
 }
 
+export class ErrorNoConfigFileFound extends BaseError {
+  constructor(dir: string) {
+    super(`Could not find a brix config file at ${chalk.yellow(dir)}`);
+  }
+}
+
 
 // --------------------------------------------------------------------- Plugins
 
