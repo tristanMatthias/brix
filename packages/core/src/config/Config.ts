@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import yaml from 'yaml';
 
-import { ErrorInvalidConfigOption } from '../errors';
+import { ErrorInvalidConfigOption, ErrorInvalidEnvironment } from '../errors';
 import { dirOrDist } from '../lib/dirOrDist';
 import { CONFIG_BASE, CONFIG_DEVELOPMENT, CONFIG_PRODUCTION, CONFIG_TEST, CONFIGS } from './defaults';
 import { BrixConfig, Env } from './types';
@@ -108,18 +108,17 @@ export abstract class Config {
   static async update(config: Partial<BrixConfig> | Env) {
     dotEnv();
 
+    let newConfig: Partial<BrixConfig>;
+
+    if (typeof config === 'string') {
+      newConfig = CONFIGS[config];
+      if (!newConfig) throw new ErrorInvalidEnvironment(config);
+    } else newConfig = config || {};
+
     try {
-      let newConfig: Partial<BrixConfig>;
-
-      if (typeof config === 'string') newConfig = CONFIGS[config];
-      else newConfig = config || {};
-
       newConfig = this.merge(newConfig);
-
       await validateConfig.validate(newConfig, { strict: true });
-
       Object.assign(this, newConfig);
-
     } catch (e) {
       throw new ErrorInvalidConfigOption(e.message);
     }

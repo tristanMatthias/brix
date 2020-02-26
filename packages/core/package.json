@@ -9,7 +9,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsc -p ./ -w",
-    "build": "rimraf dist; tsc -p ./"
+    "build": "rimraf dist; tsc -p ./",
+    "test": "jest"
   },
   "peerDependencies": {
     "chalk": "^3.0.0",

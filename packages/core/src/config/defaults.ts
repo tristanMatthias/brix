@@ -22,7 +22,8 @@ export const CONFIG_BASE: Partial<BrixConfig> = {
     port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432
   },
   accessTokenSecret: process.env.JWT_SECRET || shortid(),
-  clsNamespace: 'brix-namespace'
+  clsNamespace: 'brix-namespace',
+  logLevel: 'warning'
 };
 
 

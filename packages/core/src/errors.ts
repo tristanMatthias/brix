@@ -12,6 +12,11 @@ export class ErrorInvalidConfigOption extends BaseError {
     super(`Error loading config: ${message}`);
   }
 }
+export class ErrorInvalidEnvironment extends BaseError {
+  constructor(environment: string) {
+    super(`Invalid config environment ${chalk.yellow(environment)}, Should be one of 'development', 'test', or 'production'`);
+  }
+}
 
 
 // --------------------------------------------------------------------- Plugins
