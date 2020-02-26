@@ -14,6 +14,7 @@ export type PluginOptionsBase = {
 export const OPTIONS: PluginOptionsBase = {
   provider: 'filesystem',
   prefix: '/uploads',
+  // TODO: Move to Config.rootDir
   uploadsDir: path.join(process.cwd(), 'uploads')
 };
 

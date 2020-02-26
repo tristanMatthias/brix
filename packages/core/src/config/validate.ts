@@ -56,7 +56,8 @@ export const validateConfig = yup.object().shape({
 
   corsAllowFrom: yup.mixed(),
   clsNamespace: yup.string(),
-  logLevel: yup.string().oneOf(['error', 'warning', 'info', 'success'])
+  logLevel: yup.string().oneOf(['error', 'warning', 'info', 'success']),
+  plugins: yup.object()
 
 }).test(validateProps([
   'env',

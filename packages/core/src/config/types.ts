@@ -72,7 +72,11 @@ export interface BrixConfig {
   // /** Load Apollo Context middleware into the server */
   // contextMiddleware: BrixContextMiddleware[];
 
-  plugins: BrixConfigPlugin[];
+  plugins: {
+    [name: string]: {
+      [setting: string]: any
+    }
+  };
 
   /** Namespace for the CLS */
   clsNamespace: string;
@@ -85,13 +89,6 @@ export interface BrixConfig {
    * `success` Logs everything
    */
   logLevel: 'error' | 'warning' | 'info' | 'success';
-}
-
-export interface BrixConfigPlugin {
-  name: string;
-  options: {
-    [setting: string]: any
-  };
 }
 
 /** Brix context to use in Apollo */

@@ -95,7 +95,7 @@ export const schemaToJSON = async () => {
  */
 export const generateSchema = async (dir?: string, out?: string) => {
   await emitSchemaDefinitionFile(
-    path.resolve(out || dirOrDist(process.cwd()), 'schema.gql'),
+    path.resolve(out || dirOrDist(Config.rootDir), 'schema.gql'),
     await buildSchema(dir)
   );
 };

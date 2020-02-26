@@ -1,9 +1,10 @@
 import { Express, Handler, Request } from 'express';
 import findRoot from 'find-root';
 import stack from 'stack-trace';
+import path from 'path';
 
 import { Config } from '../config';
-import { BrixConfigPlugin, BrixContext } from '../config/types';
+import { BrixContext } from '../config/types';
 import {
   ErrorPluginNotAFunction,
   ErrorPluginRegistered,
@@ -102,6 +103,7 @@ export abstract class BrixPlugins {
   }
   private static _plugins: { [name: string]: BrixPluginSettings } = {};
   private static _buildData?: BrixPluginData;
+  private static _building: null | Promise<BrixPluginData> = null;
 
 
   /**
@@ -134,44 +136,56 @@ export abstract class BrixPlugins {
    */
   static async build() {
     if (this._buildData) return this._buildData;
-    await Config.loadConfig();
+    if (this._building) return this._building;
 
-    const attemptLoad = (pkg: string): Promise<false | PluginPkg> => new Promise(async res => {
-      try {
-        res(await importLib(pkg));
-      } catch (e) {
-        if (e.code === 'MODULE_NOT_FOUND') res(false);
-        else throw e;
+    return this._building = new Promise(async res => {
+      await Config.loadConfig();
+
+      const attemptLoad = (pkg: string): Promise<false | PluginPkg> => new Promise(async res => {
+        try {
+          res(await importLib(pkg));
+        } catch (e) {
+          if (e.code === 'MODULE_NOT_FOUND') res(false);
+          else throw e;
+        }
+      });
+
+      if (Config.plugins) {
+        await Promise.all(Object.entries(Config.plugins).map(async ([p, options]) => {
+          let pkg;
+          if (p.startsWith('./')) pkg = await attemptLoad(path.join(Config.rootDir, p));
+
+          if (!pkg) pkg = await attemptLoad(`@brix/${p}`);
+          if (!pkg) pkg = await attemptLoad(`@brix/plugin-${p}`);
+          if (!pkg) pkg = await attemptLoad(`brix-plugin-${p}`);
+          if (!pkg) pkg = await attemptLoad(p);
+          if (!pkg) throw new ErrorPluginUnknown(p);
+          if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(p);
+          await (pkg as PluginPkg)(options);
+          logger.info(`Loaded plugin ${p}`);
+        }));
       }
+
+      this._checkRequired();
+
+      Object.keys(this._plugins).map(n => logger.info(`Loaded plugin ${n}`));
+
+      this._buildData = {
+        // entities: this._get('entities')!,
+        resolvers: this._get('resolvers')!,
+        scalars: this._get('scalars')!,
+        middlewares: this._get('middlewares')!,
+        contextMiddlewares: this._get('contextMiddlewares')!,
+        authCheckers: this._get('authCheckers')!
+      };
+      res(this._buildData);
+      this._building = null;
     });
+  }
 
-    if (Config.plugins) {
-
-      await Promise.all(Config.plugins.map(async p => {
-        const plugin = this.formatPlugin(p);
-        let pkg;
-        if (!pkg) pkg = await attemptLoad(`@brix/${plugin.name}`);
-        if (!pkg) pkg = await attemptLoad(`@brix/plugin-${plugin.name}`);
-        if (!pkg) pkg = await attemptLoad(`brix-plugin-${plugin.name}`);
-        if (!pkg) pkg = await attemptLoad(plugin.name);
-        if (!pkg) throw new ErrorPluginUnknown(plugin.name);
-        if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(plugin.name);
-        await (pkg as PluginPkg)(p.options);
-      }));
-    }
-
-    this._checkRequired();
-
-    Object.keys(this._plugins).map(n => logger.info(`Loaded plugin ${n}`));
-
-    return this._buildData = {
-      // entities: this._get('entities')!,
-      resolvers: this._get('resolvers')!,
-      scalars: this._get('scalars')!,
-      middlewares: this._get('middlewares')!,
-      contextMiddlewares: this._get('contextMiddlewares')!,
-      authCheckers: this._get('authCheckers')!
-    };
+  static clear() {
+    this._buildData = undefined;
+    this._plugins = {};
   }
 
   /**
@@ -200,8 +214,8 @@ export abstract class BrixPlugins {
     }, [] as unknown as BrixPluginOptions[T]);
   }
 
-  private static formatPlugin(p: BrixConfigPlugin | string): BrixConfigPlugin {
-    if (typeof p === 'string') return { name: p, options: {} };
-    return p;
-  }
+  // private static formatPlugin(p: BrixConfigPlugin | string): BrixConfigPlugin {
+  //   if (typeof p === 'string') return { name: p, options: {} };
+  //   return p;
+  // }
 }

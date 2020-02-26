@@ -1,10 +1,10 @@
+import { Config, logger } from '@brix/core';
 import consolidate from 'consolidate';
 import { Express, Router } from 'express';
 import path from 'path';
 import recursive from 'recursive-readdir';
 
 import { PluginTemplateOptions } from '..';
-import { logger } from '@brix/core';
 
 /**
  * Enables pages to be rendered
@@ -12,7 +12,7 @@ import { logger } from '@brix/core';
  */
 export const render = (options: PluginTemplateOptions) =>
   async (app: Express) => {
-    const viewDir = options.viewDir || path.resolve(process.cwd(), 'views');
+    const viewDir = options.viewDir || path.resolve(Config.rootDir, 'views');
     app.set('views', viewDir);
 
     const router = Router();

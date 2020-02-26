@@ -21,7 +21,7 @@ export const logger = winston.createLogger({
   },
   level: 'info',
   transports: [
-    new winston.transports.File({ filename: path.join(process.cwd(), 'error.log'), level: 'error' })
+    new winston.transports.File({ filename: path.join(Config.rootDir, 'error.log'), level: 'error' })
   ]
 });
 
@@ -72,7 +72,7 @@ export const setupLogger = () => {
       )
     }));
     logger.add(new winston.transports.File({
-      filename: path.join(process.cwd(), 'debug.log')
+      filename: path.join(Config.rootDir, 'debug.log')
     }));
   }
 

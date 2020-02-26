@@ -39,7 +39,12 @@ export abstract class Config {
   private static loaded?: Partial<BrixConfig>;
 
   static reset() {
-    return Object.assign(this, CONFIG_BASE);
+    this.loaded = undefined;
+    return Object.assign(this, {
+      ...CONFIG_BASE,
+      plugins: {},
+      middleware: []
+    });
   }
 
   static loadEnv(env: Env | 'development' | 'test' | 'production') {
@@ -66,7 +71,7 @@ export abstract class Config {
   static async loadConfig(dir: string = CONFIG_BASE.rootDir!) {
     let config: Partial<BrixConfig> = {};
 
-    if (this.loaded) config = this.loaded;
+    if (this.loaded && (!dir || dir === CONFIG_BASE.rootDir)) config = this.loaded;
     else {
       if (dir && dir !== CONFIG_BASE.rootDir) {
         await this.update({ rootDir: dirOrDist(dir) });
@@ -142,7 +147,7 @@ export abstract class Config {
 
   private static merge(config: Partial<BrixConfig>): Partial<BrixConfig> {
     return deepmerge.all([
-      CONFIGS[config.env || process.env.NODE_ENV as Env || 'development'],
+      CONFIGS[config.env || process.env.NODE_ENV as Env || 'development'] || CONFIG_BASE,
       this.toJSON(),
       config
     ]);
