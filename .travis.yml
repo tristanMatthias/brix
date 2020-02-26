@@ -3,8 +3,8 @@ node_js:
   - "10"
 install:
   - yarn
+  - yarn lerna link
   - yarn global add codecov
-  - yarn lerna bootstrap
 script:
   - yarn build
   - yarn test

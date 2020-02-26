@@ -21,7 +21,9 @@
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
-    "@types/node": "^13.7.1"
+    "@types/node": "^13.7.1",
+    "@brix/core": "^0.2.0",
+    "@brix/model": "^0.2.0"
   },
   "publishConfig": {
     "access": "public"

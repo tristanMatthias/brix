@@ -25,6 +25,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@brix/core": "^0.2.0",
     "@types/consolidate": "^0.14.0",
     "@types/recursive-readdir": "^2.2.0"
   },
