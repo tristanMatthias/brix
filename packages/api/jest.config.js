@@ -12,7 +12,7 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
 
-  testRegex: [/tests\/.+\.test\.ts/],
+  testMatch: ['**\.test\.ts'],
   testPathIgnorePatterns: ['./node_modules', './tests/projects', './tests/utils'],
 
   globals: {

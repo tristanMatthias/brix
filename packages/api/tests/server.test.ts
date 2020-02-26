@@ -1,7 +1,7 @@
 import { BrixPlugins, Config, Env } from '@brix/core';
 
 import { server } from '../src/server';
-import { project, query, pjPath } from './utils';
+import { project } from './utils';
 
 
 let httpServer;
@@ -35,62 +35,5 @@ describe('Server initialization', () => {
     ({ httpServer } = await server(await project()));
     expect(Config.env).toEqual(Env.development);
     process.env.NODE_ENV = previous;
-  });
-});
-
-
-describe('Server middleware', () => {
-  it('should load middleware array passed manually into config', async () => {
-    ({ httpServer } = await server(await project('./', { middleware: [() => { }] }));
-    expect(Config.middleware).toBeArrayOfSize(1);
-  });
-
-  it('should load single middleware passed manually into config', async () => {
-    ({ httpServer } = await server(await project('./', { middleware: () => { } }));
-    expect(Config.middleware).toBeFunction();
-  });
-
-  it('should load single middleware from default middleware directory', async () => {
-    ({ httpServer } = await server(await project('middleware', {
-      middlewareDir: undefined
-    })));
-    expect(Config.middleware).toBeArrayOfSize(2);
-  });
-
-  it('should not load middleware that doesn\'t export default function', async () => {
-    ({ httpServer } = await server(await project('middleware-error', {
-      middlewareDir: pjPath('middleware-error', 'middleware')
-    })));
-    expect(Config.middleware).toBeArrayOfSize(0);
-  });
-});
-
-
-describe('Server auth', () => {
-  it('should successfully register auth middleware', async () => {
-    ({ httpServer } = await server(await project('authChecker')));
-    expect(BrixPlugins.authCheckers).toBeArrayOfSize(2);
-  });
-
-  it('should pass authCheckers with no auth', async () => {
-    ({ httpServer } = await server(await project('authChecker')));
-    const { authedMock } = (await query('query{authedMock{test}}'));
-    expect(authedMock).toHaveProperty('test', 1);
-  });
-  it('should pass authCheckers with auth', async () => {
-    ({ httpServer } = await server(await project('authChecker')));
-    const { authedMock } = (await query('query{authedMock{test}}', {}, {
-      authorization: 'valid'
-    }));
-
-    expect(authedMock).toHaveProperty('test', 1);
-  });
-  it('should fail authCheckers', async () => {
-    ({ httpServer } = await server(await project('authChecker')));
-    const [err] = (await query('query{authedMock{test}}', {}, {
-      authorization: 'invalid'
-    }));
-    expect(err).toHaveProperty('message');
-    expect(err.message).toContain('Access denied!');
   });
 });
