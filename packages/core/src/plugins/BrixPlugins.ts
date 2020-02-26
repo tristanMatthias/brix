@@ -109,6 +109,7 @@ export abstract class BrixPlugins {
   /**
   * Register a Brix plugin
   * @param options Options for the Brix plugin
+  * @param overridePackage Use the `options.name` as the package registry
   * @example
   *  registerPlugin({
   *    name: 'cms',
@@ -116,10 +117,14 @@ export abstract class BrixPlugins {
   *    scalars: [{...}]
   *  })
   */
-  static register(options: BrixPluginOptions) {
+  static register(options: BrixPluginOptions, overridePackage = false) {
     const calledFrom = stack.get()[1].getFileName();
     const root = findRoot(calledFrom);
-    const pkg: string = require(`${root}/package.json`).name;
+    let pkg: string;
+    const pkgName = options.name.replace(/\s/g, '-').toLowerCase();
+    if (overridePackage) pkg = pkgName;
+    else pkg = require(`${root}/package.json`).name;
+    if (!pkg) pkg = pkgName;
 
     if (this._plugins[pkg]) throw new ErrorPluginRegistered(options.name);
     else {
@@ -138,7 +143,7 @@ export abstract class BrixPlugins {
     if (this._buildData) return this._buildData;
     if (this._building) return this._building;
 
-    return this._building = new Promise(async res => {
+    return this._building = new Promise(async (res, rej) => {
       await Config.loadConfig();
 
       const attemptLoad = (pkg: string): Promise<false | PluginPkg> => new Promise(async res => {
@@ -151,22 +156,29 @@ export abstract class BrixPlugins {
       });
 
       if (Config.plugins) {
-        await Promise.all(Object.entries(Config.plugins).map(async ([p, options]) => {
-          let pkg;
-          if (p.startsWith('./')) pkg = await attemptLoad(path.join(Config.rootDir, p));
-
-          if (!pkg) pkg = await attemptLoad(`@brix/${p}`);
-          if (!pkg) pkg = await attemptLoad(`@brix/plugin-${p}`);
-          if (!pkg) pkg = await attemptLoad(`brix-plugin-${p}`);
-          if (!pkg) pkg = await attemptLoad(p);
-          if (!pkg) throw new ErrorPluginUnknown(p);
-          if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(p);
-          await (pkg as PluginPkg)(options);
-          logger.info(`Loaded plugin ${p}`);
-        }));
+        try {
+          await Promise.all(Object.entries(Config.plugins).map(async ([p, options]) => {
+            let pkg;
+            if (p.startsWith('./')) pkg = await attemptLoad(path.join(Config.rootDir, p));
+            if (!pkg) pkg = await attemptLoad(`@brix/${p}`);
+            if (!pkg) pkg = await attemptLoad(`@brix/plugin-${p}`);
+            if (!pkg) pkg = await attemptLoad(`brix-plugin-${p}`);
+            if (!pkg) pkg = await attemptLoad(p);
+            if (!pkg) throw new ErrorPluginUnknown(p);
+            if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(p);
+            await (pkg as PluginPkg)(options);
+            logger.info(`Loaded plugin ${p}`);
+          }));
+        } catch (e) {
+          rej(e);
+        }
       }
 
-      this._checkRequired();
+      try {
+        await this._checkRequired();
+      } catch (e) {
+        return rej(e);
+      }
 
       Object.keys(this._plugins).map(n => logger.info(`Loaded plugin ${n}`));
 
@@ -191,16 +203,16 @@ export abstract class BrixPlugins {
   /**
    * Loop over all plugins and check that the dependencies are installed
    */
-  private static _checkRequired() {
-    Object.values(this._plugins).forEach(p => {
+  private static async _checkRequired() {
+    return await Promise.all(Object.values(this._plugins).map(async p => {
       if (!p.requires) return;
-      p.requires.forEach(required => {
-        // TODO: Install required plugin automatically
-        if (!this._plugins[required]) throw new ErrorRequiredPluginMissing(p.package, required);
-      });
-    });
-
-    return true;
+      await Promise.all(
+        p.requires.map(async required => {
+          // TODO: Install required plugin automatically
+          if (!this._plugins[required]) throw new ErrorRequiredPluginMissing(p.package, required);
+        })
+      );
+    }));
   }
 
   /**
@@ -213,9 +225,7 @@ export abstract class BrixPlugins {
       return list;
     }, [] as unknown as BrixPluginOptions[T]);
   }
-
-  // private static formatPlugin(p: BrixConfigPlugin | string): BrixConfigPlugin {
-  //   if (typeof p === 'string') return { name: p, options: {} };
-  //   return p;
-  // }
 }
+
+
+global.BrixPlugins = BrixPlugins;

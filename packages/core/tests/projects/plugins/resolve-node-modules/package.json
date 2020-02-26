@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@brix/plugin-one": "*",
+    "@brix/plugin-two": "*",
+    "brix-plugin-no-scope": "*"
+  }
+}

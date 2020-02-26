@@ -6,3 +6,4 @@ coverage/
 # Generated files
 packages/generated/*.js
 packages/generated/*.d.ts
+!packages/core/tests/projects/plugins/resolve-node-modules/node_modules/

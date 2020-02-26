@@ -1,0 +1,6 @@
+plugins:
+  ./plugin:
+  plugin-one:
+  two:
+  no-scope:
+  something:

@@ -1,0 +1,3 @@
+plugins:
+  ./plugin/with-options.ts:
+    namespace: with-options

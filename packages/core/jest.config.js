@@ -14,7 +14,11 @@ module.exports = {
 
   // testRegex: [/tests\/.+\.test\.ts/],
   testMatch: ['**\.test\.ts'],
-  testPathIgnorePatterns: ['./node_modules', './tests/projects', './tests/utils'],
+  testPathIgnorePatterns: [
+    './node_modules',
+    './tests/projects',
+    './tests/utils',
+  ],
 
   globals: {
     'ts-jest': {

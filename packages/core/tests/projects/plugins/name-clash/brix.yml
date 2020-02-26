@@ -1,0 +1,3 @@
+plugins:
+  ./plugin/plugin.ts:
+  ./plugin-clash/plugin-clash.ts:
