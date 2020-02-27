@@ -1,14 +1,12 @@
-import { Config, logger, setupLogger, schemaToJSON } from '@brix/core';
-// import chalk from 'chalk';
+import { Config, logger, schemaToJSON } from '@brix/core';
 import { watch } from 'chokidar';
 import fs from 'fs-extra';
-// import ora from 'ora';
 import path from 'path';
 import { Project } from 'ts-morph';
+import { getMetadataStorage } from 'type-graphql/dist/metadata/getMetadataStorage';
 
 import { generate } from './generate';
 import { start } from './start';
-import { getMetadataStorage } from 'type-graphql/dist/metadata/getMetadataStorage';
 
 
 /**
@@ -19,8 +17,6 @@ export const dev = async (dir: string = process.cwd()) => {
   console.clear();
   // Setup env
   await Config.loadEnv('development');
-  await setupLogger();
-
   logger.info('Starting Brix in dev mode');
 
   // Watch from src or current dir

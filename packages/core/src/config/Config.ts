@@ -10,6 +10,7 @@ import { dirOrDist } from '../lib/dirOrDist';
 import { CONFIG_BASE, CONFIG_DEVELOPMENT, CONFIG_PRODUCTION, CONFIG_TEST, CONFIGS } from './defaults';
 import { BrixConfig, Env } from './types';
 import { validateConfig } from './validate';
+import { setupLogger } from '../lib';
 
 
 // Allow for `.env` files to override config
@@ -51,12 +52,15 @@ export abstract class Config {
     switch (env) {
       case 'development':
       case Env.development:
+        setupLogger(Env.development, CONFIG_DEVELOPMENT.logLevel);
         return Object.assign(this, CONFIG_DEVELOPMENT);
       case 'test':
       case Env.test:
+        setupLogger(Env.test, CONFIG_TEST.logLevel);
         return Object.assign(this, CONFIG_TEST);
       case 'production':
       case Env.production:
+        setupLogger(Env.production, CONFIG_PRODUCTION.logLevel);
         return Object.assign(this, CONFIG_PRODUCTION);
     }
   }
@@ -69,6 +73,7 @@ export abstract class Config {
    * @param dir Directory to load the config file from
    */
   static async loadConfig(dir: string = Config.rootDir!) {
+    await setupLogger();
     let config: Partial<BrixConfig> = {};
 
     if (this.loaded && (!dir || dir === Config.rootDir)) config = this.loaded;

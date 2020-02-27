@@ -19,7 +19,7 @@ export const setupDatabase = async (database?: string) => {
 
   try {
     await db.connect(options);
-    logger.success('✅ Database connected');
+    logger.success('Database connected');
   } catch (e) {
     logger.error(`Unable to connect to the database: ${e.message}`);
   }

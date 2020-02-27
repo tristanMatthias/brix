@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 afterEach(async res => {
-  await new Promise(res => httpServer.close(res));
+  await new Promise(res => httpServer?.close(res));
   res();
 });
 

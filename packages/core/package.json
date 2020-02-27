@@ -24,6 +24,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.2",
     "@types/find-root": "^1.1.1",
+    "@types/listr": "^0.14.2",
     "@types/resolve-from": "^5.0.1",
     "@types/shortid": "^0.0.29",
     "@types/stack-trace": "^0.0.29",
@@ -37,12 +38,16 @@
     "find-up": "^4.1.0",
     "fs-extra": "^8.1.0",
     "graphql-upload": "8.1.0",
+    "listr": "^0.14.3",
     "resolve-from": "^5.0.0",
+    "rxjs": "^6.5.4",
     "stack-trace": "^0.0.10",
     "ts-morph": "^7.0.0",
     "uuid": "^3.4.0",
     "winston": "^3.2.1",
-    "yaml": "^1.7.2"
+    "yaml": "^1.7.2",
+    "yarn-programmatic": "^0.1.2",
+    "yup": "^0.28.1"
   },
   "publishConfig": {
     "access": "public"

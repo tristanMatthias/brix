@@ -1,5 +1,5 @@
-import path from 'path';
 import chalk from 'chalk';
+import path from 'path';
 import winston from 'winston';
 
 import { Config } from '../config';
@@ -21,7 +21,7 @@ export const logger = winston.createLogger({
   },
   level: 'info',
   transports: [
-    new winston.transports.File({ filename: path.join(Config.rootDir, 'error.log'), level: 'error' })
+    new winston.transports.File({ filename: path.join(Config?.rootDir || process.cwd(), 'error.log'), level: 'error' })
   ]
 });
 
@@ -33,15 +33,17 @@ winston.addColors({
 });
 
 
-let setup = false;
+let setupDev = false;
 /**
  * Setup the logger instance depending on the current Env
  */
-export const setupLogger = () => {
-  if (setup) return;
-  // If we're not in production or test then log to the `console` with the format:
-  // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-  if (Config.env !== Env.production) {
+export const setupLogger = (env: Env = Config.env, logLevel = Config.logLevel) => {
+
+  /**
+   * If we're not in production or test then log to the `console` with the format:
+   * `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+   */
+  if (env !== Env.production && !setupDev) {
     logger.add(new winston.transports.Console({
       level: 'info',
       format: winston.format.combine(
@@ -74,10 +76,10 @@ export const setupLogger = () => {
     logger.add(new winston.transports.File({
       filename: path.join(Config.rootDir, 'debug.log')
     }));
+    setupDev = true;
+
   }
 
+  if (logLevel && logger.transports[1]) logger.transports[1].level = logLevel;
 
-  if (Config.logLevel && logger.transports[1]) logger.transports[1].level = Config.logLevel;
-
-  setup = true;
 };

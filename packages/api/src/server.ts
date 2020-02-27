@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { BrixConfig, BrixPlugins, buildSchema, Config, Env, logger, setupLogger } from '@brix/core';
+import { BrixConfig, BrixPlugins, buildSchema, Config, Env, logger } from '@brix/core';
 import chalk from 'chalk';
 import cors from 'cors';
 import express from 'express';
@@ -14,6 +14,7 @@ import { loadMiddleware } from './middleware/loadMiddleware';
 
 
 let httpServer: Server;
+const y = chalk.yellow;
 
 /**
  * Starts a new Brix API server instance. Returns the `httpServer` and a Sequelize
@@ -24,14 +25,21 @@ export const server = async (config?: Partial<BrixConfig>) => {
   await Config.loadEnv(process.env.NODE_ENV as Env || 'development');
   await Config.loadConfig(config ? config.rootDir : undefined);
   await Config.update(config || process.env.NODE_ENV as Env || 'development');
-
   await BrixPlugins.build();
+
   const schema = await buildSchema(undefined, authChecker);
 
+  if (schema) {
+    const query = schema.getQueryType();
+    const queryFields = query ? Object.keys(query.getFields()) : null;
+    const queriesText = `${y('Queries:')}\n - ${queryFields?.join('\n - ')}`;
+    const mutation = schema.getMutationType();
+    const mutationFields = mutation ? Object.keys(mutation.getFields()) : null;
+    const mutationsText = `${y('Mutations:')}\n - ${mutationFields?.join('\n - ')}`;
+    logger.success(`GQL Schema built with:\n\n${queriesText}\n${mutationsText}\n`);
+  }
 
-  await setupLogger();
   const db = await setupDatabase();
-
   const app = express();
   httpServer = http.createServer(app);
 
@@ -48,7 +56,7 @@ export const server = async (config?: Partial<BrixConfig>) => {
 
 
   await new Promise(res => httpServer.listen(Config.port, res));
-  logger.success(`🚀 Server ready at ${chalk.yellow(`http://localhost:${Config.port}/graphql`)}`);
+  logger.success(`🚀 Server ready at ${y(`http://localhost:${Config.port}/graphql`)}`);
   return { httpServer, db };
 
 };
