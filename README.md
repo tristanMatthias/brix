@@ -2,6 +2,13 @@
 
 # Brix - Modular components for Node.js
 
+[![Travis](https://img.shields.io/travis/tristanMatthias/brix.svg?logo=travis)](https://travis-ci.org/tristanMatthias/brix)
+![Codecov branch](https://img.shields.io/codecov/c/github/tristanMatthias/brix/master.svg)
+[![npm](https://img.shields.io/npm/dt/tristanMatthias.svg)](https://www.npmjs.com/package/tristanMatthias)
+[![GitHub license](https://img.shields.io/github/license/tristanMatthias/brix.svg)](https://github.com/tristanMatthias/brix)
+[![GitHub issues](https://img.shields.io/github/issues/tristanMatthias/brix.svg?logo=github&logoColor=white)](https://github.com/tristanMatthias/brix/issues)
+[![GitHub stars](https://img.shields.io/github/stars/tristanMatthias/brix.svg)](https://github.com/tristanMatthias/brix/stargazers)
+
 Brix aims to be a collection of libraries and modules that fit together nicely to rapidly build projects and apps.
 A brick can be used by itself, combined with other bricks to provide complex solutions, or swapped out for another brick.
 
