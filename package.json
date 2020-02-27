@@ -3,7 +3,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "lerna run build --concurrency 2",
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run build --concurrency 1",
     "test": "jest",
     "clean-build": "yarn lerna clean -y; rimraf node_modules; yarn; yarn lerna link; yarn build",
     "publish:patch": "yarn build && lerna publish patch",
