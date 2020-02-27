@@ -166,7 +166,7 @@ export abstract class BrixPlugins {
             if (!pkg) pkg = await attemptLoad(p);
             if (!pkg) throw new ErrorPluginUnknown(p);
             if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(p);
-            await (pkg as PluginPkg)(options);
+            await (pkg as PluginPkg)(options || undefined);
             logger.info(`Loaded plugin ${p}`);
           }));
         } catch (e) {

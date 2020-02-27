@@ -2,6 +2,7 @@ import path from 'path';
 
 import { BrixPlugins, Config } from '../src';
 import { ErrorPluginRegistered, ErrorPluginsNotBuilt, ErrorPluginUnknown, ErrorPluginNotAFunction, ErrorRequiredPluginMissing } from '../src/errors';
+import { calledIfUndefined, spyOnThis } from './projects/plugins/pass-undefined/pass-undefined';
 
 beforeEach(() => {
   BrixPlugins.clear();
@@ -144,6 +145,13 @@ describe('BrixPlugins.build()', () => {
       'plugin-one',
       'plugin-two'
     ]);
+  });
+
+  it('should pass undefined to plugin if no options present', async () => {
+    await loadProject('pass-undefined');
+    const spy = jest.spyOn(spyOnThis, 'calledIfUndefined');
+    await BrixPlugins.build();
+    expect(spy).toBeCalled();
   });
 
   it('throws ErrorRequiredPluginMissing when dependency is missing', async () => {
