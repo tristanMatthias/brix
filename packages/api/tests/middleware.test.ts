@@ -11,18 +11,18 @@ beforeEach(() => {
 });
 
 afterEach(async res => {
-  await new Promise(res => httpServer.close(res));
+  await new Promise(res => httpServer?.close(res));
   res();
 });
 
 describe('Server middleware', () => {
   it('should load middleware array passed manually into config', async () => {
-    ({ httpServer } = await server(await project('./', { middleware: [() => { }] }));
+    ({ httpServer } = await server(await project(undefined, { middleware: [() => { }] }));
     expect(Config.middleware).toBeArrayOfSize(1);
   });
 
   it('should load single middleware passed manually into config', async () => {
-    ({ httpServer } = await server(await project('./', { middleware: () => { } }));
+    ({ httpServer } = await server(await project(undefined, { middleware: () => { } }));
     expect(Config.middleware).toBeFunction();
   });
 

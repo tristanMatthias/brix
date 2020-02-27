@@ -11,7 +11,7 @@ export const baseOptions: Partial<BrixConfig> = {
 
 export const pjPath = (...pj: string[]) => path.join(__dirname, '../projects', ...pj), ;
 
-export const project = async (pj: string = './', options: Partial<BrixConfig> = {}) => ({
+export const project = async (pj: string = './default', options: Partial<BrixConfig> = {}) => ({
   ...baseOptions,
   rootDir: pjPath(pj),
   port: await getPort({ port: Math.round(Math.random() * 1000) }),
