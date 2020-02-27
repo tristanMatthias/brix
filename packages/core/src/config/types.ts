@@ -78,6 +78,9 @@ export interface BrixConfig {
     }
   };
 
+  /** If plugin is not found, automatically instal it with Yarn/NPM */
+  installPlugins: boolean;
+
   /** Namespace for the CLS */
   clsNamespace: string;
 

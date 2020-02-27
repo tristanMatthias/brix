@@ -57,7 +57,8 @@ export const validateConfig = yup.object().shape({
   corsAllowFrom: yup.mixed(),
   clsNamespace: yup.string(),
   logLevel: yup.string().oneOf(['error', 'warning', 'info', 'success']),
-  plugins: yup.object()
+  plugins: yup.object(),
+  installPlugins: yup.boolean()
 
 }).test(validateProps([
   'env',
@@ -73,6 +74,7 @@ export const validateConfig = yup.object().shape({
   'accessTokenSecret',
   'corsAllowFrom',
   'plugins',
+  'installPlugins',
   'clsNamespace',
   'logLevel'
 ]));

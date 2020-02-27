@@ -1,8 +1,14 @@
 import path from 'path';
 
 import { BrixPlugins, Config } from '../src';
-import { ErrorPluginRegistered, ErrorPluginsNotBuilt, ErrorPluginUnknown, ErrorPluginNotAFunction, ErrorRequiredPluginMissing } from '../src/errors';
-import { calledIfUndefined, spyOnThis } from './projects/plugins/pass-undefined/pass-undefined';
+import {
+  ErrorPluginNotAFunction,
+  ErrorPluginRegistered,
+  ErrorPluginsNotBuilt,
+  ErrorPluginsNotInstallable,
+  ErrorRequiredPluginMissing,
+} from '../src/errors';
+import { spyOnThis } from './projects/plugins/pass-undefined/pass-undefined';
 
 beforeEach(() => {
   BrixPlugins.clear();
@@ -107,13 +113,14 @@ describe('BrixPlugins.build()', () => {
     expect(BrixPlugins.scalars).toBeArrayOfSize(1);
   });
 
+  // TODO: Update to handle installer stuff
   it('should throw ErrorPluginUnknown for unknown plugin', async () => {
     expect.assertions(1);
     await loadProject('unknown');
     try {
       await BrixPlugins.build();
     } catch (e) {
-      expect(e).toBeInstanceOf(ErrorPluginUnknown);
+      expect(e).toBeInstanceOf(ErrorPluginsNotInstallable);
     }
   });
 

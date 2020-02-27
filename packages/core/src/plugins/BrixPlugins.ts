@@ -1,7 +1,8 @@
 import { Express, Handler, Request } from 'express';
 import findRoot from 'find-root';
-import stack from 'stack-trace';
 import path from 'path';
+import chalk from 'chalk';
+import stack from 'stack-trace';
 
 import { Config } from '../config';
 import { BrixContext } from '../config/types';
@@ -12,6 +13,7 @@ import {
   ErrorPluginUnknown,
   ErrorRequiredPluginMissing,
 } from '../errors';
+import { installHandler } from '../lib/installPlugin';
 import { logger } from '../lib/logger';
 import { importLib } from '../lib/resolveFrom';
 import { ClassType, ScalarsTypeMap } from './types';
@@ -155,20 +157,37 @@ export abstract class BrixPlugins {
         }
       });
 
+      const uninstalled: [string, any][] = [];
+
+      const loadPlugins = (plugins: [string, any][], second = false) => Promise.all(
+        plugins.map(async ([p, options]) => {
+          let pkg;
+          if (p.startsWith('./')) pkg = await attemptLoad(path.join(Config.rootDir, p));
+          if (!pkg) pkg = await attemptLoad(`@brix/${p}`);
+          if (!pkg) pkg = await attemptLoad(`@brix/plugin-${p}`);
+          if (!pkg) pkg = await attemptLoad(`brix-plugin-${p}`);
+          if (!pkg) pkg = await attemptLoad(p);
+          if (!pkg) {
+            if (Config.installPlugins && !second) return uninstalled.push([p, options]);
+            return rej(new ErrorPluginUnknown(p));
+          }
+          if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(p);
+          await (pkg as PluginPkg)(options || undefined);
+          logger.info(`Loaded plugin ${p}`);
+        })
+      );
+
       if (Config.plugins) {
         try {
-          await Promise.all(Object.entries(Config.plugins).map(async ([p, options]) => {
-            let pkg;
-            if (p.startsWith('./')) pkg = await attemptLoad(path.join(Config.rootDir, p));
-            if (!pkg) pkg = await attemptLoad(`@brix/${p}`);
-            if (!pkg) pkg = await attemptLoad(`@brix/plugin-${p}`);
-            if (!pkg) pkg = await attemptLoad(`brix-plugin-${p}`);
-            if (!pkg) pkg = await attemptLoad(p);
-            if (!pkg) throw new ErrorPluginUnknown(p);
-            if (typeof pkg !== 'function') throw new ErrorPluginNotAFunction(p);
-            await (pkg as PluginPkg)(options || undefined);
-            logger.info(`Loaded plugin ${p}`);
-          }));
+          // 1. Attempt to load all plugins, and collect uninstalled
+          await loadPlugins(Object.entries(Config.plugins));
+          if (uninstalled.length) {
+            // 2. Install plugins needed
+            logger.info(`Attempting to install ${chalk.yellow(uninstalled.length)} missing plugins`);
+            await installHandler(uninstalled.map(([p]) => p));            // // 3. Re-attempt loading
+            // 2. Re-attempt to load plugins
+            await loadPlugins(uninstalled, true);
+          }
         } catch (e) {
           rej(e);
         }
@@ -179,8 +198,6 @@ export abstract class BrixPlugins {
       } catch (e) {
         return rej(e);
       }
-
-      Object.keys(this._plugins).map(n => logger.info(`Loaded plugin ${n}`));
 
       this._buildData = {
         // entities: this._get('entities')!,

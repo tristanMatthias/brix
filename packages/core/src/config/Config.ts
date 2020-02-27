@@ -36,6 +36,7 @@ export abstract class Config {
   static plugins: BrixConfig['plugins'];
   static clsNamespace: BrixConfig['clsNamespace'];
   static logLevel: BrixConfig['logLevel'];
+  static installPlugins: BrixConfig['installPlugins'];
 
   private static loaded?: Partial<BrixConfig>;
 
@@ -148,7 +149,8 @@ export abstract class Config {
       middleware: this.middleware,
       plugins: this.plugins,
       clsNamespace: this.clsNamespace,
-      logLevel: this.logLevel
+      logLevel: this.logLevel,
+      installPlugins: this.installPlugins
     };
   }
 
