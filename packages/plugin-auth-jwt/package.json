@@ -12,21 +12,17 @@
     "build": "rimraf dist; tsc -p ./"
   },
   "peerDependencies": {
-    "@brix/api": "^0.2.0",
-    "@brix/core": "^0.2.0",
-    "@brix/model": "^0.2.0",
-    "@brix/plugin-entity-user": "^0.2.0",
     "type-graphql": "^0.17.6"
   },
   "dependencies": {
+    "@brix/api": "^0.2.2-alpha.0+118e459",
+    "@brix/core": "^0.2.2-alpha.0+118e459",
+    "@brix/model": "^0.2.2-alpha.0+118e459",
+    "@brix/plugin-entity-user": "^0.2.2-alpha.0+118e459",
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^8.3.7",
-    "@brix/api": "^0.2.0",
-    "@brix/core": "^0.2.0",
-    "@brix/model": "^0.2.0",
-    "@brix/plugin-entity-user": "^0.2.0"
+    "@types/jsonwebtoken": "^8.3.7"
   },
   "publishConfig": {
     "access": "public"

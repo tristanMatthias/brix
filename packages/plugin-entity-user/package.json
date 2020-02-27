@@ -11,14 +11,12 @@
     "dev": "tsc -p ./ -w",
     "build": "rimraf dist; tsc -p ./"
   },
-  "peerDependencies": {
-    "@brix/core": "^0.2.0",
-    "@brix/model": "^0.2.0",
-    "type-graphql": "^0.17.6"
+  "dependencies": {
+    "@brix/core": "^0.2.2-alpha.0+118e459",
+    "@brix/model": "^0.2.2-alpha.0+118e459"
   },
-  "devDependencies": {
-    "@brix/core": "^0.2.0",
-    "@brix/model": "^0.2.0"
+  "peerDependencies": {
+    "type-graphql": "^0.17.6"
   },
   "publishConfig": {
     "access": "public"

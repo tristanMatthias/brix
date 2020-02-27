@@ -12,18 +12,16 @@
     "build": "rimraf dist; tsc -p ./"
   },
   "peerDependencies": {
-    "@brix/core": "^0.2.0",
-    "@brix/model": "^0.2.0",
     "express": "^4.17.1"
   },
   "dependencies": {
+    "@brix/core": "^0.2.2-alpha.0+118e459",
+    "@brix/model": "^0.2.2-alpha.0+118e459",
     "sequelize": "^5.21.4",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
-    "@types/node": "^13.7.1",
-    "@brix/core": "^0.2.0",
-    "@brix/model": "^0.2.0"
+    "@types/node": "^13.7.1"
   },
   "publishConfig": {
     "access": "public"
