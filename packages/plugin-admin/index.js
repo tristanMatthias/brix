@@ -5,7 +5,7 @@ const fallback = require('express-history-api-fallback');
 const express = require('express');
 
 module.exports = () => {
-  const root = path.join(__dirname, './dist');
+  const root = path.join(__dirname, './dist/client');
   const serve = app => {
     const r = express.Router();
     r

@@ -7,8 +7,9 @@
   "author": "Tristan Matthias <hello@tristanmatthias.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server",
-    "build": "rimraf dist; webpack-cli --mode=production -p;"
+    "dev": "webpack-dev-server & yarn build:plugin -w",
+    "build": "rimraf dist; webpack-cli --mode=production -p; yarn build:plugin",
+    "build:plugin": "tsc -p ./tsconfig.plugin.json"
   },
   "publishConfig": {
     "access": "public"
@@ -49,8 +50,8 @@
     "yup": "^0.28.1"
   },
   "dependencies": {
-    "express-history-api-fallback": "^2.2.1",
-    "@brix/core": "^0.2.2-alpha.0+118e459"
+    "@brix/core": "^0.2.2-alpha.0+118e459",
+    "express-history-api-fallback": "^2.2.1"
   },
   "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
 }

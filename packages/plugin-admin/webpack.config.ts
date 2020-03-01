@@ -16,18 +16,20 @@ const ENV = Object.entries(DEFAULT_ENV).reduce((obj, [k, v]) => {
   return obj;
 }, {});
 
+const DIST = path.resolve(__dirname, 'dist/client');
+
 
 export default (_env: any, options: { mode: string }) => {
   const IS_PROD = options.mode === 'production';
 
   return {
     entry: [
-      './src/index.tsx'
+      './src/client/index.tsx'
     ],
     output: {
       filename: 'admin.js',
       publicPath: '/admin',
-      path: path.resolve(__dirname, 'dist')
+      path: DIST
     },
     devtool: IS_PROD ? false : 'source-map',
     resolve: {
@@ -42,6 +44,7 @@ export default (_env: any, options: { mode: string }) => {
             'babel-loader',
             {
               loader: 'ts-loader', options: {
+                configFile: path.resolve(__dirname, './tsconfig.client.json'),
                 allowTsInNodeModules: true,
                 compilerOptions: {
                   sourceMap: !IS_PROD
@@ -88,7 +91,7 @@ export default (_env: any, options: { mode: string }) => {
       }),
       new htmlWebpackPlugin({
         title: 'Brix Admin',
-        template: './src/index.html'
+        template: './src/client/index.html'
       }),
       new webpack.DefinePlugin(ENV)
       // new FaviconsWebpackPlugin('./src/images/logos/logo-light.svg')
@@ -99,7 +102,7 @@ export default (_env: any, options: { mode: string }) => {
     ],
 
     devServer: {
-      contentBase: path.resolve(__dirname, 'dist'),
+      contentBase: DIST,
       compress: true,
       port: 8888,
       historyApiFallback: true,

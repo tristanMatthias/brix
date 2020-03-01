@@ -2,8 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2016",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "./dist/client",
+    "rootDir": "./src/client",
     "strictPropertyInitialization": false,
     "jsx": "react",
     "declaration": false,
@@ -12,7 +12,7 @@
     ]
   },
   "include": [
-    "src/**/*.tsx",
-    "src/**/*.ts"
+    "src/client/**/*.tsx",
+    "src/client/**/*.ts"
   ]
 }
