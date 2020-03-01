@@ -1,17 +1,18 @@
-import { Env, generateFragments as gen } from '@brix/core';
+import { generateFragments as gen, Config, BrixPlugins } from '@brix/core';
+import fs from 'fs-extra';
 import ora from 'ora';
 
-import { start } from './start';
 
-
-export const generateFragments = async (url?: string, dest?: string) => {
+export const generateFragments = async (dest: string = './fragments.json') => {
+  await Config.update({ rootDir: process.cwd() });
+  await BrixPlugins.build();
   const spinner = ora(`Generating fragments`).start();
-
-  const { httpServer } = await start(process.cwd(), {
-    // Disable logging
-    env: Env.production
-  });
-  await gen(url, dest);
-  await httpServer.close();
+  try {
+    await fs.writeJSON(dest, await gen());
+  } catch (e) {
+    spinner.fail(e.message);
+    return false;
+  }
   spinner.succeed(`Generated fragments to ${dest}`);
+  return true;
 };

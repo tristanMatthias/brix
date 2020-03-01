@@ -13,5 +13,5 @@ export const builder: CommandBuilder = {
 };
 
 export const handler: CommandModule<any, { file: string }>['handler'] = async ({ file }) => {
-  await generateFragments(undefined, file);
+  await generateFragments(file);
 };

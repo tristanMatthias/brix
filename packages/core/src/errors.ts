@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 
 import { logger } from './lib';
+import { GraphQLError } from 'graphql';
 
 // @ts-ignore
 process.on('unhandledRejection', async (error: BaseError) => {
@@ -93,9 +94,16 @@ export class ErrorPluginsNotInstallable extends BaseError {
 
 
 // --------------------------------------------------------------------- GraphQL
-export class ErrorGQLNoResolvers extends Error {
+export class ErrorGQLNoResolvers extends BaseError {
   name = 'ErrorGQLNoResolvers';
   constructor() {
     super('No resolvers could be found for GraphQL');
+  }
+}
+
+export class ErrorGQLGenerateSchemaError extends BaseError {
+  name = 'ErrorGQLGenerateSchemaError';
+  constructor(details: GraphQLError[]) {
+    super(`Error generating graphql schema:\n${details.map(e => `\n - ${e.message}`)}\n`);
   }
 }

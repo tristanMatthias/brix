@@ -6,7 +6,7 @@ import path from 'path';
 import { buildSchema as buildSchemaGQL, BuildSchemaOptions, emitSchemaDefinitionFile } from 'type-graphql';
 
 import { Config } from '../config';
-import { ErrorGQLNoResolvers } from '../errors';
+import { ErrorGQLNoResolvers, ErrorGQLGenerateSchemaError } from '../errors';
 import { BrixPlugins } from '../plugins';
 import { dirOrDist, logger } from './';
 import { getHash } from './hash';
@@ -55,10 +55,11 @@ let schema: GraphQLSchema;
  */
 export const buildSchema = async (
   resolvers?: BuildSchemaOptions['resolvers'] | string,
-  authChecker?: BuildSchemaOptions['authChecker'],
+  authChecker: BuildSchemaOptions['authChecker'] = () => { return true; },
   useCache = true
 ) => {
   if (schema && useCache) return schema;
+  await Config.loadConfig();
   const r = (typeof resolvers === 'string' || !resolvers) ? loadResolvers(resolvers) : resolvers;
 
   const { resolvers: pluginResolvers } = await BrixPlugins.build();
@@ -66,12 +67,19 @@ export const buildSchema = async (
 
   if (!_resolvers.length) throw new ErrorGQLNoResolvers();
 
-  schema = await buildSchemaGQL({
-    dateScalarMode: 'isoDate',
-    validate: false,
-    resolvers: _resolvers,
-    authChecker
-  });
+  try {
+    schema = await buildSchemaGQL({
+      dateScalarMode: 'isoDate',
+      validate: false,
+      resolvers: _resolvers,
+      authChecker
+    });
+  } catch (e) {
+    if (e.constructor.name === 'GeneratingSchemaError') {
+      throw new ErrorGQLGenerateSchemaError(e.details);
+    }
+    throw e;
+  }
 
   return schema;
 };
