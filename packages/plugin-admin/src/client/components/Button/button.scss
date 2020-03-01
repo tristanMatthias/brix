@@ -1,29 +1,42 @@
+@import '../../styles/variables';
+
 button {
+  display: flex;
+  align-items: center;
   border-radius: var(--border-radius);
   border: var(--button-border);
   height: var(--comp-height);
   padding: var(--comp-padding);
   font-family: var(--ff-main);
   font-size: var(--comp-fs);
+  font-weight: var(--button-fw);
   box-shadow: var(--shadow-10);
   background: var(--button-bg);
   color: var(--button-color);
   cursor: pointer;
   user-select: none;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
 
   &:hover {
-    background:var(--color-main-dark);
+    // background:var(--color-main-dark);
+    filter: brightness(0.9);
   }
   &:focus {
-    background:var(--color-main-dark);
-    box-shadow: vsar(--glow-main);
+    filter: brightness(0.9);
+    box-shadow: var(--glow-main);
   }
   &:active {
-    background:var(--color-main-darkest);
+    filter: brightness(0.8);
   }
 
   &:disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+
+  &.circle {
+    border-radius: 50%;
+    width: var(--comp-height);
   }
 }

@@ -1,6 +1,7 @@
 import { BrixPlugins } from '@brix/core';
 import path from 'path';
 import { MediaResolver } from './Media.resolver';
+import '@brix/plugin-admin';
 
 
 export type ProviderType = 'filesystem' | 'cloudinary';
@@ -32,8 +33,47 @@ export default (options: Partial<PluginOptionsBase>) => {
 
   BrixPlugins.register({
     name: 'Media',
-    // @ts-ignore
     resolvers: [MediaResolver]
   });
+
+
+  if (global.BrixAdmin) {
+    global.BrixAdmin.register({
+      icon: 'images',
+      prefix: '/media',
+      title: 'Media',
+      header: {
+        heading: 'Media',
+        icon: 'images',
+        buttons: [
+          {
+            action: 'upload',
+            icon: 'upload',
+            text: 'Upload Image',
+            color: 'success',
+            query: `
+              mutation($file: ECreateMediaInput!) {
+                createMedia(media: $file) {
+                  id
+                  name
+                  url
+                  ext
+                }
+              }`
+          }
+        ]
+      },
+      content: [{
+        widget: 'entityGrid',
+        itemMap: {
+          image: 'url',
+          title: 'name',
+          subTitle: 'createdAt'
+        },
+        query: `{mediaList{url name ext createdAt}}`,
+        queryKey: 'mediaList'
+      }]
+    });
+  }
 
 };

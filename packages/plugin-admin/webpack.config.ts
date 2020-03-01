@@ -44,7 +44,7 @@ export default (_env: any, options: { mode: string }) => {
             'babel-loader',
             {
               loader: 'ts-loader', options: {
-                configFile: path.resolve(__dirname, './tsconfig.client.json'),
+                // configFile: path.resolve(__dirname, './tsconfig.client.json'),
                 allowTsInNodeModules: true,
                 compilerOptions: {
                   sourceMap: !IS_PROD

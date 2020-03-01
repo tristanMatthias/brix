@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist/plugin",
     "rootDir": "./src/plugin",
+    "declaration": true,
     "types": [
       "reflect-metadata"
     ]

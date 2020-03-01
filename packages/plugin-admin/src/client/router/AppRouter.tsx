@@ -1,5 +1,5 @@
 import { Location } from 'history';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, RouteProps, Switch, useHistory } from 'react-router';
 
 import { AppGrid } from '../components/AppGrid/AppGrid';
@@ -10,7 +10,9 @@ import { HomePage } from '../pages/Home/Home.page';
 import { LoginPage } from '../pages/Login/Login.page';
 import { LogoutPage } from '../pages/Logout/Login.page';
 import { UsersPage } from '../pages/Users/Users';
-import { routes } from './routes';
+import { routes, linkParams } from './routes';
+import { AdminPages } from '../containers/AdminPages.container';
+import { GeneratedPage } from '../pages/Generated/Generated.page';
 
 const getLoginRedirect = (_location: Location) => {
   // if (location.state?.referrer) {
@@ -40,8 +42,11 @@ const UnAuthRoute: React.FunctionComponent<RouteProps> = props => {
   return <Route {...props} />;
 };
 
-export const AppRouter = () =>
-  <Switch>
+export const AppRouter = () => {
+  const { getPages, adminPages } = AdminPages.useContainer();
+  useEffect(() => getPages(), []);
+
+  return <Switch>
     <UnAuthRoute path={routes.login(false)} component={LoginPage} />
 
     <AuthRoute path="*">
@@ -50,8 +55,14 @@ export const AppRouter = () =>
           <Route exact path={routes.home(false)} component={HomePage} />
           <Route exact path={routes.logout(false)} component={LogoutPage} />
           <Route exact path={routes.users(false)} component={UsersPage} />
+          {adminPages?.map(p => <Route
+            key={p.prefix}
+            path={linkParams(p.prefix)(false)}
+            render={() => <GeneratedPage page={p} />}
+          />)}
           <Redirect to={routes.home(false)} />
         </Switch>
       </AppGrid>
     </AuthRoute>
   </Switch>;
+};

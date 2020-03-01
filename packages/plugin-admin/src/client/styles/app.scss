@@ -1,4 +1,5 @@
-@import './functions.scss';
+@import './functions';
+@import './variables';
 
 // TODO: Download
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,900&display=swap');
@@ -9,6 +10,8 @@
 
   $color-main:#2e31ff;
   $color-error:#f84a4a;
+  $color-success:#13d28b;
+
   --color-main: #{$color-main};
   --color-main-soft: #{rgba($color-main, 0.5)};
   --color-main-dark: #{darken($color-main, 10%)};
@@ -17,9 +20,10 @@
   --color-paper: white;
   --color-bg-off: #f9f9fb;
   --color-bg: #f1f1fb;
-  --color-valid: green;
   --color-error: #{$color-error};
   --color-error-soft: #{rgba($color-error, 0.5)};
+  --color-success: #{$color-success};
+  --color-success-soft: #{rgba($color-success, 0.5)};
   --color-hover: #{rgba($color-main, 0.05)};
 
 
@@ -76,6 +80,7 @@
   --button-bg: var(--color-main);
   --button-color: var(--color-paper);
   --button-border: none;
+  --button-fw: 400;
 
   --checkbox-bg: var(--input-bg);
   --checkbox-border: var(--border-30);
@@ -116,26 +121,10 @@ body {
 
 
 // ---------------------------------------------------------------------- Colors
-.color-main { color: var(--color-main); }
-.color-main-soft { color: var(--color-main-soft); }
-.color-main-dark { color: var(--color-main-dark); }
-.color-main-darkest { color: var(--color-main-darkest); }
-.color-text { color: var(--color-text); }
-.color-paper { color: var(--color-paper); }
-.color-valid { color: var(--color-valid); }
-.color-error { color: var(--color-error); }
-
-.color-grey-10 { color: var(--color-grey-10); }
-.color-grey-20 { color: var(--color-grey-20); }
-.color-grey-30 { color: var(--color-grey-30); }
-.color-grey-40 { color: var(--color-grey-40); }
-.color-grey-50 { color: var(--color-grey-50); }
-.color-grey-60 { color: var(--color-grey-60); }
-.color-grey-70 { color: var(--color-grey-70); }
-.color-grey-80 { color: var(--color-grey-80); }
-.color-grey-90 { color: var(--color-grey-90); }
-.color-grey-100 { color: var(--color-grey-100); }
-
+@each $color in $colors {
+  .color-#{$color} { color: var(--color-#{$color}); }
+  .bg-#{$color} { background-color: var(--color-#{$color}); }
+}
 
 // ------------------------------------------------------------------------- Box
 @for $i from 1 to 10 {
@@ -171,7 +160,20 @@ a {
 
 
 h1 {
-  color: var(--color-grey-90);
+  color: var(--color-main);
   font-weight: bold;
   font-size: var(--fs-large);
+}
+
+h5 {
+  color: var(--color-grey-40);
+  font-weight: bold;
+  font-size: var(--fs-medium);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+small {
+  font-size: var(--fs-small);
+  color: var(--color-grey-30);
 }

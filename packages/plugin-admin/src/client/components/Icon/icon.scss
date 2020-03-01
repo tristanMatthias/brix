@@ -1,3 +1,5 @@
+@import '../../styles/functions';
+
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }
@@ -39,5 +41,9 @@
 
   &.is-loading {
     animation: spin .8s linear infinite;
+  }
+
+  & + span {
+    margin-left: spacing();
   }
 }

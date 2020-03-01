@@ -5,7 +5,7 @@ interface Params {
   [key: string]: number | string;
 }
 
-const linkParams = <T extends Params = {}>(
+export const linkParams = <T extends Params = {}>(
   link: string,
   usePrefix = true
 ) =>

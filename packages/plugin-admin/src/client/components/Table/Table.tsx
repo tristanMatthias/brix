@@ -86,6 +86,7 @@ export const Table: React.FunctionComponent<TableProps> = ({
         <div
           {...column.getHeaderProps(column.getSortByToggleProps())}
           className={classnames('th', column.className, { last: i === hg.headers.length - 1 })}
+          key={i}
         >
           <span>{column.render('Header')}</span>
 
@@ -128,13 +129,14 @@ export const TR: React.FunctionComponent<TableRowProps> = React.memo(({
 }) => {
   prepareRow(row);
   return <>
-    {row.cells.map(cell =>
+    {row.cells.map((cell, i) =>
       // if (cell.column.skip && cell.column.skip(cell)) return null;
       <div
         {...cell.getCellProps()}
         className={classnames('td', cell.column.className, {
           ellipsis: cell.column.ellipsis
         })}
+        key={i}
       >
         <div> {cell.render('Cell')} </div>
       </div>

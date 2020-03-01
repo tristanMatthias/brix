@@ -45,4 +45,8 @@ export class EMedia {
   @Field(() => GraphQLJSON)
   @ModelField({ nullable: true, type: FieldType.JSON })
   providerInfo: object;
+
+  @Field()
+  @ModelField()
+  createdAt: Date;
 }

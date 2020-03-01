@@ -25,5 +25,8 @@
     "fs-extra": "^8.1.0",
     "request-promise": "^4.2.5",
     "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "@brix/plugin-admin": "^0.2.2-alpha.0+118e459"
   }
 }

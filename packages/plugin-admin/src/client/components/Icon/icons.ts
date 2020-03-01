@@ -1,3 +1,4 @@
+import images from '../../images/icons/duotone/cid-images.svg';
 import error from '../../images/icons/duotone/cid-warning.svg';
 import logout from '../../images/icons/linear/cil-account-logout.svg';
 import minus from '../../images/icons/linear/cil-minus.svg';
@@ -7,7 +8,10 @@ import chevronBottomAlt from '../../images/icons/solid/cis-chevron-bottom-alt.sv
 import chevronTopAlt from '../../images/icons/solid/cis-chevron-top-alt.svg';
 import exclamation from '../../images/icons/solid/cis-exclamation.svg';
 import lock from '../../images/icons/solid/cis-lock-minus.svg';
+import plus from '../../images/icons/solid/cis-plus.svg';
 import user from '../../images/icons/solid/cis-user.svg';
+import uploadDuotone from '../../images/icons/duotone/cid-cloud-upload.svg';
+import upload from '../../images/icons/solid/cis-cloud-upload.svg';
 
 
 export const icons = {
@@ -16,10 +20,14 @@ export const icons = {
   chevronUp: chevronTopAlt,
   error,
   exclamation,
+  images,
   lock,
   logout,
   minus,
   password: lock,
   user,
-  userLine
+  userLine,
+  upload,
+  uploadDuotone,
+  plus
 };

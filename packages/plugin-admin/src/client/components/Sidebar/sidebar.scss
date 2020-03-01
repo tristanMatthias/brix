@@ -4,7 +4,7 @@ aside.sidebar {
   grid-row: span 2;
   display: grid;
   grid-template-rows: var(--sidebar-width) 1fr var(--sidebar-width);
-  box-shadow: 0 0 16rem var(--color-grey-10);
+  box-shadow: 0 0 16rem var(--color-grey-20);
   z-index: 10;
 
 
@@ -52,6 +52,7 @@ aside.sidebar {
 
   nav {
     display: grid;
+    align-content: start;
     a {
       display: flex;
       width: var(--sidebar-width);

@@ -25,5 +25,6 @@ export const Icon: React.FunctionComponent<IconProps> = ({
   const colorClass = color ? `color-${color}` : null;
   const klass = classnames('icon', props.className, sizeClass, colorClass);
   const Ikon = icons[icon];
+  if (!Ikon) return null;
   return <Ikon {...props} className={klass} />;
 };
