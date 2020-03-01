@@ -155,6 +155,7 @@ export abstract class Config {
   }
 
   private static merge(config: Partial<BrixConfig>): Partial<BrixConfig> {
+    // TODO: Hydrate `$ENV.value` from process.env
     return deepmerge.all([
       CONFIGS[config.env || process.env.NODE_ENV as Env || 'development'] || CONFIG_BASE,
       this.toJSON(),
