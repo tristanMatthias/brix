@@ -1,5 +1,5 @@
 import { Field, ObjectType, Query, Resolver } from 'type-graphql';
-import { Widget, WidgetUnion } from './Widget.union';
+import { Widget, WidgetUnion } from './widgets/Widget.union';
 
 @ObjectType()
 export class EAdminPageHeader {

@@ -1,15 +1,23 @@
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloError } from '@apollo/react-hooks';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
+import axios from 'axios';
 
 import { CONFIG } from '../config';
 import { getLocalToken } from './localStorage';
-import { ApolloError } from '@apollo/react-hooks';
+
 const { buildAxiosFetch } = require('@lifeomic/axios-fetch');
-import axios from 'axios';
+
+const getFragmentMatcher = async () => {
+  const data = await (await fetch('/admin/fragments.json')).json();
+  return new IntrospectionFragmentMatcher({
+    introspectionQueryResultData: data
+  });
+};
 
 const authLink = setContext((_, ctx) => {
   const token = getLocalToken();
@@ -40,24 +48,28 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 
-const cache = new InMemoryCache({
-  dataIdFromObject: (object: any) => {
-    switch (object.__typename) {
-      default:
-        if (object.id) return `${object.__typename}.${object.id}`;
-        return;
-    }
-  }
-});
+const getCache = async () =>
+  new InMemoryCache({
+    dataIdFromObject: (object: any) => {
+      switch (object.__typename) {
+        default:
+          if (object.id) return `${object.__typename}.${object.id}`;
+          return;
+      }
+    },
+    fragmentMatcher: await getFragmentMatcher()
+  });
 
-export const client = new ApolloClient({
-  link: authLink.concat(
-    ApolloLink.from([
-      errorLink,
-      uploadLink
-    ])),
-  cache
-});
+
+export const getClient = async () =>
+  new ApolloClient({
+    link: authLink.concat(
+      ApolloLink.from([
+        errorLink,
+        uploadLink
+      ])),
+    cache: await getCache()
+  });
 
 
 export const getGQLError = (err?: ApolloError | ApolloError[]) => {
