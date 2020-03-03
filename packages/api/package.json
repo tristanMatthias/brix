@@ -11,6 +11,9 @@
     "dev": "yarn build -w",
     "test": "jest"
   },
+  "bin": {
+    "brix-api": "dist/server.js"
+  },
   "dependencies": {
     "@brix/core": "^0.2.2-alpha.0+118e459",
     "@brix/model": "^0.2.2-alpha.0+118e459",
