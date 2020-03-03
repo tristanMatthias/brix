@@ -1,5 +1,6 @@
 src/
 *.log
+jest.config.js
 tsconfig.json
 coverage/
 tests/

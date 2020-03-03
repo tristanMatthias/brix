@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import yaml from 'yaml';
 
-import { ErrorInvalidConfigOption, ErrorInvalidEnvironment } from '../errors';
+import { ErrorInvalidConfigOption, ErrorInvalidEnvironment, ErrorNoConfigFileFound } from '../errors';
 import { dirOrDist } from '../lib/dirOrDist';
 import { CONFIG_BASE, CONFIG_DEVELOPMENT, CONFIG_PRODUCTION, CONFIG_TEST, CONFIGS } from './defaults';
 import { BrixConfig, Env } from './types';
@@ -93,7 +93,7 @@ export abstract class Config {
       const fYaml = await find(['brix.yml', 'brix.yaml']);
       const fJson = await find(['brix.json', '.brixrc']);
 
-      if (!fYaml && !fJson) throw new ErrorInvalidConfigOption(dir);
+      if (!fYaml && !fJson) throw new ErrorNoConfigFileFound(dir);
 
       if (fYaml) yml = await fs.readFile(fYaml);
       else if (fJson) json = await fs.readFile(fJson);

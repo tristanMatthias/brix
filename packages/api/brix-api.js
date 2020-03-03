@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
 (async () => {
-  await require('./dist/server').server();
+  await require('./dist/server').server({ rootDir: process.cwd() });
 })();
