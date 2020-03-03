@@ -41,6 +41,11 @@ export interface BrixConfig {
   mocksDir?: string;
   /** Directory to load the middleware from */
   middlewareDir?: string;
+  /**
+   * Directory for @brix/generated to generate files. Use this to manually override
+   * @brix/generated folder
+   */
+  generatedDir?: string;
 
   /** Database connection details */
   dbConnection: {

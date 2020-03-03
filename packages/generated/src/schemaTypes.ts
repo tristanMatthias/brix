@@ -1,5 +1,6 @@
 import { Config, generateSchema, generateTypes } from '@brix/core';
-import path from 'path';
+
+import { getDir } from './lib/getDir';
 
 /**
  * Generates schema.gql and schema.d.ts to @brix/generated
@@ -7,9 +8,9 @@ import path from 'path';
 export const generateSchemaTypes = async () => {
   await Config.loadConfig(process.cwd());
 
-  await generateSchema(undefined, path.resolve(__dirname, '../'));
+  await generateSchema(undefined, await getDir());
   await generateTypes(
-    path.resolve(__dirname, '../schema.gql'),
-    path.resolve(__dirname, '../schema.d.ts')
+    await getDir('schema.gql'),
+    await getDir('schema.d.ts')
   );
 };

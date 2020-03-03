@@ -31,6 +31,7 @@ export const validateConfig = yup.object().shape({
   resolverDir: yup.string(),
   mocksDir: yup.string(),
   middlewareDir: yup.string(),
+  generatedDir: yup.string(),
 
   dbConnection: yup.object({
     database: yup.string().when('skipDatabase', { is: false, then: yup.string().required() }),
@@ -68,6 +69,7 @@ export const validateConfig = yup.object().shape({
   'rootDir',
   'resolverDir',
   'middlewareDir',
+  'generatedDir',
   'middleware',
   'dbConnection',
   'skipDatabase',

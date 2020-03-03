@@ -5,6 +5,7 @@ import { GraphQLArgument, GraphQLNamedType, GraphQLObjectType, GraphQLSchema, Gr
 import path from 'path';
 
 import { Field, FieldMap } from './testClient';
+import { getDir } from './lib/getDir';
 
 
 export type ArgDict = { [key: string]: GraphQLArgument };
@@ -17,10 +18,11 @@ export type ArgDict = { [key: string]: GraphQLArgument };
  * @param includeDeprecatedFields Include fields that are deprecated in the queries
  */
 export const generateQueries = async (
-  dest: string = path.join(__dirname, '../queries'),
+  dest?: string,
   depthLimit = 6,
   includeDeprecatedFields = false
 ) => {
+  const destDir = dest || await getDir('queries');
   let schema: GraphQLSchema;
 
   /**
@@ -202,7 +204,7 @@ export const generateQueries = async (
         logger.warning('[gqlg]: description is required');
     }
 
-    const writeFolder = path.join(dest, `./${outputFolderName}`);
+    const writeFolder = path.join(destDir, `./${outputFolderName}`);
 
     try {
       await fs.mkdirp(writeFolder);
@@ -237,8 +239,8 @@ export const generateQueries = async (
   schema = await buildSchema();
 
   try {
-    await del(dest);
-    await fs.mkdirp(dest);
+    await del(destDir);
+    await fs.mkdirp(destDir);
   } catch (e) { }
 
 
@@ -252,7 +254,7 @@ export const generateQueries = async (
   if (subscription) exportAll += await generateFile(subscription.getFields(), 'Subscription');
 
 
-  await fs.writeFile(path.join(dest, 'index.js'), exportAll);
+  await fs.writeFile(path.join(destDir, 'index.js'), exportAll);
   await new Promise(res => setTimeout(res, 4000));
   return true;
 };

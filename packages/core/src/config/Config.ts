@@ -28,6 +28,7 @@ export abstract class Config {
   static resolverDir: BrixConfig['resolverDir'];
   static mocksDir: BrixConfig['mocksDir'];
   static middlewareDir: BrixConfig['middlewareDir'];
+  static generatedDir: BrixConfig['generatedDir'];
   static dbConnection: BrixConfig['dbConnection'];
   static skipDatabase: BrixConfig['skipDatabase'];
   static accessTokenSecret: BrixConfig['accessTokenSecret'];
@@ -141,6 +142,7 @@ export abstract class Config {
       mocks: this.mocks,
       resolverDir: this.resolverDir,
       mocksDir: this.mocksDir,
+      generatedDir: this.generatedDir,
       middlewareDir: this.middlewareDir,
       dbConnection: this.dbConnection,
       skipDatabase: this.skipDatabase,

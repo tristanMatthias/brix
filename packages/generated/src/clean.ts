@@ -1,5 +1,6 @@
 import del from 'del';
-import path from 'path';
+
+import { getDir } from './lib/getDir';
 
 /**
  * Clean all generated files under @brix/generated
@@ -13,8 +14,8 @@ export const clean = async () => {
     'shapes.js',
     'TestClient.d.ts',
     'TestClient.js'
-  ].map(f => del(
-    path.resolve(__dirname, `../${f}`),
+  ].map(async f => del(
+    await getDir(f),
     { force: true }
   )));
 };
