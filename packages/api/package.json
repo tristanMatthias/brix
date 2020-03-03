@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "bin": {
-    "brix-api": "dist/server.js"
+    "brix-api": "./brix-api.js"
   },
   "dependencies": {
     "@brix/core": "^0.2.2-alpha.0+118e459",
