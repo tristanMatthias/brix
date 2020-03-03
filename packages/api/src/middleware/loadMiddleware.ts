@@ -28,7 +28,10 @@ export const loadMiddleware = async (app: Express) => {
   } else {
     const dir = Config.middlewareDir || path.join(Config.rootDir, 'middleware');
     if (await fs.pathExists(dir)) {
-      const files = (await fs.readdir(dir)).filter(f => f.endsWith('.js') || f.endsWith('.ts'));
+      const files = (await fs.readdir(dir)).filter(f =>
+        (f.endsWith('.js') || f.endsWith('.ts')) &&
+        (!f.endsWith('.d.ts'))
+      );
 
       const mws: BrixConfig['middleware'] = await Promise.all(files.map(async f => {
         const fp = path.join(dir, f);
