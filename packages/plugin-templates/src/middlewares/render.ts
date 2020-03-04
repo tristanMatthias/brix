@@ -12,14 +12,14 @@ import { PluginTemplateOptions } from '..';
  */
 export const render = (options: PluginTemplateOptions) =>
   async (app: Express) => {
-    const viewDir = options.viewDir || path.resolve(Config.rootDir, 'views');
+    const viewDir = options.viewDir || path.resolve(Config.distDir, 'views');
     app.set('views', viewDir);
 
     const router = Router();
 
 
     /**
-     * Load all avaiable pages and templates able to be rendered and store in
+     * Load all available pages and templates able to be rendered and store in
      * `res.locals.templates`
      */
     router.use(async (_req, res, next) => {

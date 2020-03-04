@@ -38,7 +38,7 @@ export const loadResolvers = (dir?: string): BuildSchemaOptions['resolvers'] => 
     load(Config.resolverDir);
   } else {
     try {
-      const dd = dirOrDist(dir || Config.rootDir);
+      const dd = dir || Config.distDir;
       load(path.resolve(dd, 'gql/resolvers'));
     } catch (e) {
       if (e.code !== 'MODULE_NOT_FOUND') throw e;
@@ -103,7 +103,7 @@ export const schemaToJSON = async () => {
  */
 export const generateSchema = async (dir?: string, out?: string) => {
   await emitSchemaDefinitionFile(
-    path.resolve(out || dirOrDist(Config.rootDir), 'schema.gql'),
+    path.resolve(out || Config.rootDir, 'schema.gql'),
     await buildSchema(dir)
   );
 };

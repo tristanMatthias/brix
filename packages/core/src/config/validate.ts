@@ -25,6 +25,7 @@ export const validateConfig = yup.object().shape({
   env: yup.string().required(),
   port: yup.number().required(),
   rootDir: yup.string(),
+  distDir: yup.string(),
   skipDatabase: yup.boolean(),
   mocks: yup.boolean(),
 
@@ -67,6 +68,7 @@ export const validateConfig = yup.object().shape({
   'mocks',
   'mocksDir',
   'rootDir',
+  'distDir',
   'resolverDir',
   'middlewareDir',
   'generatedDir',

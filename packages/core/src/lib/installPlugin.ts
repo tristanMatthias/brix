@@ -14,11 +14,11 @@ const getInfo = async (pkg: string) => {
   }
 };
 
-export const resolveExternalPlugin = async (pluginName: string) => {
+export const resolveExternalPlugin = async (pluginName: string): Promise<string | null> => {
   let info: any;
   if (!info) info = await getInfo(`@brix/plugin-${pluginName}`);
   if (!info) info = await getInfo(`brix-plugin-${pluginName}`);
-  if (!info) throw new ErrorPluginsNotInstallable(pluginName);
+  if (!info) return null;
   return info.name;
 };
 
@@ -37,6 +37,7 @@ export const installHandler = async (plugins: string[]) =>
           try {
             o.next(`Resolving ${p} plugin`);
             const name = await resolveExternalPlugin(p);
+            if (!name) throw new ErrorPluginsNotInstallable(p);
             o.next(`Installing ${name} plugin...`);
             await installPlugins(name);
             o.next(`Successfully installed ${name}!`);

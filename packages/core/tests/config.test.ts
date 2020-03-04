@@ -198,6 +198,7 @@ describe('validateConfig', () => {
   testConfig('env');
   testConfig('port', 'asd', 'number');
   testConfig('rootDir');
+  testConfig('distDir');
   testConfig('skipDatabase', 123, 'boolean');
   testConfig('mocks', 123, 'boolean');
   testConfig('resolverDir');

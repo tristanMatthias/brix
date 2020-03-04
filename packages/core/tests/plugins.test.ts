@@ -90,7 +90,7 @@ describe('BrixPlugins.build()', () => {
     expect(data1).toEqual(data2);
   });
 
-  it('should return promise on rebuild', async () => {
+  it('should resolve plugin from all prefixes/locations', async () => {
     await loadProject('resolve-node-modules');
     await BrixPlugins.build();
     // @ts-ignore Access private

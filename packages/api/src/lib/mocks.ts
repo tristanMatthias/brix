@@ -29,7 +29,7 @@ export const loadMocks = (schema: GraphQLSchema, dir?: string): IMocks | boolean
     load(Config.mocksDir);
   } else {
     try {
-      load(dir || path.resolve(Config.rootDir, 'gql/mocks'));
+      load(dir || path.resolve(Config.distDir, 'gql/mocks'));
     } catch (e) {
       if (e.code && e.code === 'MODULE_NOT_FOUND') mocks = true;
       else throw e;

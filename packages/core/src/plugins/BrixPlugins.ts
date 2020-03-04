@@ -129,7 +129,7 @@ export abstract class BrixPlugins {
         try {
           // 1. Attempt to load all plugins, and collect uninstalled
           await loadPlugins(Object.entries(Config.plugins));
-          if (uninstalled.length) {
+          if (Config.installPlugins && uninstalled.length) {
             // 2. Install plugins needed
             logger.info(`Attempting to install ${chalk.yellow(uninstalled.length)} missing plugins`);
             await installHandler(uninstalled.map(([p]) => p));            // // 3. Re-attempt loading

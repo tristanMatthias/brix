@@ -32,6 +32,8 @@ export interface BrixConfig {
   port: number;
   /** Root directory the API is running in */
   rootDir: string;
+  /** Dist directory the API is running from */
+  distDir: string;
   /** Mock the API from the schema (Disables resolvers) */
   mocks: boolean;
 

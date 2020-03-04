@@ -7,8 +7,11 @@ import { BrixConfig, DBDialect, Env } from './types';
 export const CONFIG_BASE: Partial<BrixConfig> = {
   env: process.env.NODE_ENV as Env || Env.production,
   port: parseInt(process.env.PORT!) || 4000,
-  rootDir: dirOrDist(process.mainModule
-    ? path.dirname(process.mainModule!.filename)
+  rootDir: process.mainModule
+    ? path.dirname(process.mainModule.filename)
+    : process.cwd(),
+  distDir: dirOrDist(process.mainModule
+    ? path.dirname(process.mainModule.filename)
     : process.cwd()
   ),
   mocks: Boolean(process.env.MOCKS) || false,
@@ -47,7 +50,8 @@ export const CONFIG_DEVELOPMENT: Partial<BrixConfig> = {
 export const CONFIG_TEST: Partial<BrixConfig> = {
   ...CONFIG_DEVELOPMENT as BrixConfig,
   env: Env.test,
-  logLevel: 'warning'
+  logLevel: 'warning',
+  installPlugins: false
 };
 
 
@@ -55,7 +59,8 @@ export const CONFIG_PRODUCTION: Partial<BrixConfig> = {
   ...CONFIG_BASE,
   env: Env.production,
   corsAllowFrom: true,
-  logLevel: 'error'
+  logLevel: 'error',
+  installPlugins: false
 };
 
 

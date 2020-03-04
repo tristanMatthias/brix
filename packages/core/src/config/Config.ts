@@ -24,6 +24,7 @@ export abstract class Config {
   static env: BrixConfig['env'];
   static port: BrixConfig['port'];
   static rootDir: BrixConfig['rootDir'];
+  static distDir: BrixConfig['distDir'];
   static mocks: BrixConfig['mocks'];
   static resolverDir: BrixConfig['resolverDir'];
   static mocksDir: BrixConfig['mocksDir'];
@@ -81,7 +82,10 @@ export abstract class Config {
     if (this.loaded && (!dir || dir === Config.rootDir)) config = this.loaded;
     else {
       if (dir && dir !== Config.rootDir) {
-        await this.update({ rootDir: dirOrDist(dir) });
+        await this.update({
+          rootDir: dir,
+          distDir: dirOrDist(dir)
+        });
       }
 
       let yml;
@@ -132,6 +136,8 @@ export abstract class Config {
     } catch (e) {
       throw new ErrorInvalidConfigOption(e.message);
     }
+
+    if (newConfig.rootDir) Object.assign(this, { distDir: dirOrDist(newConfig.rootDir) });
   }
 
   private static toJSON(): BrixConfig {
@@ -139,6 +145,7 @@ export abstract class Config {
       env: this.env,
       port: this.port,
       rootDir: this.rootDir,
+      distDir: this.distDir,
       mocks: this.mocks,
       resolverDir: this.resolverDir,
       mocksDir: this.mocksDir,

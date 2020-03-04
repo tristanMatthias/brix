@@ -1,4 +1,4 @@
-import { Config, logger, BrixPlugins, BrixConfig, dirOrDist } from '@brix/core';
+import { BrixConfig, BrixPlugins, Config, logger } from '@brix/core';
 import chalk from 'chalk';
 import { Express } from 'express';
 import fs from 'fs-extra';
@@ -26,7 +26,7 @@ export const loadMiddleware = async (app: Express) => {
 
     // Load middleware from the project root
   } else {
-    const dir = Config.middlewareDir || path.join(dirOrDist(Config.rootDir), 'middleware');
+    const dir = Config.middlewareDir || path.join(Config.distDir, 'middleware');
     if (await fs.pathExists(dir)) {
       const files = (await fs.readdir(dir)).filter(f =>
         (f.endsWith('.js') || f.endsWith('.ts')) &&

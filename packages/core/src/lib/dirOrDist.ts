@@ -7,7 +7,7 @@ import path from 'path';
  * @param dir Directory to resolve
  */
 export const dirOrDist = (dir: string) => {
-  const dist = path.join(dir, 'dist');
+  const dist = path.join(dir.toString(), 'dist');
   if (fs.existsSync(dist)) return dist;
   return dir;
 };
