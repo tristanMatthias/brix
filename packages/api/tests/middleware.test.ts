@@ -33,6 +33,13 @@ describe('Server middleware', () => {
     expect(Config.middleware).toBeArrayOfSize(2);
   });
 
+  it('should load single middleware from dist middleware directory', async () => {
+    ({ httpServer } = await server(await project('middleware-dist', {
+      middlewareDir: undefined
+    })));
+    expect(Config.middleware).toBeArrayOfSize(2);
+  });
+
   it('should not load middleware that doesn\'t export default function', async () => {
     ({ httpServer } = await server(await project('middleware-error', {
       middlewareDir: pjPath('middleware-error', 'middleware')
