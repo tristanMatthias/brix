@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-templates",
-  "version": "0.2.2-alpha.0+118e459",
+  "version": "0.2.2-alpha.44+b51a666",
   "description": "Brix plugin to enable rendering of templates",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
     "build": "rimraf dist; tsc -p ./"
   },
   "dependencies": {
-    "@brix/core": "^0.2.2-alpha.0+118e459",
+    "@brix/core": "^0.2.2-alpha.44+b51a666",
     "consolidate": "^0.15.1",
     "pug": "^2.0.4",
     "recursive-readdir": "^2.2.2",
@@ -28,5 +28,5 @@
     "@types/consolidate": "^0.14.0",
     "@types/recursive-readdir": "^2.2.0"
   },
-  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
+  "gitHead": "b51a666b76dbccfd120be40bddfb5518ef02d6ea"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-media",
-  "version": "0.2.2-alpha.0+118e459",
+  "version": "0.2.2-alpha.44+b51a666",
   "description": "Media plugin for Brix",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,16 +17,16 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a",
+  "gitHead": "b51a666b76dbccfd120be40bddfb5518ef02d6ea",
   "dependencies": {
-    "@brix/core": "^0.2.2-alpha.0+118e459",
-    "@brix/model": "^0.2.2-alpha.0+118e459",
+    "@brix/core": "^0.2.2-alpha.44+b51a666",
+    "@brix/model": "^0.2.2-alpha.44+b51a666",
     "cloudinary": "^1.19.0",
     "fs-extra": "^8.1.0",
     "request-promise": "^4.2.5",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "@brix/plugin-admin": "^0.2.2-alpha.0+118e459"
+    "@brix/plugin-admin": "^0.2.2-alpha.44+b51a666"
   }
 }

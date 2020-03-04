@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-entity-user",
-  "version": "0.2.2-alpha.0+118e459",
+  "version": "0.2.2-alpha.44+b51a666",
   "description": "Core of Brix.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,8 +12,8 @@
     "build": "rimraf dist; tsc -p ./"
   },
   "dependencies": {
-    "@brix/core": "^0.2.2-alpha.0+118e459",
-    "@brix/model": "^0.2.2-alpha.0+118e459"
+    "@brix/core": "^0.2.2-alpha.44+b51a666",
+    "@brix/model": "^0.2.2-alpha.44+b51a666"
   },
   "peerDependencies": {
     "type-graphql": "^0.17.6"
@@ -21,5 +21,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "118e459fb8ac6ede7fb470e14b37e1b3ed42a08a"
+  "gitHead": "b51a666b76dbccfd120be40bddfb5518ef02d6ea"
 }
