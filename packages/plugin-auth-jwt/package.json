@@ -1,6 +1,6 @@
 {
   "name": "@brix/plugin-auth-jwt",
-  "version": "0.2.2-alpha.44+b51a666",
+  "version": "0.2.2-alpha.54+012eb64",
   "description": "JWT authentication in Brix",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,10 +15,10 @@
     "type-graphql": "^0.17.6"
   },
   "dependencies": {
-    "@brix/api": "^0.2.2-alpha.44+b51a666",
-    "@brix/core": "^0.2.2-alpha.44+b51a666",
-    "@brix/model": "^0.2.2-alpha.44+b51a666",
-    "@brix/plugin-entity-user": "^0.2.2-alpha.44+b51a666",
+    "@brix/api": "^0.2.2-alpha.54+012eb64",
+    "@brix/core": "^0.2.2-alpha.54+012eb64",
+    "@brix/model": "^0.2.2-alpha.54+012eb64",
+    "@brix/plugin-entity-user": "^0.2.2-alpha.54+012eb64",
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
@@ -27,5 +27,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b51a666b76dbccfd120be40bddfb5518ef02d6ea"
+  "gitHead": "012eb64f698ac8fcf181a71550d46c95198595d0"
 }

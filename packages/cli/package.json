@@ -1,6 +1,6 @@
 {
   "name": "@brix/cli",
-  "version": "0.2.2-alpha.44+b51a666",
+  "version": "0.2.2-alpha.54+012eb64",
   "description": "CLI for Brix",
   "bin": {
     "brix": "dist/index.js"
@@ -10,9 +10,9 @@
     "dev": "yarn build -w"
   },
   "dependencies": {
-    "@brix/api": "^0.2.2-alpha.44+b51a666",
-    "@brix/core": "^0.2.2-alpha.44+b51a666",
-    "@brix/generated": "^0.2.2-alpha.44+b51a666",
+    "@brix/api": "^0.2.2-alpha.54+012eb64",
+    "@brix/core": "^0.2.2-alpha.54+012eb64",
+    "@brix/generated": "^0.2.2-alpha.54+012eb64",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
     "deepmerge": "^4.2.2",
@@ -34,5 +34,5 @@
   "peerDependencies": {
     "type-graphql": "^0.17.6"
   },
-  "gitHead": "b51a666b76dbccfd120be40bddfb5518ef02d6ea"
+  "gitHead": "012eb64f698ac8fcf181a71550d46c95198595d0"
 }
