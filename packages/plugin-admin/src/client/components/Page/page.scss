@@ -10,4 +10,7 @@ main {
   grid-template-columns: repeat(12, 1fr);
   padding: spacing(2);
   grid-gap: spacing(2);
+  position: relative;
+  // Above the sidebar shadow
+  z-index: 11;
 }

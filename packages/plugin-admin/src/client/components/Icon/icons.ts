@@ -13,6 +13,7 @@ import exclamation from '../../images/icons/solid/cis-exclamation.svg';
 import lock from '../../images/icons/solid/cis-lock-minus.svg';
 import plus from '../../images/icons/solid/cis-plus.svg';
 import user from '../../images/icons/solid/cis-user.svg';
+import note from '../../images/icons/duotone/cid-note.svg';
 
 
 export const icons = {
@@ -31,5 +32,6 @@ export const icons = {
   upload,
   uploadDuotone,
   plus,
-  page
+  page,
+  note
 };

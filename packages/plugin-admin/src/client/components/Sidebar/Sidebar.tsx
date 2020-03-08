@@ -3,7 +3,7 @@ import './sidebar.scss';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { AdminPages } from '../../containers/AdminPages.container';
+import { AdminApps } from '../../containers/AdminApps.container';
 import Logo from '../../images/logo-mark.svg';
 import { linkParams, routes } from '../../router/routes';
 import { Icon, IconType } from '../Icon/Icon';
@@ -15,7 +15,8 @@ const sidebarLinks: { [url: string]: IconType } = {
 };
 
 export const Sidebar = () => {
-  const { adminPages } = AdminPages.useContainer();
+  const { adminApps } = AdminApps.useContainer();
+
 
   return <aside className="sidebar">
     <NavLink exact to={routes.home()} className="logo"><Logo /></NavLink>
@@ -23,8 +24,8 @@ export const Sidebar = () => {
       {Object.entries(sidebarLinks).map(([to, icon]) => <NavLink key={to} to={to}>
         <Icon icon={icon} size="medium" />
       </NavLink>)}
-      {adminPages?.map(p => <NavLink key={p.prefix} to={linkParams(p.prefix)()}>
-        <Icon icon={p.icon as IconType} size="medium" />
+      {adminApps?.map(p => <NavLink key={p.path} to={linkParams(p.path)()}>
+        <Icon icon={p.icon} size="medium" />
       </NavLink>)}
     </nav>
     <UserProfile />

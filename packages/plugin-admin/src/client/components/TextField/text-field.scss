@@ -1,4 +1,4 @@
-input {
+input, textarea {
   display: inline-block;
   vertical-align: middle;
   border-radius: var(--border-radius);
@@ -31,12 +31,22 @@ input {
   }
 }
 
+
+input {
+    padding: 0 var(--comp-padding);
+  }
+textarea {
+  min-height: calc(var(--comp-height) * 2);
+  padding: var(--comp-padding);
+  resize: none;
+}
+
+
 .input {
   position: relative;
 
-  input {
+  input, textarea {
     width: 100%;
-    padding: 0 1rem;
     box-sizing: border-box;
   }
 
@@ -84,7 +94,9 @@ input {
 }
 
 .input.error input,
-input.error {
+input.error,
+.input.error textarea,
+textarea.error {
   border-color: var(--color-error);
 
   &:focus {

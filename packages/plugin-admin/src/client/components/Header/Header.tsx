@@ -2,7 +2,7 @@ import './header.scss';
 
 import React from 'react';
 
-import { EAdminPageHeader } from '../../containers/AdminPages.container';
+import { EAdminPageHeader } from '../../containers/AdminApps.container';
 import { Button } from '../Button/Button';
 import { Icon, IconType } from '../Icon/Icon';
 import { useActions } from '../../hooks/useAction';
@@ -23,10 +23,11 @@ export const Header: React.FunctionComponent<HeaderProps> = ({
   return <header className="top">
     <Icon icon={icon} size="medium" color="main" />
     <h1>{title}</h1>
-    {buttons?.length && <div className="button-group">
+    {(buttons && (buttons.length > 0)) && <div className="button-group">
       {buttons.map(({
         icon,
         text,
+        action,
         ...props
       }, i) => <Button onClick={() => actions[i]()} {...props}>
           {icon && <Icon icon={icon} />}

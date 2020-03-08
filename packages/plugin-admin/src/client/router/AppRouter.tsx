@@ -8,10 +8,10 @@ import { Auth } from '../containers/Auth.container';
 import { Me } from '../containers/Me.container';
 import { HomePage } from '../pages/Home/Home.page';
 import { LoginPage } from '../pages/Login/Login.page';
-import { LogoutPage } from '../pages/Logout/Login.page';
+import { LogoutPage } from '../pages/Logout/LOGOUT.page';
 import { UsersPage } from '../pages/Users/Users';
 import { routes, linkParams } from './routes';
-import { AdminPages } from '../containers/AdminPages.container';
+import { AdminApps } from '../containers/AdminApps.container';
 import { GeneratedPage } from '../pages/Generated/Generated.page';
 
 const getLoginRedirect = (_location: Location) => {
@@ -43,7 +43,7 @@ const UnAuthRoute: React.FunctionComponent<RouteProps> = props => {
 };
 
 export const AppRouter = () => {
-  const { getPages, adminPages } = AdminPages.useContainer();
+  const { getPages, adminApps } = AdminApps.useContainer();
   useEffect(() => getPages(), []);
 
   return <Switch>
@@ -55,9 +55,9 @@ export const AppRouter = () => {
           <Route exact path={routes.home(false)} component={HomePage} />
           <Route exact path={routes.logout(false)} component={LogoutPage} />
           <Route exact path={routes.users(false)} component={UsersPage} />
-          {adminPages?.map(p => <Route
-            key={p.prefix}
-            path={linkParams(p.prefix)(false)}
+          {adminApps?.map(p => <Route
+            key={p.path}
+            path={linkParams(p.path)(false)}
             render={() => <GeneratedPage page={p} />}
           />)}
           <Redirect to={routes.home(false)} />

@@ -1,6 +1,6 @@
 import './text-field.scss';
 
-import classname from 'classnames';
+import classnames from 'classnames';
 import React, { HTMLProps, MutableRefObject } from 'react';
 
 import { Icon, IconType } from '../Icon/Icon';
@@ -17,7 +17,13 @@ export interface TextFieldProps extends HTMLProps<HTMLInputElement> {
   forwardRef?: MutableRefObject<HTMLInputElement | null>;
   loading?: boolean;
   initialValue?: string;
+  textarea?: boolean;
 }
+
+const Comp = (props: any) => {
+  if (props.textarea) return <textarea {...props} />;
+  return <input {...props} />;
+};
 
 
 export const TextField: React.FunctionComponent<TextFieldProps> = ({
@@ -32,6 +38,7 @@ export const TextField: React.FunctionComponent<TextFieldProps> = ({
   loading,
   value,
   forwardRef,
+  textarea,
   ...props
 }) => {
 
@@ -45,7 +52,8 @@ export const TextField: React.FunctionComponent<TextFieldProps> = ({
   const icon2: IconType | undefined = err ? 'exclamation' : iconSecondary;
   const icon2Color = err ? 'error' : iconSecondaryColor;
 
-  return <div className={classname('input', className, {
+
+  return <div className={classnames('input', className, {
     loading,
     suffix,
     disabled,
@@ -55,12 +63,8 @@ export const TextField: React.FunctionComponent<TextFieldProps> = ({
       ? <Loader />
       : icon && <Icon icon={icon} color={iconColor} />}
     {icon2 && <Icon icon={icon2} color={icon2Color} />}
-    <input
-      onKeyDown={(e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-          (e.target as HTMLInputElement).blur();
-        }
-      }}
+    <Comp
+      textarea={textarea}
       {...props}
       value={value}
       disabled={disabled}

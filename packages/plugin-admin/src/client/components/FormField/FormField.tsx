@@ -2,13 +2,15 @@ import './form-field.scss';
 
 import classnames from 'classnames';
 import { FormikHandlers, getIn, useField, useFormikContext } from 'formik';
-import React, { useMemo } from 'react';
+import React, { FunctionComponent, useMemo } from 'react';
 
+import { firstUpper } from '../../lib/text';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { useBrixFormContext } from '../Form/Form';
-import { TextField } from '../TextField/TextField';
-import { FormFieldProps } from './FormField.types';
-import { firstUpper } from '../../lib/text';
+import { Select } from '../Select/Select';
+import { TextField, TextFieldProps } from '../TextField/TextField';
+
+
 
 // import { OptionProps } from 'react-select';
 // import { ColorField } from '../ColorField/ColorField';
@@ -20,6 +22,42 @@ import { firstUpper } from '../../lib/text';
 // import { Select } from '../Select/Select';
 // import { Switch } from '../switch/Switch';
 // import { TimeField } from '../TimeField/TimeField';
+
+
+// import { CheckboxProps } from '../Checkbox/Checkbox.types';
+// import { ColorFieldProps } from '../ColorField/ColorField.types';
+
+// import { SelectProps } from '../Select/Select.types';
+// import { MultiSelectProps } from '../MultiSelect/MultiSelect.types';
+// import { SwitchProps } from '../switch/Switch.types';
+// import { ImageFieldProps } from '../ImageField/ImageField.types';
+// import { RadioTabProps } from '../RadioTabField/RadioTab.types';
+
+
+export type FormFieldType =
+  ({ type: 'text' | 'password' | 'number' } & TextFieldProps);
+// ({ type: 'color' } & ColorFieldProps) |
+// ({ type: 'checkbox' } & CheckboxProps) |
+// ({ type: 'switch' } & SwitchProps) |
+// ({ type: 'select' } & Omit<SelectProps, 'name'>) |
+// ({ type: 'multiselect' } & Omit<MultiSelectProps, 'name'>) |
+// ({ type: 'image' } & ImageFieldProps) |
+// ({ type: 'radio-tab' } & RadioTabProps) |
+// ({ type: 'radio' } & RadioTabProps);
+
+export type FormFieldBaseProps = {
+  name: string;
+  label?: string;
+  labelComponent?: React.ComponentType<any>,
+  className?: string;
+  colSpan?: 1 | 2;
+  changeOnBlur?: boolean;
+};
+
+export type FormFieldProps = FormFieldBaseProps & (FormFieldType | {
+  component?: React.ComponentType | FunctionComponent<any>,
+  [prop: string]: any
+});
 
 
 export const FormField: React.FunctionComponent<FormFieldProps> = ({
@@ -74,11 +112,22 @@ export const FormField: React.FunctionComponent<FormFieldProps> = ({
     const type = compProps.type;
 
     switch (type) {
+      case 'hidden':
+        return <input
+          {...fieldFormik}
+          {...compProps as any}
+          {...extraProps}
+        />;
       case 'text':
       case 'number':
       case 'password':
         Comp = TextField;
         extraProps.type = type;
+        break;
+      case 'textarea':
+        Comp = TextField;
+        extraProps.type = type;
+        extraProps.textarea = true;
         break;
 
       // case 'color':
@@ -120,9 +169,9 @@ export const FormField: React.FunctionComponent<FormFieldProps> = ({
       //   }
       //   break;
 
-      // case 'select':
-      //   Comp = Select;
-      //   break;
+      case 'select':
+        Comp = Select;
+        break;
 
       // case 'multiselect':
       //   Comp = MultiSelect;

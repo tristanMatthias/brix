@@ -6,15 +6,17 @@ main.login {
   overflow: hidden;
   position: relative;
 
-  &:after {
+  &:before {
     content: '';
-    width: 100vw;
-    height: 80vh;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) skewY(-15deg);
-    background-color: var(--color-grey-10);
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../../images/login/login-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.075;
     z-index: -1;
   }
 

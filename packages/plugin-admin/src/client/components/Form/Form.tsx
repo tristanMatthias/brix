@@ -36,7 +36,6 @@ export const Form: React.FunctionComponent<FormProps<any>> = ({
   success,
   ...formikProps
 }) => {
-
   // Establishes the context for FormField to call onChange
   const ctx: BrixFormContext = {
     onChange: (e, formik) => {
@@ -54,6 +53,11 @@ export const Form: React.FunctionComponent<FormProps<any>> = ({
   useEffect(() => {
     if (setForm) setForm(form);
   }, [form.values, form.errors, form.touched]);
+
+  useEffect(() => {
+    // TODO: Fix formik initial change
+    if (onChange && Object.keys(initialValues).length) onChange(initialValues, {} as any);
+  }, [initialValues]);
 
   const canSubmit = form.dirty && withSubmit;
 

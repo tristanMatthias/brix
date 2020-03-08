@@ -7,11 +7,13 @@ import { Column, Row, useExpanded, useRowSelect, useSortBy, useTable, UseTableOp
 import { Icon } from '../../components/Icon/Icon';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Loader } from '../Loader/Loader';
+import { convertColsFromWidget } from './convertColsFromWidget';
 
 
 export interface TableProps extends Partial<RTProps<any>> {
   selectable?: boolean;
   onSelect?: (values: any[]) => void;
+  onRowClick?: (data: any) => void;
   loading?: boolean;
   small?: boolean;
 }
@@ -20,6 +22,7 @@ export interface TableRowProps {
   row: Row;
   prepareRow: (row: any) => void;
   selected: boolean;
+  onClick?: TableProps['onRowClick'];
 }
 
 
@@ -35,11 +38,12 @@ const columnSelectable: Column = {
 };
 
 export const Table: React.FunctionComponent<TableProps> = ({
-  data,
-  columns,
+  data = [],
+  columns = [],
   selectable,
   onSelect,
   loading,
+  onRowClick,
   small
 }) => {
 
@@ -47,9 +51,8 @@ export const Table: React.FunctionComponent<TableProps> = ({
     // @ts-ignore
     data,
     columns: useMemo(() => {
-      const cols = columns || [];
-      if (selectable) cols.unshift(columnSelectable);
-      return cols;
+      if (selectable) columns.unshift(columnSelectable);
+      return convertColsFromWidget(columns);
     }, [columns])
   }, useSortBy, useExpanded, useRowSelect);
 
@@ -60,7 +63,7 @@ export const Table: React.FunctionComponent<TableProps> = ({
 
 
   const gridTemplateColumns = useMemo(
-    () => headerGroups[0].headers
+    () => (headerGroups[0]?.headers || [])
       .map(({ maxWidth, minWidth, width }: any) => {
         if (minWidth === 0 && width === 150 && maxWidth === 9007199254740991) return '1fr';
         if (width) {
@@ -71,7 +74,9 @@ export const Table: React.FunctionComponent<TableProps> = ({
         const max = typeof maxWidth === 'string' ? maxWidth : maxWidth ? `${maxWidth}px` : 'auto';
         return `minmax(${min}, ${max})`;
       }).join('\n'),
-    [headerGroups[0].headers]
+    [headerGroups
+      // headerGroups[0].headers
+    ]
   );
 
 
@@ -85,7 +90,10 @@ export const Table: React.FunctionComponent<TableProps> = ({
       {hg.headers.map((column: any, i: number) =>
         <div
           {...column.getHeaderProps(column.getSortByToggleProps())}
-          className={classnames('th', column.className, { last: i === hg.headers.length - 1 })}
+          className={classnames('th', column.className, {
+            last: i === hg.headers.length - 1,
+            sortable: column.canSort
+          })}
           key={i}
         >
           <span>{column.render('Header')}</span>
@@ -94,13 +102,11 @@ export const Table: React.FunctionComponent<TableProps> = ({
             ? <Icon
               size={'small'}
               icon="chevronDown"
-              className={column.isSortedDesc ? '' : 'flip'}
-              color="main"
+              className={column.isSortedDesc ? 'active' : 'flip'}
             />
             : <Icon
               size={'small'}
               icon="chevronUp"
-              color="grey-20"
             />
           }
         </div>
@@ -115,6 +121,7 @@ export const Table: React.FunctionComponent<TableProps> = ({
           row={row}
           prepareRow={prepareRow}
           selected={row.isSelected}
+          onClick={onRowClick}
         />
       )
     }
@@ -125,7 +132,8 @@ export const Table: React.FunctionComponent<TableProps> = ({
 
 export const TR: React.FunctionComponent<TableRowProps> = React.memo(({
   row,
-  prepareRow
+  prepareRow,
+  onClick
 }) => {
   prepareRow(row);
   return <>
@@ -134,8 +142,10 @@ export const TR: React.FunctionComponent<TableRowProps> = React.memo(({
       <div
         {...cell.getCellProps()}
         className={classnames('td', cell.column.className, {
-          ellipsis: cell.column.ellipsis
+          ellipsis: cell.column.ellipsis,
+          clickable: Boolean(onClick)
         })}
+        onClick={() => onClick?.(cell.row.original)}
         key={i}
       >
         <div> {cell.render('Cell')} </div>

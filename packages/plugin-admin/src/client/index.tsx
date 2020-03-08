@@ -10,7 +10,7 @@ import { getClient } from './lib/apollo';
 import { history } from './lib/history';
 import { AppRouter } from './router/AppRouter';
 import { Me } from './containers/Me.container';
-import { AdminPages } from './containers/AdminPages.container';
+import { AdminApps } from './containers/AdminApps.container';
 
 (async () =>
   ReactDOM.render(
@@ -18,11 +18,11 @@ import { AdminPages } from './containers/AdminPages.container';
     <AHooksProvider client={await getClient()}>
       <Auth.Provider>
         <Me.Provider>
-          <AdminPages.Provider>
+          <AdminApps.Provider>
             <Router history={history}>
               <AppRouter />
             </Router>
-          </AdminPages.Provider>
+          </AdminApps.Provider>
         </Me.Provider>
       </Auth.Provider>
     </AHooksProvider >,

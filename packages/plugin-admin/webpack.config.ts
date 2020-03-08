@@ -28,7 +28,7 @@ export default (_env: any, options: { mode: string }) => {
     ],
     output: {
       filename: 'admin.js',
-      publicPath: '/admin',
+      publicPath: '/admin/',
       path: DIST
     },
     devtool: IS_PROD ? false : 'source-map',
@@ -60,6 +60,11 @@ export default (_env: any, options: { mode: string }) => {
         {
           test: [/\/images\/.*\.svg$/, /@coreui\/icons/],
           loader: 'svg-react-loader'
+        },
+        {
+          test: /\.(graphql|gql)$/,
+          exclude: /node_modules/,
+          loader: 'graphql-tag/loader'
         },
 
         {

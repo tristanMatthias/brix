@@ -22,9 +22,11 @@
     white-space: nowrap;
     align-items: center;
     user-select: none;
+    transition: var(--transition-time);
 
     &:first-of-type { border-top-left-radius: var(--border-radius); }
     &.last { border-top-right-radius: var(--border-radius); }
+    &.sortable:hover { background-color: var(--color-hover); }
 
     &:not(.checkbox) span {
       white-space: nowrap;
@@ -42,6 +44,7 @@
       &.flip {
         transform: rotate(180deg);
       }
+
     }
   }
 
@@ -66,20 +69,13 @@
       position: relative;
       z-index: 1;
     }
+  }
 
-    // &:before {
-    //   content: '';
-    //   position: absolute;
-    //   top: 0;
-    //   left: -10000px;
-    //   right: -10000px;
-    //   height: 100%;
-    //   background: var(--color-hover);
-    //   opacity: 0;
-    // }
-    // &:hover::before {
-    //   opacity: 1;
-    // }
+  .th > .icon {
+    &.flip, &.active {
+      color: var(--color-main);
+    }
+    color: var(--color-grey-20);
   }
 
   .th, .td {
@@ -93,6 +89,24 @@
       overflow: hidden;
       min-width: 0;
       margin-right: 0;
+    }
+    &.clickable {
+      cursor: pointer;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -10000px;
+        right: -10000px;
+        height: 100%;
+        background: var(--color-hover);
+        opacity: 0;
+        transition: var(--transition-time);
+      }
+      &:hover::before {
+        opacity: 1;
+      }
     }
   }
 }

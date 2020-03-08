@@ -16,4 +16,7 @@ declare module 'react-table' {
     getToggleRowSelectedProps(): any;
     isSelected: boolean;
   }
+  export interface TableState {
+    selectedRowPaths: any[];
+  }
 }

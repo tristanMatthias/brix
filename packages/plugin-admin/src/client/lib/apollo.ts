@@ -13,7 +13,7 @@ import { getLocalToken } from './localStorage';
 const { buildAxiosFetch } = require('@lifeomic/axios-fetch');
 
 const getFragmentMatcher = async () => {
-  const data = await (await fetch('/admin/fragments.json')).json();
+  const data = await (await fetch(`${CONFIG.prefix}/fragments.json`)).json();
   return new IntrospectionFragmentMatcher({
     introspectionQueryResultData: data
   });
@@ -60,9 +60,10 @@ const getCache = async () =>
     fragmentMatcher: await getFragmentMatcher()
   });
 
-
-export const getClient = async () =>
-  new ApolloClient({
+let client: ApolloClient<any>;
+export const getClient = async () => {
+  if (client) return client;
+  return client = new ApolloClient({
     link: authLink.concat(
       ApolloLink.from([
         errorLink,
@@ -70,6 +71,7 @@ export const getClient = async () =>
       ])),
     cache: await getCache()
   });
+};
 
 
 export const getGQLError = (err?: ApolloError | ApolloError[]) => {

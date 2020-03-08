@@ -16,7 +16,7 @@ export const UsersPage = () => {
     <Header icon="userLine" title="Users" />
 
     <PageContent>
-      <Card style={{ gridColumn: 'span 12' }} padding={1}>
+      <Card style={{ gridColumn: 'span 12' }} padding={0}>
         {data && <Table
           loading={loading}
           selectable
@@ -24,12 +24,11 @@ export const UsersPage = () => {
           columns={!data ? [] : [
             {
               Header: 'Name',
-              Cell: ({ row }) => `${row.original.firstName} ${row.original.lastName}`,
+              Cell: '$.firstName $.lastName',
               ellipsis: true,
               canSort: true
             },
-            { Header: 'Email', accessor: 'email' },
-            { Header: 'First name', accessor: 'firstName' }
+            { Header: 'Email', accessor: 'email' }
           ]}
         />}
       </Card>
