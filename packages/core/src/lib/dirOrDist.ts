@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 /**
- * If the directory contains a `dist` resolce to this, otherwise return the
+ * If the directory contains a `dist` resolve to this, otherwise return the
  * passed directory
  * @param dir Directory to resolve
  */
