@@ -40,18 +40,16 @@ export default (options: Partial<PluginOptionsBase>) => {
   if (global.BrixAdmin) {
     global.BrixAdmin.register({
       icon: 'images',
-      prefix: '/media',
+      path: '/media',
       title: 'Media',
       header: {
         heading: 'Media',
         icon: 'images',
         buttons: [
           {
-            action: 'upload',
-            icon: 'upload',
-            text: 'Upload Image',
-            color: 'success',
-            query: `
+            action: {
+              action: 'upload',
+              query: `
               mutation($file: ECreateMediaInput!) {
                 createMedia(media: $file) {
                   id
@@ -60,6 +58,10 @@ export default (options: Partial<PluginOptionsBase>) => {
                   ext
                 }
               }`
+            },
+            icon: 'upload',
+            text: 'Upload Image',
+            color: 'success'
           }
         ]
       },
