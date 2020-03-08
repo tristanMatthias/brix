@@ -1,0 +1,2 @@
+fragment ActionLink on ActionLink { action to }
+fragment ActionUpload on ActionUpload { action query }

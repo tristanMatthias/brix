@@ -1,4 +1,6 @@
 import { Field, ObjectType, Query, Resolver } from 'type-graphql';
+
+import { ActionUnion, Action } from './actions/Action.union';
 import { Widget, WidgetUnion } from './widgets/Widget.union';
 
 @ObjectType()
@@ -15,12 +17,8 @@ export class EAdminPageHeader {
 
 @ObjectType()
 export class EAdminPageHeaderButton {
-  // TODO: Convert to Union
-  @Field()
-  action: string;
-
-  @Field({ nullable: true })
-  query?: string;
+  @Field(() => ActionUnion)
+  action: Action;
 
   @Field({ nullable: true })
   color?: string;
@@ -35,6 +33,9 @@ export class EAdminPageHeaderButton {
 @ObjectType()
 export class EAdminPage {
   @Field(() => String)
+  path: string;
+
+  @Field(() => String)
   title: string;
 
   @Field(() => [WidgetUnion])
@@ -42,24 +43,27 @@ export class EAdminPage {
 
   @Field(() => EAdminPageHeader, { nullable: true })
   header?: EAdminPageHeader;
+
+  @Field(() => EAdminPage, { nullable: true })
+  pages?: EAdminPage[];
+
+  @Field({ nullable: true })
+  query?: string;
+
+  @Field({ nullable: true })
+  queryKey?: string;
 }
 
 @ObjectType()
-export class EAdminPageRoot extends EAdminPage {
+export class EAdminApp extends EAdminPage {
   @Field()
   icon: string;
-
-  @Field()
-  prefix: string;
-
-  @Field(() => [EAdminPage], { nullable: true })
-  pages?: EAdminPage[];
 }
 
 @Resolver(EAdminPage)
 export class AdminResolver {
-  @Query(() => [EAdminPageRoot])
-  adminPages() {
+  @Query(() => [EAdminApp])
+  adminApps() {
     return global.BrixAdmin.pages();
   }
 }

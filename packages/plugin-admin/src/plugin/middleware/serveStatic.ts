@@ -4,7 +4,7 @@ import path from 'path';
 import serveStaticLib from 'serve-static';
 const fallback = require('express-history-api-fallback');
 
-export const serveStatic: MiddlewareFunction = async app => {
+export const serveStatic = (prefix: string): MiddlewareFunction => async app => {
   const root = path.join(__dirname, '../../client');
   const fragments = await generateFragments();
 
@@ -12,5 +12,5 @@ export const serveStatic: MiddlewareFunction = async app => {
     .get('/fragments.json', (_req, res) => res.json(fragments))
     .use(serveStaticLib(root))
     .use(fallback('index.html', { root }));
-  app.use('/admin', r);
+  app.use(prefix, r);
 };

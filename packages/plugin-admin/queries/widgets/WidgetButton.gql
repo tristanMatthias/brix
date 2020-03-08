@@ -1,0 +1,6 @@
+fragment WidgetButton on WidgetButton {
+  widget card cardPadding width
+  text
+  color
+  icon
+}

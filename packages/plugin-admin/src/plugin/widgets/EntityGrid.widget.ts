@@ -1,5 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 
+import { WidgetBase } from './Base.widget';
+
 
 @ObjectType()
 export class WidgetEntityGridItemMap {
@@ -14,7 +16,7 @@ export class WidgetEntityGridItemMap {
 }
 
 @ObjectType()
-export class WidgetEntityGrid {
+export class WidgetEntityGrid extends WidgetBase {
   @Field(() => String)
   widget: 'entityGrid';
 

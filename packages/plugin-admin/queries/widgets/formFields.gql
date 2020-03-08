@@ -1,0 +1,15 @@
+... on WidgetFormFieldText {
+  widget name label default
+  type placeholder
+}
+... on WidgetFormFieldCheckbox {
+  widget name label default
+}
+... on WidgetFormFieldSelect {
+  widget name label default
+  options {
+    label value selected disabled
+  }
+}
+...WidgetButton
+...WidgetQuery

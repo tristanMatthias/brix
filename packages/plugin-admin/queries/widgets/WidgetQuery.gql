@@ -1,0 +1,6 @@
+fragment WidgetQuery on WidgetQuery {
+  widget
+  query
+  resultKey
+  variables
+}

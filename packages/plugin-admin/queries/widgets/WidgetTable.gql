@@ -1,0 +1,16 @@
+fragment WidgetTable on WidgetTable {
+  widget card cardPadding width
+  columns {
+    checkbox
+    header
+    accessor
+    cell
+    width
+  }
+  query
+  queryKey
+  rowClick {
+    ...ActionLink
+    ...ActionUpload
+  }
+}

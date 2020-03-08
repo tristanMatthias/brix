@@ -1,23 +1,29 @@
 import { Field, ObjectType } from 'type-graphql';
 
+import { Action, ActionUnion } from '../actions/Action.union';
+import { WidgetBase } from './Base.widget';
+
 
 @ObjectType()
 export class WidgetTableColumns {
   @Field({ nullable: true })
+  accessor?: string;
+
+  @Field({ nullable: true })
+  cell?: string;
+
+  @Field({ nullable: true })
   checkbox?: boolean;
 
   @Field({ nullable: true })
-  header: string;
-
-  @Field()
-  accessor: string;
+  header?: string;
 
   @Field({ nullable: true })
-  width: number;
+  width?: number;
 }
 
 @ObjectType()
-export class WidgetTable {
+export class WidgetTable extends WidgetBase {
   @Field(() => String)
   widget: 'table';
 
@@ -29,4 +35,7 @@ export class WidgetTable {
 
   @Field()
   queryKey: string;
+
+  @Field(() => ActionUnion, { nullable: true })
+  rowClick?: Action;
 }

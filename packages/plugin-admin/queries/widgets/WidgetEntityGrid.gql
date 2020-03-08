@@ -1,0 +1,10 @@
+fragment WidgetEntityGrid on WidgetEntityGrid {
+  widget card cardPadding width
+  itemMap {
+    image
+    title
+    subTitle
+  }
+  query
+  queryKey
+}

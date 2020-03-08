@@ -1,15 +1,19 @@
-import { EAdminPageRoot } from './Admin.resolver';
+import { EAdminPage } from './Admin.resolver';
 import { ErrorAdminPageRegistered } from './errors';
+
+export interface AdminAppOptions extends EAdminPage {
+  icon: string;
+}
 
 export class BrixAdmin {
   _pages: {
-    [prefix: string]: EAdminPageRoot;
+    [path: string]: AdminAppOptions;
   } = {};
 
-  register(options: EAdminPageRoot) {
-    if (this._pages[options.prefix]) throw new ErrorAdminPageRegistered(options.prefix);
+  register(options: AdminAppOptions) {
+    if (this._pages[options.path]) throw new ErrorAdminPageRegistered(options.path);
     else {
-      this._pages[options.prefix] = options;
+      this._pages[options.path] = options;
     }
   }
 

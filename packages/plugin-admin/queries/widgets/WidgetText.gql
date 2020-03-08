@@ -1,0 +1,4 @@
+fragment WidgetText on WidgetText {
+  widget card cardPadding width
+  text
+}
