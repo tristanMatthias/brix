@@ -1,0 +1,150 @@
+@import '../../styles/variables';
+
+select {
+  display: inline-block;
+  height: var(--comp-height);
+  color: var(--input-color);
+  font-size: 1.4rem;
+  font-family: var(--ff-main);
+  padding: 0 var(--comp-padding);
+  transition: var(--transition-time);
+  vertical-align: middle;
+  background: var(--input-bg);
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+
+  border: var(--input-border);
+  border-radius: var(--border-radius);
+  outline: none;
+
+  &:hover {
+    border-color: var(--color-grey-30);
+  }
+
+  &:focus {
+    border-color: var(--color-main);
+    box-shadow: var(--glow-main);
+  }
+
+  &::placeholder {
+    color: var(--color-grey-40);
+  }
+}
+
+.select {
+  position: relative;
+
+  select {
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+
+  .icon {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    pointer-events: none;
+
+    &~select {
+      padding-right: 4rem;
+    }
+  }
+
+  .icon:nth-of-type(2) {
+    left: auto;
+    top: 1.2rem;
+    right: 1.2rem;
+
+    &~input {
+      padding-right: 4rem;
+    }
+  }
+
+  &.icon-right {
+    .icon {
+      left: auto;
+      right: 1rem;
+
+      &+input {
+        padding-left: 1.5rem;
+        padding-right: 2rem;
+      }
+    }
+  }
+
+  &.suffix span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 1rem;
+    color: var(--color-grey-60);
+    pointer-events: none;
+  }
+}
+
+.select.error select,
+select.error {
+  border-color: var(--color-error);
+
+  &:focus {
+    box-shadow: var(--glow-error);
+  }
+}
+
+
+// .select {
+//   position: relative;
+//   display: flex;
+
+//   &.disabled select {
+//     padding: 0 4rem 0 4rem;
+//   }
+
+//   select {
+//     width: 100%;
+//     padding: 0 4rem 0 1rem;
+
+//     &:disabled {
+//       pointer-events: none;
+//       background: $grey-100;
+//       border: 0.1rem solid $grey-200;
+//     }
+
+//     &.with-icon:not(.icon-right) {
+//       padding-left: 4rem;
+//     }
+//   }
+
+//   .icon {
+//     position: absolute;
+//     top: 1.2rem;
+//     left: 1.2rem;
+//     pointer-events: none;
+//   }
+
+//   .icon.arrow {
+//     left: auto;
+//     right: 1.2rem;
+//   }
+
+//   &.icon-right {
+//     .icon:not(.arrow) {
+//       left: auto;
+//       right: 4.2rem;
+
+//       & + input {
+//         padding-left: 1rem;
+//         padding-right: 4rem;
+//       }
+//     }
+//   }
+// }
+
+
+// .select.error select, select.error {
+//   border-color: $red;
+// }
