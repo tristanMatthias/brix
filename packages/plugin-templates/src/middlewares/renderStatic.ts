@@ -10,9 +10,9 @@ import { PluginTemplateOptions } from '..';
  * Enables pages to be rendered
  * @param options Template Options
  */
-export const render = (options: PluginTemplateOptions) =>
+export const renderStatic = (options: PluginTemplateOptions) =>
   async (app: Express) => {
-    const viewDir = options.viewDir || path.resolve(Config.distDir, 'views');
+    const viewDir = options.pagesDir || path.resolve(Config.distDir, 'views');
     app.set('views', viewDir);
 
     const router = Router();
@@ -24,16 +24,17 @@ export const render = (options: PluginTemplateOptions) =>
      */
     router.use(async (_req, res, next) => {
       const files = (await recursive(viewDir, ['*.gql']));
-      const paths = files.map(
-        p => path.relative(viewDir, (p))
-      ).reduce((paths, f, i) => {
-        const _p = f.slice(0, path.extname(f).length * -1);
-        paths[`/${_p}`] = files[i];
-        if (_p.split('/').pop() === 'index') {
-          paths[`/${_p.split('/').slice(0, -1).join('/')}`] = files[i];
-        }
-        return paths;
-      }, {} as { [path: string]: string });
+
+      const paths = files
+        .map(p => path.relative(viewDir, (p)))
+        .reduce((paths, f, i) => {
+          const _p = f.slice(0, path.extname(f).length * -1);
+          paths[`/${_p}`] = files[i];
+          if (_p.split('/').pop() === 'index') {
+            paths[`/${_p.split('/').slice(0, -1).join('/')}`] = files[i];
+          }
+          return paths;
+        }, {} as { [path: string]: string });
 
       res.locals.templates = paths;
       next();
@@ -47,6 +48,7 @@ export const render = (options: PluginTemplateOptions) =>
     router.use(async (req, res, next) => {
       if (res.locals.templates[req.url]) {
         try {
+          // TODO: Move off pug
           const data = await consolidate.pug(
             res.locals.templates[req.url],
             res.locals

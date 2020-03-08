@@ -2,6 +2,7 @@ node_modules
 dist/
 *.log
 coverage/
+.vscode
 
 # Generated files
 packages/generated/*.js
