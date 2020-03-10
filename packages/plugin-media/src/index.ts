@@ -2,6 +2,7 @@ import { BrixPlugins } from '@brix/core';
 import path from 'path';
 import { MediaResolver } from './Media.resolver';
 import '@brix/plugin-admin';
+import serveStatic from 'serve-static';
 
 
 export type ProviderType = 'filesystem' | 'cloudinary';
@@ -33,7 +34,13 @@ export default (options: Partial<PluginOptionsBase>) => {
 
   BrixPlugins.register({
     name: 'Media',
-    resolvers: [MediaResolver]
+    resolvers: [MediaResolver],
+    middlewares: [app => {
+      if (OPTIONS.provider !== 'filesystem') return;
+      app.use('/uploads', serveStatic(OPTIONS.uploadsDir, {
+        extensions: ['png', 'jpg', 'jpeg', 'svg', 'gif']
+      }));
+    }]
   });
 
 

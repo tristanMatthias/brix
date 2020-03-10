@@ -15,9 +15,7 @@ export const useUpload = (query: DocumentNode) => {
   };
 
   const upload = (file: File) => {
-    alert(1)
     updateFiles(file, 'uploading');
-    // Array.from(file).forEach(f => updateFiles(f, 'uploading'));
     mutate({
       variables: { file: { image: file } },
       context: {
