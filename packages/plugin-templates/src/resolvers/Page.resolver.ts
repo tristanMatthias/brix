@@ -20,7 +20,7 @@ export class PageResolver {
 
   @Authorized()
   @Query(() => [EPage])
-  async pageList() {
+  async pages() {
     return await this.model.findAll();
   }
 

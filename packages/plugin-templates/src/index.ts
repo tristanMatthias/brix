@@ -8,6 +8,8 @@ import queryTemplateData from './queries/templateData';
 import { PageResolver } from './resolvers/Page.resolver';
 import { TemplateResolver } from './resolvers/Template.resolver';
 import { TemplateService } from './services/Template.service';
+import { MenuResolver, MenuItemResolver } from './resolvers/Menu.resolver';
+import { EAdminPage } from '@brix/plugin-admin/dist/plugin/Admin.resolver';
 
 export enum ExpressTemplateLang {
   pug = 'pug',
@@ -31,6 +33,8 @@ export enum ExpressTemplateLang {
   express = 'express-tl',
   vuexpress = 'vuexpress'
 }
+
+const PREFIX = '/cms';
 
 export interface PluginTemplateOptions {
   prefix?: string;
@@ -61,51 +65,72 @@ export default async (override: Partial<PluginTemplateOptions> = {}) => {
     disabled: true
   });
 
+  const menu: EAdminPage['menu'] = [
+    { to: `${PREFIX}/pages`, text: 'Pages', icon: 'page' },
+    { to: `${PREFIX}/menus/`, text: 'Menus', icon: 'menu' }
+  ];
+
+  const header: EAdminPage['header'] = {
+    heading: 'CMS',
+    icon: 'note',
+    buttons: [
+      {
+        color: 'main',
+        text: 'New page',
+        icon: 'plus',
+        action: { action: 'link', to: `${PREFIX}/pages/new` }
+      }
+    ]
+  };
+
 
   BrixPlugins.register({
-    name: 'Templates',
+    name: 'CMS',
     middlewares: [renderStatic(options), renderDynamic(options)],
-    resolvers: [PageResolver, TemplateResolver]
+    resolvers: [
+      PageResolver,
+      TemplateResolver,
+      MenuResolver,
+      MenuItemResolver
+    ]
   });
 
   if (global.BrixAdmin) {
     global.BrixAdmin.register({
       icon: 'note',
-      path: '/pages',
+      path: PREFIX,
       title: 'Pages',
-      header: {
-        heading: 'Pages',
-        icon: 'note',
-        buttons: [
-          {
-            color: 'main',
-            text: 'New page',
-            icon: 'plus',
-            action: { action: 'link', to: '/pages/new' }
-          }
-        ]
-      },
-
-      content: [{
-        widget: 'table',
-        card: true,
-        cardPadding: 0,
-        width: 12,
-        query: `{pageList { id url title author { id firstName lastName } } } `,
-        queryKey: 'pageList',
-        columns: [
-          { accessor: 'title', header: 'Title' },
-          { accessor: 'url', header: 'URL' },
-          { cell: '$.author.firstName $.author.lastName', header: 'Author' }
-        ],
-        rowClick: { action: 'link', to: '/pages/$.id' }
-      }],
+      menu,
+      header,
+      content: [],
 
 
       pages: [
         {
-          path: '/new',
+          path: '/pages/',
+          title: 'Pages',
+          menu,
+          header,
+          content: [{
+            widget: 'table',
+            card: true,
+            cardPadding: 0,
+            width: 8,
+            query: `{pages { id url title author { id firstName lastName } } } `,
+            queryKey: 'pages',
+            columns: [
+              { accessor: 'title', header: 'Title' },
+              { accessor: 'url', header: 'URL' },
+              { cell: '$.author.firstName $.author.lastName', header: 'Author' }
+            ],
+            rowClick: { action: 'link', to: `${PREFIX}/pages/$.id` }
+          }]
+        },
+        {
+          path: '/pages/new',
           title: 'New page',
+          menu,
+          header,
           content: [{
             widget: 'form',
             card: true,
@@ -123,10 +148,11 @@ export default async (override: Partial<PluginTemplateOptions> = {}) => {
           }]
         },
 
-
         {
-          path: '/:id',
+          path: '/pages/:id',
           title: 'Update page',
+          menu,
+          header,
           query: `query($id: String!) {
             page (id: $id) {
               id
@@ -152,6 +178,65 @@ export default async (override: Partial<PluginTemplateOptions> = {}) => {
             ],
             query: `mutation($page: EUpdatePageInput!) { updatePage(page:$page) { id } }`,
             variableKey: 'page'
+          }]
+        },
+
+
+        {
+          path: '/menus/',
+          title: 'Menus',
+          menu,
+          header,
+          queryKey: 'menu',
+          content: [{
+            widget: 'table',
+            card: true,
+            cardPadding: 0,
+            width: 8,
+            query: `{menus { id name size } }`,
+            queryKey: 'menus',
+            columns: [
+              { accessor: 'name', header: 'Name' },
+              { accessor: 'size', header: 'Size' }
+            ],
+            rowClick: { action: 'link', to: `${PREFIX}/menus/$.id` }
+          }]
+        },
+
+        {
+          path: '/menus/:id',
+          title: 'Menu',
+          menu,
+          header,
+          query: `query($id: String!) {
+            menu(id: $id) {
+              id name
+              items { ...EMenuItem
+                items { ...EMenuItem
+                  items { ...EMenuItem }
+                }
+              }
+            }
+          }
+          fragment EMenuItem on EMenuItem { pageId text }
+          `,
+          queryKey: 'menu',
+          content: [{
+            widget: 'form',
+            card: true,
+            cardPadding: 2,
+            width: 6,
+            fields: [
+              { widget: 'input', name: 'name', label: 'Menu name', type: 'text', placeholder: 'Name' },
+              {
+                widget: 'tree',
+                map: { value: 'pageId', title: 'text', children: 'items' }, // For serializing to query
+                name: 'items'
+              },
+              { widget: 'button', text: 'Save menu', icon: 'plus', color: 'success' }
+            ],
+            query: `mutation($menu: EUpdateMenuInput!) { updateMenu(menu:$menu) { id } }`,
+            variableKey: 'menu'
           }]
         }
       ]

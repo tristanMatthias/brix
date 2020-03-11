@@ -6,6 +6,7 @@ import appsQuery from '../gql/queries/adminApp.gql';
 import { Action } from '../hooks/useAction';
 import { Color } from '../lib/classes';
 import { Widget } from '../lib/widgets';
+import { SideMenuProps } from '../components/SideMenu/SideMenu';
 
 export interface EAdminPageHeader {
   heading: string;
@@ -27,6 +28,7 @@ export interface EAdminPage {
   pages?: EAdminPage[];
   query?: string;
   queryKey?: string;
+  menu?: SideMenuProps['items'];
 }
 
 export interface EAdminApp extends EAdminPage {

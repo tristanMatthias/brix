@@ -74,6 +74,7 @@ export default (options: Partial<PluginOptionsBase>) => {
       },
       content: [{
         widget: 'entityGrid',
+        width: 12,
         itemMap: {
           image: 'url',
           title: 'name',

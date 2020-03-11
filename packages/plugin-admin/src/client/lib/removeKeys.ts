@@ -3,30 +3,37 @@
  * The removal is done in place, so run it on a copy if you don't want to modify the original object.
  * This function has no limit so circular objects will probably crash the browser
  *
- * @param obj The object from where you want to remove the keys
+ * @param objOrArray The object from where you want to remove the keys
  * @param keys An array of property names (strings) to remove
  */
-export const removeKeys = (obj: object, keys: string[]) => {
+export const removeKeys = (objOrArray: object | object[], keys: string[]): object | object[] => {
   let index;
-  for (const p in obj) {
-    const prop = p as keyof typeof obj;
+  if (objOrArray instanceof Array) return objOrArray.map(o => removeKeys(o, keys));
+  for (const p in objOrArray) {
+    const prop = p as keyof typeof objOrArray;
     // important check that this is objects own property
     // not from prototype prop inherited
-    if (obj.hasOwnProperty(prop)) {
-      switch (typeof (obj[prop])) {
+    if (objOrArray.hasOwnProperty(prop)) {
+      switch (typeof (objOrArray[prop])) {
 
         case 'string':
+        case 'boolean':
+        case 'function':
+        case 'number':
           index = keys.indexOf(prop);
-          if (index > -1) delete obj[prop];
+          if (index > -1) delete objOrArray[prop];
           break;
 
         case 'object':
           index = keys.indexOf(prop);
-          if (index > -1) delete obj[prop];
-          else removeKeys(obj[prop], keys);
+          if (index > -1) delete objOrArray[prop];
+          else removeKeys(objOrArray[prop], keys);
           break;
       }
     }
   }
-  return obj;
+  return objOrArray;
 };
+
+// @ts-ignore
+window.removeKeys = removeKeys;

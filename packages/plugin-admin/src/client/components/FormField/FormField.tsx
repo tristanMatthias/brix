@@ -5,11 +5,11 @@ import { FormikHandlers, getIn, useField, useFormikContext } from 'formik';
 import React, { FunctionComponent, useMemo } from 'react';
 
 import { firstUpper } from '../../lib/text';
-import { Checkbox } from '../Checkbox/Checkbox';
+import { Checkbox, CheckboxProps } from '../Checkbox/Checkbox';
 import { useBrixFormContext } from '../Form/Form';
 import { Select } from '../Select/Select';
 import { TextField, TextFieldProps } from '../TextField/TextField';
-
+import { Tree, TreeProps } from '../Tree/Tree';
 
 
 // import { OptionProps } from 'react-select';
@@ -35,9 +35,10 @@ import { TextField, TextFieldProps } from '../TextField/TextField';
 
 
 export type FormFieldType =
-  ({ type: 'text' | 'password' | 'number' } & TextFieldProps);
-// ({ type: 'color' } & ColorFieldProps) |
-// ({ type: 'checkbox' } & CheckboxProps) |
+  ({ type: 'text' | 'password' | 'number' } & TextFieldProps) |
+  // ({ type: 'color' } & ColorFieldProps) |
+  ({ type: 'checkbox' } & CheckboxProps) |
+  ({ type: 'tree' } & TreeProps);
 // ({ type: 'switch' } & SwitchProps) |
 // ({ type: 'select' } & Omit<SelectProps, 'name'>) |
 // ({ type: 'multiselect' } & Omit<MultiSelectProps, 'name'>) |
@@ -200,6 +201,14 @@ export const FormField: React.FunctionComponent<FormFieldProps> = ({
       //   Comp = Radio;
       //   extraProps.form = form;
       //   break;
+
+      case 'tree':
+        Comp = Tree;
+        extraProps.onChange = (data: any) => {
+          form.setFieldTouched(name);
+          form.setFieldValue(name, data);
+        };
+        break;
 
       default:
         throw new Error(`Could not find field type for '${type}'`);

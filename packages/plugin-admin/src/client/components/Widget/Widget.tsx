@@ -11,17 +11,20 @@ import { convertColsFromWidget } from '../Table/convertColsFromWidget';
 import { QueryTable } from '../Table/QueryTable';
 import { TableProps } from '../Table/Table';
 import { QueryWidgets } from './QueryWidgets';
+import { Box } from '../Box/Box';
 
 
 export interface WidgetProps {
   widget: WidgetType;
   data?: any;
+  rootWidget?: boolean;
 }
 
 
 export const Widget: React.FunctionComponent<WidgetProps> = ({
   widget,
-  data
+  data,
+  rootWidget
 }) => {
   if (!widget.widget) return null;
 
@@ -63,7 +66,10 @@ export const Widget: React.FunctionComponent<WidgetProps> = ({
     case 'input':
     case 'checkbox':
     case 'select':
-      if (widget.widget === 'select') (widget as FormFieldProps).type = 'select';
+    case 'tree':
+      if (['select', 'tree'].includes(widget.widget)) {
+        (widget as FormFieldProps).type = widget.widget;
+      }
       return <FormField {...widget} />;
     case 'button':
       return <Button {...widget}>{widget.text}</Button>;
@@ -74,7 +80,13 @@ export const Widget: React.FunctionComponent<WidgetProps> = ({
       return null;
   }
 
-  if (!widget.card) return content;
+  if (!widget.card) {
+    if (rootWidget) {
+      return <Box style={{ gridColumn: `span ${widget.width || 3}` }}>
+        {content}
+      </Box>;
+    } return content;
+  }
 
   return <Card
     style={{ gridColumn: `span ${widget.width || 3}` }}

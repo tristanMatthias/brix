@@ -12,6 +12,8 @@ query {
     header {
       ...AdminPageHeader
     }
+    menu { to text icon }
+
     content {
     ...WidgetQuery
     ...WidgetEntityGrid
@@ -60,4 +62,5 @@ fragment AdminPage on EAdminPage {
     ...WidgetText
     ...WidgetForm
   }
+  menu { to text icon }
 }

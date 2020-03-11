@@ -4,6 +4,7 @@ import { IconType } from '../components/Icon/Icon';
 import { Color } from './classes';
 import { Action } from '../hooks/useAction';
 import { SelectProps } from '../components/Select/Select';
+import { TreeProps } from '../components/Tree/Tree';
 
 export type Widget =
   WidgetQuery |
@@ -94,10 +95,24 @@ export class WidgetFormFieldSelect extends WidgetFormFieldBase {
   widget: 'select';
   options: SelectProps[];
 }
+export class WidgetFormFieldTree extends WidgetFormFieldBase {
+  widget: 'tree';
+  map: TreeProps['map'];
+}
 
 
 export type WidgetFormField =
   WidgetFormFieldText |
   WidgetFormFieldCheckbox |
   WidgetFormFieldSelect |
+  WidgetFormFieldTree |
   WidgetButton;
+
+
+// // ------------------------------------------------------------------------ Tree
+// export class WidgetTree extends WidgetBase {
+//   widget: 'tree';
+//   query: string;
+//   queryKey: string;
+//   map: TreeProps['map'];
+// }

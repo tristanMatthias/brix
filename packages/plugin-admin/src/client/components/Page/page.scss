@@ -7,6 +7,7 @@ main {
 
 .page-content {
   display: grid;
+  grid-column: span 2;
   grid-template-columns: repeat(12, 1fr);
   padding: spacing(2);
   grid-gap: spacing(2);

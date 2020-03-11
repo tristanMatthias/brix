@@ -6,6 +6,7 @@ import { Route, Switch, useParams } from 'react-router';
 
 import { Header } from '../../components/Header/Header';
 import { Page, PageContent } from '../../components/Page/Page';
+import { SideMenu } from '../../components/SideMenu/SideMenu';
 import { Widget } from '../../components/Widget/Widget';
 import { EAdminPage } from '../../containers/AdminApps.container';
 import { getClient } from '../../lib/apollo';
@@ -38,23 +39,27 @@ export const GeneratedPage: React.FunctionComponent<GeneratedPageProps> = ({
     load();
   }, [page.query]);
 
+  console.log(page.pages?.map(p => linkParams(`${page.path}${p.path}`)(false)));
+
+
   return <Switch>
+    {page.pages?.map(p => <Route path={linkParams(`${page.path}${p.path}`)(false)} exact>
+      <GeneratedPage page={p} parentPath={page.path} />
+    </Route>)}
     <Route path={linkParams(`${parentPath}${page.path}`)(false)} exact>
-      <Page title="Brix Dashboard" type="generated">
+      <Page title={page.title} type="generated">
         {page.header && <Header
           icon={page.header.icon!}
           title={page.header.heading}
           buttons={page.header.buttons}
         />}
+        {page.menu && <SideMenu items={page.menu} />}
         <PageContent>
           {page.content.map(c =>
-            <Widget widget={c} data={pageData} />
+            <Widget widget={c} data={pageData} rootWidget={true} />
           )}
         </PageContent>
       </Page>
     </Route>
-    {page.pages?.map(p => <Route path={linkParams(`${page.path}${p.path}`)(false)}>
-      <GeneratedPage page={p} parentPath={page.path} />
-    </Route>)}
   </Switch>;
 };

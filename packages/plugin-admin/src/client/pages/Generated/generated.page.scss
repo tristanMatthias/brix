@@ -1,2 +1,10 @@
 main.generated {
+  display: grid;
+
+  grid-template-columns: var(--side-menu-width) 1fr;
+  align-content: start;
+  align-items: start;
+  header {
+    grid-column: span 2;
+  }
 }

@@ -104,6 +104,13 @@
   --table-cell-border: solid var(--color-grey-10);
   --table-cell-border-width: 0 0 1px 0;
 
+
+  --side-menu-width: #{spacing(20)};
+  --side-menu-fs: var(--fs-small);
+  --side-menu-fw: 700;
+  --side-menu-color: var(--color-grey-40);
+  --side-menu-letter-spacing: 1px;
+
 }
 
 
