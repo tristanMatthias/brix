@@ -1,6 +1,8 @@
 import { createUnionType, Field, ObjectType } from 'type-graphql';
+
 import { WidgetButton } from '../Button.widget';
 import { WidgetQuery } from '../Query.widget';
+import { WidgetTreeMap } from '../Tree.widget';
 
 
 // ------------------------------------------------------------------------ Base
@@ -64,6 +66,16 @@ export class WidgetFormFieldSelect extends WidgetFormFieldBase {
   options: WidgetFormFieldSelectOption[];
 }
 
+// ------------------------------------------------------------------------ Tree
+@ObjectType()
+export class WidgetFormTree extends WidgetFormFieldBase {
+  @Field()
+  widget: 'tree';
+
+  @Field(() => WidgetTreeMap)
+  map: WidgetTreeMap;
+}
+
 
 // ------------------------------------------------------------------ Form Field
 export type WidgetFormField =
@@ -71,6 +83,7 @@ export type WidgetFormField =
   WidgetFormFieldCheckbox |
   WidgetFormFieldSelect |
   WidgetButton |
+  WidgetFormTree |
   WidgetQuery;
 
 // ----------------------------------------------------------------------- Union
@@ -81,6 +94,7 @@ export const WidgetFormFieldUnion = createUnionType({
     WidgetFormFieldCheckbox,
     WidgetFormFieldSelect,
     WidgetButton,
+    WidgetFormTree,
     WidgetQuery
   ],
   resolveType: value => {
@@ -93,6 +107,8 @@ export const WidgetFormFieldUnion = createUnionType({
         return WidgetFormFieldSelect;
       case 'button':
         return WidgetButton;
+      case 'tree':
+        return WidgetFormTree;
       case 'query':
         return WidgetQuery;
       default:

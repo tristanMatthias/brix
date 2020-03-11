@@ -30,6 +30,19 @@ export class EAdminPageHeaderButton {
   text?: string;
 }
 
+
+@ObjectType()
+export class EAdminPageMenuItem {
+  @Field()
+  to: string;
+
+  @Field()
+  text: string;
+
+  @Field({ nullable: true })
+  icon?: string;
+}
+
 @ObjectType()
 export class EAdminPage {
   @Field(() => String)
@@ -52,6 +65,9 @@ export class EAdminPage {
 
   @Field({ nullable: true })
   queryKey?: string;
+
+  @Field(() => [EAdminPageMenuItem], { nullable: true })
+  menu?: EAdminPageMenuItem[];
 }
 
 @ObjectType()

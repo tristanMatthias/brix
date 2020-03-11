@@ -6,6 +6,7 @@ import { WidgetForm } from './Form.widget';
 import { WidgetTable } from './Table.widget';
 import { WidgetText } from './Text.widget';
 import { WidgetQuery } from './Query.widget';
+import { WidgetTree } from './Tree.widget';
 
 export { WidgetEntityGrid } from './EntityGrid.widget';
 export { WidgetForm } from './Form.widget';
@@ -21,6 +22,7 @@ export type Widget =
   WidgetText |
   WidgetForm |
   WidgetButton |
+  WidgetTree |
   WidgetQuery;
 
 
@@ -32,6 +34,7 @@ export const WidgetUnion = createUnionType({
     WidgetText,
     WidgetForm,
     WidgetButton,
+    WidgetTree,
     WidgetQuery
   ],
   resolveType: value => {
@@ -41,6 +44,7 @@ export const WidgetUnion = createUnionType({
       case 'text': return WidgetText;
       case 'form': return WidgetForm;
       case 'button': return WidgetButton;
+      case 'tree': return WidgetTree;
       case 'query': return WidgetQuery;
     }
   }

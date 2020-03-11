@@ -1,0 +1,5 @@
+fragment WidgetTree on WidgetTree {
+  widget card cardPadding width
+  # query queryKey
+  map { value title subtitle children }
+}

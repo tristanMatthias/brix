@@ -17,6 +17,10 @@ fragment WidgetForm on WidgetForm {
         label value selected disabled
       }
     }
+    ... on WidgetFormTree {
+      widget name label default
+      map { value title subtitle children }
+    }
     ...WidgetButton
     ...WidgetQuery
   }
