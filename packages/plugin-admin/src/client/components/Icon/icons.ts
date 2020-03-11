@@ -14,6 +14,8 @@ import lock from '../../images/icons/solid/cis-lock-minus.svg';
 import plus from '../../images/icons/solid/cis-plus.svg';
 import user from '../../images/icons/solid/cis-user.svg';
 import note from '../../images/icons/duotone/cid-note.svg';
+import menu from '../../images/icons/duotone/cid-menu.svg';
+import trash from '../../images/icons/duotone/cid-trash.svg';
 
 
 export const icons = {
@@ -33,5 +35,8 @@ export const icons = {
   uploadDuotone,
   plus,
   page,
-  note
+  note,
+  menu,
+  trash
 };
+
