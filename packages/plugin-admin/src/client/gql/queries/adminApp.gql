@@ -13,6 +13,7 @@ query {
       ...AdminPageHeader
     }
     menu { to text icon }
+    redirect
 
     content {
     ...WidgetQuery
@@ -52,6 +53,7 @@ fragment AdminPage on EAdminPage {
   path
   query
   queryKey
+  redirect
   header {
     ...AdminPageHeader
   }

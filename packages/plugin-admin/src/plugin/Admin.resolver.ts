@@ -66,6 +66,9 @@ export class EAdminPage {
   @Field({ nullable: true })
   queryKey?: string;
 
+  @Field({ nullable: true })
+  redirect?: string;
+
   @Field(() => [EAdminPageMenuItem], { nullable: true })
   menu?: EAdminPageMenuItem[];
 }

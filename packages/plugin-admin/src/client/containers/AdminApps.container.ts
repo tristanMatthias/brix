@@ -28,6 +28,7 @@ export interface EAdminPage {
   pages?: EAdminPage[];
   query?: string;
   queryKey?: string;
+  redirect?: string;
   menu?: SideMenuProps['items'];
 }
 

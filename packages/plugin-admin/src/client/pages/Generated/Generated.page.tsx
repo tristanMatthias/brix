@@ -2,7 +2,7 @@ import './generated.page.scss';
 
 import { gql } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, useParams } from 'react-router';
+import { Route, Switch, useParams, Redirect } from 'react-router';
 
 import { Header } from '../../components/Header/Header';
 import { Page, PageContent } from '../../components/Page/Page';
@@ -39,7 +39,7 @@ export const GeneratedPage: React.FunctionComponent<GeneratedPageProps> = ({
     load();
   }, [page.query]);
 
-  console.log(page.pages?.map(p => linkParams(`${page.path}${p.path}`)(false)));
+  console.log(linkParams(page.redirect!)());
 
 
   return <Switch>
@@ -47,19 +47,22 @@ export const GeneratedPage: React.FunctionComponent<GeneratedPageProps> = ({
       <GeneratedPage page={p} parentPath={page.path} />
     </Route>)}
     <Route path={linkParams(`${parentPath}${page.path}`)(false)} exact>
-      <Page title={page.title} type="generated">
-        {page.header && <Header
-          icon={page.header.icon!}
-          title={page.header.heading}
-          buttons={page.header.buttons}
-        />}
-        {page.menu && <SideMenu items={page.menu} />}
-        <PageContent>
-          {page.content.map(c =>
-            <Widget widget={c} data={pageData} rootWidget={true} />
-          )}
-        </PageContent>
-      </Page>
+      {page.redirect
+        ? <Redirect to={linkParams(page.redirect)()} />
+        : <Page title={page.title} type="generated">
+          {page.header && <Header
+            icon={page.header.icon!}
+            title={page.header.heading}
+            buttons={page.header.buttons}
+          />}
+          {page.menu && <SideMenu items={page.menu} />}
+          <PageContent>
+            {page.content.map(c =>
+              <Widget widget={c} data={pageData} rootWidget={true} />
+            )}
+          </PageContent>
+        </Page>
+      }
     </Route>
   </Switch>;
 };

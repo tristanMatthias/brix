@@ -102,6 +102,7 @@ export default async (override: Partial<PluginTemplateOptions> = {}) => {
       title: 'Pages',
       menu,
       header,
+      redirect: `${PREFIX}/pages/`,
       content: [],
 
 
