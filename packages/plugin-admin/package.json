@@ -23,6 +23,7 @@
     "@types/deep-equal": "^1.0.1",
     "@types/dot-object": "^1.7.0",
     "@types/mini-css-extract-plugin": "^0.9.0",
+    "@types/react-sortable-tree": "^0.3.11",
     "@types/react-table": "^7.0.7",
     "@types/terser-webpack-plugin": "^2.2.0",
     "apollo-cache-inmemory": "^1.6.5",
@@ -56,7 +57,10 @@
     "unstated-next": "^1.1.0",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "yup": "^0.28.1"
+    "yup": "^0.28.1",
+    "react-dnd": "7.4.5",
+    "react-dnd-html5-backend": "7.4.4",
+    "react-sortable-tree": "2.6.2"
   },
   "dependencies": {
     "@brix/core": "^0.2.2-alpha.54+012eb64",

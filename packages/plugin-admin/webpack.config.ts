@@ -31,7 +31,7 @@ export default (_env: any, options: { mode: string }) => {
       publicPath: '/admin/',
       path: DIST
     },
-    devtool: IS_PROD ? false : 'source-map',
+    devtool: IS_PROD ? false : 'cheap-source-map',
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
