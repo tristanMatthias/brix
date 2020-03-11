@@ -1,0 +1,24 @@
+@import '../../styles/functions';
+
+.side-menu {
+  width: var(--side-menu-width);
+  padding: spacing(2);
+  a {
+    display: block;
+    height: var(--comp-height);
+    line-height: var(--comp-height);
+    text-transform: uppercase;
+    font-size: var(--side-menu-fs);
+    font-weight: var(--side-menu-fw);
+    color: var(--side-menu-color);
+    letter-spacing: var(--side-menu-letter-spacing);
+
+    &.active {
+      color: var(--color-main);
+    }
+  }
+
+  & + .page-content {
+    grid-column: span 1;
+  }
+}
