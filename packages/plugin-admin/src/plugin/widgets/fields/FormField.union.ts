@@ -3,6 +3,7 @@ import { createUnionType, Field, ObjectType } from 'type-graphql';
 import { WidgetButton, WidgetButtonBase } from '../Button.widget';
 import { WidgetQuery } from '../Query.widget';
 import { WidgetTreeMap } from '../Tree.widget';
+import { ActionPick } from '../../actions/Pick.action';
 
 
 // ------------------------------------------------------------------------ Base
@@ -82,6 +83,22 @@ export class WidgetFormTree extends WidgetFormFieldBase {
   createButton?: WidgetButtonBase;
 }
 
+// ----------------------------------------------------------------------- Picker
+@ObjectType()
+export class WidgetFormPicker extends WidgetFormFieldBase {
+  @Field()
+  widget: 'picker';
+
+  @Field(() => ActionPick)
+  pickAction: ActionPick;
+
+  @Field()
+  renderQuery: string;
+
+  @Field()
+  renderString: string;
+}
+
 
 // ------------------------------------------------------------------ Form Field
 export type WidgetFormField =
@@ -90,6 +107,7 @@ export type WidgetFormField =
   WidgetFormFieldSelect |
   WidgetButton |
   WidgetFormTree |
+  WidgetFormPicker |
   WidgetQuery;
 
 // ----------------------------------------------------------------------- Union
@@ -101,24 +119,19 @@ export const WidgetFormFieldUnion = createUnionType({
     WidgetFormFieldSelect,
     WidgetButton,
     WidgetFormTree,
+    WidgetFormPicker,
     WidgetQuery
   ],
   resolveType: value => {
     switch (value.widget) {
-      case 'input':
-        return WidgetFormFieldText;
-      case 'checkbox':
-        return WidgetFormFieldCheckbox;
-      case 'select':
-        return WidgetFormFieldSelect;
-      case 'button':
-        return WidgetButton;
-      case 'tree':
-        return WidgetFormTree;
-      case 'query':
-        return WidgetQuery;
-      default:
-        return null;
+      case 'input': return WidgetFormFieldText;
+      case 'checkbox': return WidgetFormFieldCheckbox;
+      case 'select': return WidgetFormFieldSelect;
+      case 'button': return WidgetButton;
+      case 'tree': return WidgetFormTree;
+      case 'query': return WidgetQuery;
+      case 'picker': return WidgetFormPicker;
+      default: return null;
     }
   }
 });

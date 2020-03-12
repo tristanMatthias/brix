@@ -67,7 +67,8 @@ export const Widget: React.FunctionComponent<WidgetProps> = ({
     case 'checkbox':
     case 'select':
     case 'tree':
-      if (['select', 'tree'].includes(widget.widget)) {
+    case 'picker':
+      if (['select', 'tree', 'picker'].includes(widget.widget)) {
         (widget as FormFieldProps).type = widget.widget;
       }
       return <FormField {...widget} />;

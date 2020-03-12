@@ -10,6 +10,7 @@ import { useBrixFormContext } from '../Form/Form';
 import { Select } from '../Select/Select';
 import { TextField, TextFieldProps } from '../TextField/TextField';
 import { Tree, TreeProps } from '../Tree/Tree';
+import { PickerField } from '../PickerField/PickerField';
 
 
 // import { OptionProps } from 'react-select';
@@ -79,6 +80,11 @@ export const FormField: React.FunctionComponent<FormFieldProps> = ({
   const onChange: FormikHandlers['handleChange'] = (e: any) => {
     form.setFieldTouched(name);
     fieldFormik.onChange(e);
+  };
+
+  const customChange = (v: any) => {
+    form.setFieldTouched(name);
+    form.setFieldValue(name, v);
   };
 
   useMemo(() => {
@@ -204,10 +210,12 @@ export const FormField: React.FunctionComponent<FormFieldProps> = ({
 
       case 'tree':
         Comp = Tree;
-        extraProps.onChange = (data: any) => {
-          form.setFieldTouched(name);
-          form.setFieldValue(name, data);
-        };
+        extraProps.onChange = customChange;
+        break;
+
+      case 'picker':
+        Comp = PickerField;
+        extraProps.onChange = customChange;
         break;
 
       default:

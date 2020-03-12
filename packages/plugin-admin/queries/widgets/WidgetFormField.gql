@@ -3,6 +3,7 @@ fragment WidgetFormField on WidgetFormField {
   ...WidgetFormFieldCheckbox
   ...WidgetFormFieldSelect
   ...WidgetFormTree
+  ...WidgetFormPicker
   ...WidgetButton
   ...WidgetQuery
 }
@@ -41,4 +42,10 @@ fragment WidgetFormTree on WidgetFormTree {
       ...Action
     }
   }
+}
+
+fragment WidgetFormPicker on WidgetFormPicker {
+  widget name label default
+  renderQuery renderString
+  pickAction { ...ActionPick }
 }

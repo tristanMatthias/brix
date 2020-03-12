@@ -1,0 +1,28 @@
+.picker-field {
+  display: flex;
+  align-items: center;
+  font-size: var(--comp-fs);
+  padding: var(--comp-padding);
+  height: var(--comp-height);
+  // line-height: var(--comp-height);
+  border: var(--border-20);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition-time);
+  &:hover {
+    background:var(--color-hover);
+  }
+
+  span {
+    flex: 1;
+    &.empty {
+      text-align: center;
+      color: var(--color-disabled);
+    }
+  }
+  .icon {
+    margin-left: auto;
+    color: var(--color-grey-30);
+    flex-grow: 0;
+  }
+}

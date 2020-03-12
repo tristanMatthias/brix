@@ -1,10 +1,10 @@
 import { Column } from 'react-table';
 
 import { IconType } from '../components/Icon/Icon';
-import { Color } from './classes';
-import { Action } from '../hooks/useAction';
 import { SelectProps } from '../components/Select/Select';
 import { TreeProps } from '../components/Tree/Tree';
+import { Action, ActionPick } from '../hooks/useAction';
+import { Color } from './classes';
 
 export type Widget =
   WidgetQuery |
@@ -105,12 +105,18 @@ export class WidgetFormFieldTree extends WidgetFormFieldBase {
   createButton?: TreeProps['createButton'];
 }
 
+export class WidgetFormFieldPicker extends WidgetFormFieldBase {
+  widget: 'picker';
+  action: ActionPick;
+}
+
 
 export type WidgetFormField =
   WidgetFormFieldText |
   WidgetFormFieldCheckbox |
   WidgetFormFieldSelect |
   WidgetFormFieldTree |
+  WidgetFormFieldPicker |
   WidgetButton;
 
 
