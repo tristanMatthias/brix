@@ -24,8 +24,8 @@ export const Sidebar = () => {
       {Object.entries(sidebarLinks).map(([to, icon]) => <NavLink key={to} to={to}>
         <Icon icon={icon} size="medium" />
       </NavLink>)}
-      {adminApps?.map(p => <NavLink key={p.path} to={linkParams(p.path)()}>
-        <Icon icon={p.icon} size="medium" />
+      {adminApps?.map((p, i) => <NavLink key={p.path} to={linkParams(p.path)()}>
+        <Icon icon={p.icon} size="medium" key={i} />
       </NavLink>)}
     </nav>
     <UserProfile />

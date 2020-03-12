@@ -59,7 +59,7 @@ export const Widget: React.FunctionComponent<WidgetProps> = ({
         initialValues={data}
         onChange={v => setValues(v)}
       >
-        {widget.fields.map(w => <Widget widget={w} data={values} />)}
+        {widget.fields.map((w, i) => <Widget widget={w} data={values} key={i} />)}
       </MutationForm>;
       break;
 

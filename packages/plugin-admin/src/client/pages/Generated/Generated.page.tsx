@@ -40,7 +40,11 @@ export const GeneratedPage: React.FunctionComponent<GeneratedPageProps> = ({
   }, [page.query]);
 
   return <Switch>
-    {page.pages?.map(p => <Route path={linkParams(`${page.path}${p.path}`)(false)} exact>
+    {page.pages?.map((p, i) => <Route
+      path={linkParams(`${page.path}${p.path}`)(false)}
+      exact
+      key={i}
+    >
       <GeneratedPage page={p} parentPath={page.path} />
     </Route>)}
     <Route path={linkParams(`${parentPath}${page.path}`)(false)} exact>
@@ -54,8 +58,8 @@ export const GeneratedPage: React.FunctionComponent<GeneratedPageProps> = ({
           />}
           {page.menu && <SideMenu items={page.menu} />}
           <PageContent>
-            {page.content.map(c =>
-              <Widget widget={c} data={pageData} rootWidget={true} />
+            {page.content.map((c, i) =>
+              <Widget widget={c} data={pageData} rootWidget={true} key={i} />
             )}
           </PageContent>
         </Page>

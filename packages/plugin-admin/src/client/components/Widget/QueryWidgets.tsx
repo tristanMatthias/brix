@@ -50,6 +50,6 @@ export const QueryWidgets: React.FunctionComponent<QueryWidgetsProps> = ({
   if (loading) return <Loader />;
 
   return <>
-    {fields?.map(f => <Widget widget={f} data={data} />)}
+    {fields?.map((f, i) => <Widget widget={f} data={data} key={i} />)}
   </>;
 };
