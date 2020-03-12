@@ -16,6 +16,7 @@ import user from '../../images/icons/solid/cis-user.svg';
 import note from '../../images/icons/duotone/cid-note.svg';
 import menu from '../../images/icons/duotone/cid-menu.svg';
 import trash from '../../images/icons/duotone/cid-trash.svg';
+import x from '../../images/icons/solid/cis-x.svg';
 
 
 export const icons = {
@@ -37,6 +38,7 @@ export const icons = {
   page,
   note,
   menu,
-  trash
+  trash,
+  x
 };
 
