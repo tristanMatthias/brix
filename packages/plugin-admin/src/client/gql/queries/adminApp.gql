@@ -1,10 +1,5 @@
 #import "../../../../queries/actions.gql"
-#import "../../../../queries/widgets/WidgetButton.gql"
-#import "../../../../queries/widgets/WidgetEntityGrid.gql"
-#import "../../../../queries/widgets/WidgetForm.gql"
-#import "../../../../queries/widgets/WidgetQuery.gql"
-#import "../../../../queries/widgets/WidgetTable.gql"
-#import "../../../../queries/widgets/WidgetText.gql"
+#import "../../../../queries/widgets/Widget.gql"
 query {
   adminApps {
     path
@@ -16,11 +11,7 @@ query {
     redirect
 
     content {
-    ...WidgetQuery
-    ...WidgetEntityGrid
-    ...WidgetTable
-    ...WidgetText
-    ...WidgetForm
+    ...Widget
     }
     pages {
       ...AdminPage
@@ -39,10 +30,7 @@ fragment AdminPageHeader on EAdminPageHeader {
   icon
   heading
   buttons {
-    action {
-      ...ActionLink
-      ...ActionUpload
-    }
+    action { ...Action }
     icon
     text
     color
@@ -58,11 +46,7 @@ fragment AdminPage on EAdminPage {
     ...AdminPageHeader
   }
   content {
-    ...WidgetQuery
-    ...WidgetEntityGrid
-    ...WidgetTable
-    ...WidgetText
-    ...WidgetForm
+    ...Widget
   }
   menu { to text icon }
 }

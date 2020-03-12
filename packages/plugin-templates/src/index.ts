@@ -175,7 +175,7 @@ export default async (override: Partial<PluginTemplateOptions> = {}) => {
               { widget: 'input', name: 'url', label: 'url', type: 'text', placeholder: 'url' },
               { widget: 'select', name: 'templateUrl', label: 'Template', options: templates },
               { widget: 'query', query: queryTemplateData, variables: { url: '$.templateUrl' }, resultKey: 'template.data' },
-              { widget: 'button', text: 'Update page', icon: 'plus' }
+              { widget: 'button', text: 'Update page', icon: 'plus', color: 'success' }
             ],
             query: `mutation($page: EUpdatePageInput!) { updatePage(page:$page) { id } }`,
             variableKey: 'page'
@@ -231,8 +231,22 @@ export default async (override: Partial<PluginTemplateOptions> = {}) => {
               { widget: 'input', name: 'name', label: 'Menu name', type: 'text', placeholder: 'Name' },
               {
                 widget: 'tree',
-                map: { value: 'pageId', title: 'text', children: 'items' }, // For serializing to query
-                name: 'items'
+                name: 'items',
+                map: { value: 'pageId', title: 'text', children: 'items' },
+                createMap: { value: 'id', title: 'title' },
+                createButton: {
+                  text: 'Add a page',
+                  icon: 'plus',
+                  color: 'grey-50',
+                  hollow: true,
+                  action: {
+                    action: 'pick',
+                    title: 'Insert a page',
+                    query: '{pages {id title url } }',
+                    queryKey: 'pages',
+                    itemMap: { title: 'title', subTitle: 'url' }
+                  }
+                }
               },
               { widget: 'button', text: 'Save menu', icon: 'plus', color: 'success' }
             ],

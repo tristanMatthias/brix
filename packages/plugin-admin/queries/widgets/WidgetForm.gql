@@ -1,27 +1,9 @@
+#import "./WidgetFormField.gql"
+
 fragment WidgetForm on WidgetForm {
   widget card cardPadding width
   query
   variableKey
   values
-  fields {
-    ... on WidgetFormFieldText {
-      widget name label default
-      type placeholder
-    }
-    ... on WidgetFormFieldCheckbox {
-      widget name label default
-    }
-    ... on WidgetFormFieldSelect {
-      widget name label default
-      options {
-        label value selected disabled
-      }
-    }
-    ... on WidgetFormTree {
-      widget name label default
-      map { value title subtitle children }
-    }
-    ...WidgetButton
-    ...WidgetQuery
-  }
+  fields { ...WidgetFormField }
 }

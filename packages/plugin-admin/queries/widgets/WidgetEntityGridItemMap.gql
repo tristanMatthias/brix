@@ -1,0 +1,5 @@
+fragment WidgetEntityGridItemMap on WidgetEntityGridItemMap {
+  image
+  title
+  subTitle
+}

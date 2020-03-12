@@ -1,10 +1,9 @@
+#import "./WidgetEntityGridItemMap.gql"
+
 fragment WidgetEntityGrid on WidgetEntityGrid {
   widget card cardPadding width
-  itemMap {
-    image
-    title
-    subTitle
-  }
+  itemMap {...WidgetEntityGridItemMap }
   query
   queryKey
+  clickAction { ...Action }
 }

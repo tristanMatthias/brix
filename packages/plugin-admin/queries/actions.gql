@@ -1,2 +1,15 @@
 fragment ActionLink on ActionLink { action to }
 fragment ActionUpload on ActionUpload { action query }
+fragment ActionPick on ActionPick {
+  action query queryKey title
+  itemMap {...WidgetEntityGridItemMap}
+}
+fragment ActionSelect on ActionSelect { action }
+
+
+fragment Action on Action {
+  ...ActionLink
+  ...ActionUpload
+  ...ActionPick
+  ...ActionSelect
+}

@@ -1,0 +1,17 @@
+#import "./WidgetEntityGrid.gql"
+#import "./WidgetTable.gql"
+#import "./WidgetText.gql"
+#import "./WidgetForm.gql"
+#import "./WidgetButton.gql"
+#import "./WidgetTree.gql"
+#import "./WidgetQuery.gql"
+
+fragment Widget on Widget {
+  ...WidgetEntityGrid,
+  ...WidgetTable,
+  ...WidgetText,
+  ...WidgetForm,
+  ...WidgetButton,
+  ...WidgetTree,
+  ...WidgetQuery
+}

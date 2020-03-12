@@ -9,8 +9,5 @@ fragment WidgetTable on WidgetTable {
   }
   query
   queryKey
-  rowClick {
-    ...ActionLink
-    ...ActionUpload
-  }
+  rowClick { ...Action }
 }

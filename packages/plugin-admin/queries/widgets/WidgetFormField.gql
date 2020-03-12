@@ -1,0 +1,44 @@
+fragment WidgetFormField on WidgetFormField {
+  ...WidgetFormFieldText
+  ...WidgetFormFieldCheckbox
+  ...WidgetFormFieldSelect
+  ...WidgetFormTree
+  ...WidgetButton
+  ...WidgetQuery
+}
+
+fragment WidgetFormFieldText on WidgetFormFieldText {
+  widget name label default
+  type placeholder
+}
+
+fragment WidgetFormFieldCheckbox on WidgetFormFieldCheckbox {
+  widget name label default
+}
+
+fragment WidgetFormFieldSelect on WidgetFormFieldSelect {
+  widget name label default
+  options {
+    label value selected disabled
+  }
+}
+
+fragment WidgetFormTree on WidgetFormTree {
+  widget name label default
+  map {
+    value title subtitle children
+  }
+  createMap {
+    value title subtitle children
+  }
+  createButton {
+    text
+    color
+    icon
+    hollow
+    circle
+    action {
+      ...Action
+    }
+  }
+}
