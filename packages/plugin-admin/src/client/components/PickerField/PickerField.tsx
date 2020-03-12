@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { ActionPick, useAction } from '../../hooks/useAction';
 import { dotObjString } from '../../lib/dotObjString';
-import { Icon } from '../Icon/Icon';
+import { Icon, IconType } from '../Icon/Icon';
 
 
 export interface PickerFieldProps {
@@ -14,6 +14,8 @@ export interface PickerFieldProps {
   onChange: (value?: string | null) => void;
   renderQuery: string;
   renderString: string;
+  emptyText?: string;
+  icon?: IconType;
 }
 
 export const PickerField: React.FunctionComponent<PickerFieldProps> = ({
@@ -21,7 +23,9 @@ export const PickerField: React.FunctionComponent<PickerFieldProps> = ({
   value: initialValue,
   onChange,
   renderQuery,
-  renderString
+  renderString,
+  icon,
+  emptyText
 }) => {
 
   const [value, setValue] = useState<string | null>(initialValue || null);
@@ -41,7 +45,11 @@ export const PickerField: React.FunctionComponent<PickerFieldProps> = ({
 
 
   return <div onClick={() => open?.()} className="picker-field">
-    {render || <span className="empty">Nothing selected</span>}
-    {value && <Icon icon="x" onClick={() => setValue(null)} />}
+    {value && icon && <Icon icon={icon} />}
+    {render || <span className="empty">{emptyText || 'Nothing selected'}</span>}
+    {value && <Icon icon="x" onClick={(e: any) => {
+      setValue(null);
+      e.stopPropagation();
+    }} />}
   </div>;
 };

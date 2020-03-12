@@ -97,6 +97,12 @@ export class WidgetFormPicker extends WidgetFormFieldBase {
 
   @Field()
   renderString: string;
+
+  @Field({ nullable: true })
+  icon?: string;
+
+  @Field({ nullable: true })
+  emptyText?: string;
 }
 
 

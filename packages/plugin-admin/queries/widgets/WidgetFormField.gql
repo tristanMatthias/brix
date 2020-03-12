@@ -47,5 +47,6 @@ fragment WidgetFormTree on WidgetFormTree {
 fragment WidgetFormPicker on WidgetFormPicker {
   widget name label default
   renderQuery renderString
+  icon emptyText
   pickAction { ...ActionPick }
 }
