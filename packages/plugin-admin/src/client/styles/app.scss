@@ -25,6 +25,7 @@
   --color-success: #{$color-success};
   --color-success-soft: #{rgba($color-success, 0.5)};
   --color-hover: #{rgba($color-main, 0.05)};
+  --color-disabled: var(--color-grey-40);
 
 
   --color-grey-10: #{desaturate(lighten($color-main, 35%), 60%)};
@@ -130,7 +131,20 @@ body {
 // ---------------------------------------------------------------------- Colors
 @each $color in $colors {
   .color-#{$color} { color: var(--color-#{$color}); }
-  .bg-#{$color} { background-color: var(--color-#{$color}); }
+  .bg-#{$color} {
+    background-color: var(--color-#{$color});
+    &.hollow {
+      color: var(--color-#{$color});
+    }
+  }
+}
+.hollow {
+  background-color: transparent;
+  color: var(--color-grey-40);
+
+  &:hover {
+    background: var(--color-grey-10);
+  }
 }
 
 // ------------------------------------------------------------------------- Box

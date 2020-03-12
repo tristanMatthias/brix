@@ -64,6 +64,8 @@ export class WidgetButton extends WidgetBase {
   text: string;
   color?: Color;
   icon?: IconType;
+  circle?: boolean;
+  hollow?: boolean;
 }
 
 

@@ -18,6 +18,7 @@ button {
   user-select: none;
   text-transform: capitalize;
   letter-spacing: 0.5px;
+  transition: var(--transition-time);
 
   &:hover {
     // background:var(--color-main-dark);
@@ -32,12 +33,23 @@ button {
   }
 
   &:disabled {
+    background-color: var(--color-disabled);
     opacity: 0.5;
     pointer-events: none;
+    box-shadow: none;
   }
 
   &.circle {
     border-radius: 50%;
     width: var(--comp-height);
+  }
+
+  &.hollow {
+    box-shadow: none;
+  }
+
+  &.bg-grey-10,
+  &.bg-grey-20 {
+    color: var(--color-grey-50);
   }
 }

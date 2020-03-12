@@ -3,4 +3,7 @@ fragment WidgetButton on WidgetButton {
   text
   color
   icon
+  circle
+  hollow
+  action { ...Action }
 }
