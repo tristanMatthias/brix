@@ -31,7 +31,7 @@ export default (_env: any, options: { mode: string }) => {
       publicPath: '/admin/',
       path: DIST
     },
-    devtool: IS_PROD ? false : 'cheap-source-map',
+    devtool: IS_PROD ? false : 'cheap-module-eval-source-map',
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
@@ -44,6 +44,8 @@ export default (_env: any, options: { mode: string }) => {
             'babel-loader',
             {
               loader: 'ts-loader', options: {
+                transpileOnly: true,
+                experimentalWatchApi: true,
                 // configFile: path.resolve(__dirname, './tsconfig.client.json'),
                 allowTsInNodeModules: true,
                 compilerOptions: {

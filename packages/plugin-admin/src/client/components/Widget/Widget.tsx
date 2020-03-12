@@ -72,7 +72,7 @@ export const Widget: React.FunctionComponent<WidgetProps> = ({
       }
       return <FormField {...widget} />;
     case 'button':
-      return <Button {...widget}>{widget.text}</Button>;
+      return <Button {...widget} actionData={data}>{widget.text}</Button>;
 
     default:
       // @ts-ignore

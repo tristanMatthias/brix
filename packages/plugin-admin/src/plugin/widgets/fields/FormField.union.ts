@@ -1,6 +1,6 @@
 import { createUnionType, Field, ObjectType } from 'type-graphql';
 
-import { WidgetButton } from '../Button.widget';
+import { WidgetButton, WidgetButtonBase } from '../Button.widget';
 import { WidgetQuery } from '../Query.widget';
 import { WidgetTreeMap } from '../Tree.widget';
 
@@ -74,6 +74,12 @@ export class WidgetFormTree extends WidgetFormFieldBase {
 
   @Field(() => WidgetTreeMap)
   map: WidgetTreeMap;
+
+  @Field(() => WidgetTreeMap, { nullable: true })
+  createMap?: WidgetTreeMap;
+
+  @Field(() => WidgetButtonBase, { nullable: true })
+  createButton?: WidgetButtonBase;
 }
 
 

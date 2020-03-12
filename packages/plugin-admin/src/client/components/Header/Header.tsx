@@ -29,7 +29,7 @@ export const Header: React.FunctionComponent<HeaderProps> = ({
         text,
         action,
         ...props
-      }, i) => <Button onClick={() => actions[i]()} {...props}>
+      }, i) => <Button onClick={() => actions[i]!()} {...props}>
           {icon && <Icon icon={icon} />}
           {text && <span>{text}</span>}
         </Button>)}

@@ -38,6 +38,8 @@
   --color-grey-80: #{desaturate(darken($color-main, 30%), 60%)};
   --color-grey-90: #{desaturate(darken($color-main, 40%), 60%)};
   --color-grey-100: #{desaturate(darken($color-main, 50%), 60%)};
+  --color-black-soft: #{transparentize(desaturate(darken($color-main, 80%), 50%), 0.6)};
+
 
   --ff-main: Roboto, Helvetica, sans-serif;
   --fs-huge: 3.6rem;
@@ -112,6 +114,8 @@
   --side-menu-color: var(--color-grey-40);
   --side-menu-letter-spacing: 1px;
 
+  --modal-bg: var(--color-black-soft);
+
 }
 
 
@@ -184,6 +188,13 @@ h1 {
   color: var(--color-main);
   font-weight: bold;
   font-size: var(--fs-large);
+}
+
+h3 {
+  color: var(--color-grey-70);
+  font-weight: 500;
+  font-size: var(--fs-main);
+  letter-spacing: -0.5px;
 }
 
 h5 {

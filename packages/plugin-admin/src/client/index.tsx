@@ -11,6 +11,7 @@ import { history } from './lib/history';
 import { AppRouter } from './router/AppRouter';
 import { Me } from './containers/Me.container';
 import { AdminApps } from './containers/AdminApps.container';
+import { Picker } from './containers/Picker.container';
 
 (async () =>
   ReactDOM.render(
@@ -19,9 +20,11 @@ import { AdminApps } from './containers/AdminApps.container';
       <Auth.Provider>
         <Me.Provider>
           <AdminApps.Provider>
-            <Router history={history}>
-              <AppRouter />
-            </Router>
+            <Picker.Provider>
+              <Router history={history}>
+                <AppRouter />
+              </Router>
+            </Picker.Provider>
           </AdminApps.Provider>
         </Me.Provider>
       </Auth.Provider>

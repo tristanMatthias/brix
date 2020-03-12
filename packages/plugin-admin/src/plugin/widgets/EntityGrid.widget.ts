@@ -1,12 +1,13 @@
 import { Field, ObjectType } from 'type-graphql';
 
 import { WidgetBase } from './Base.widget';
+import { Action, ActionUnion } from '../actions/Action.union';
 
 
 @ObjectType()
 export class WidgetEntityGridItemMap {
-  @Field()
-  image: string;
+  @Field({ nullable: true })
+  image?: string;
 
   @Field()
   title: string;
@@ -28,4 +29,7 @@ export class WidgetEntityGrid extends WidgetBase {
 
   @Field()
   queryKey: string;
+
+  @Field(() => ActionUnion, { nullable: true })
+  clickAction?: Action;
 }

@@ -34,6 +34,3 @@ export const removeKeys = (objOrArray: object | object[], keys: string[]): objec
   }
   return objOrArray;
 };
-
-// @ts-ignore
-window.removeKeys = removeKeys;

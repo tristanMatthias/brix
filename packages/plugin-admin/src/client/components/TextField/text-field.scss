@@ -27,7 +27,8 @@ input, textarea {
 
   &:disabled {
     pointer-events: none;
-    background: var(--color-grey-30);
+    // background: var(--color-grey-30);
+    opacity: 0.5;
   }
 }
 

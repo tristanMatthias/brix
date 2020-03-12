@@ -1,0 +1,46 @@
+@import '../../styles/functions';
+
+.picker {
+  &, &:before {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+  }
+
+  display: grid;
+  align-items: center;
+  justify-content: center;
+
+  &:before {
+    content: '';
+    background-color: var(--modal-bg);
+  }
+
+  * {
+    position: relative;
+    z-index: 101;
+  }
+
+  & > .card {
+    max-width: 60rem;
+    background-color: var(--color-bg);
+    .grid > * {
+      grid-column: span 4;
+    }
+    h3 {
+      text-align: center;
+      margin-bottom: spacing();
+    }
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      button + button {
+        margin-left: spacing();
+      }
+    }
+  }
+}

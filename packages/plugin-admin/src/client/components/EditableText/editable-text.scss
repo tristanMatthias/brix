@@ -1,0 +1,21 @@
+@import '../../styles/functions';
+
+.editable-text {
+  font-size: var(--comp-fs);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: spacing(0.5);
+
+  &:hover {
+    background: var(--color-hover);
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    height: 100%;
+  }
+}

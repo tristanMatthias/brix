@@ -31,7 +31,7 @@ export class WidgetQuery {
 
 // ----------------------------------------------------------------- Entity Grid
 export class WidgetEntityGridItemMap extends WidgetBase {
-  image: string;
+  image?: string;
   title: string;
   subTitle: string;
 }
@@ -41,6 +41,7 @@ export class WidgetEntityGrid extends WidgetBase {
   itemMap: WidgetEntityGridItemMap;
   query: string;
   queryKey: string;
+  clickAction?: Action;
 }
 
 // ----------------------------------------------------------------------- Table
@@ -100,6 +101,8 @@ export class WidgetFormFieldSelect extends WidgetFormFieldBase {
 export class WidgetFormFieldTree extends WidgetFormFieldBase {
   widget: 'tree';
   map: TreeProps['map'];
+  crateMap?: TreeProps['map'];
+  createButton?: TreeProps['createButton'];
 }
 
 

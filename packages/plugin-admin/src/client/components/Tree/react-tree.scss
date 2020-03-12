@@ -1,0 +1,754 @@
+$button-border: var(--border-10);
+$button-collapse-bg: #fff url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCI+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjgiIGZpbGw9IiNGRkYiLz48ZyBzdHJva2U9IiM5ODk4OTgiIHN0cm9rZS13aWR0aD0iMS45IiA+PHBhdGggZD0iTTQuNSA5aDkiLz48L2c+Cjwvc3ZnPg==') no-repeat center;
+$button-expand-bg: #fff url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCI+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjgiIGZpbGw9IiNGRkYiLz48ZyBzdHJva2U9IiM5ODk4OTgiIHN0cm9rZS13aWR0aD0iMS45IiA+PHBhdGggZD0iTTQuNSA5aDkiLz48cGF0aCBkPSJNOSA0LjV2OSIvPjwvZz4KPC9zdmc+') no-repeat center;
+$button-shadow: var(--shadow-20);
+$color-handle-bg: var(--color-grey-20) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MiIgaGVpZ2h0PSI0MiI+PGcgc3Ryb2tlPSIjRkZGIiBzdHJva2Utd2lkdGg9IjIuOSIgPjxwYXRoIGQ9Ik0xNCAxNS43aDE0LjQiLz48cGF0aCBkPSJNMTQgMjEuNGgxNC40Ii8+PHBhdGggZD0iTTE0IDI3LjFoMTQuNCIvPjwvZz4KPC9zdmc+') no-repeat center;
+$color-highlight: #36c2f6;
+$color-line: var(--color-grey-30);
+$color-drop: var(--color-main-soft);
+$color-row-cancel: var(--color-error-soft);
+$color-search-focus: #fc6421;
+$color-search-match: #0080ff;
+$handle-border: var(--border-30);
+$handle-shadow: var(--shadow-20);
+$handle-width: 30px;
+$row-bg: white;
+$row-border: none;
+$row-contents-padding: 0 5px;
+$row-contents-shadow: var(--shadow-20);
+$row-padding: 5px 5px 5px 0;
+$border-drop: 1px dashed var(--color-bg);
+/**
+ * Extra class applied to VirtualScroll through className prop
+ */
+
+ .rst__tree {
+   min-height: 20rem;
+ }
+
+.rst__virtualScrollOverride {
+  overflow: auto !important;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.ReactVirtualized__Grid__innerScrollContainer {
+  overflow: visible !important;
+}
+
+.rst__rtl .ReactVirtualized__Grid__innerScrollContainer {
+  direction: rtl;
+}
+
+.ReactVirtualized__Grid {
+  outline: none;
+}
+
+.rst__node {
+  min-width: 100%;
+  white-space: nowrap;
+  position: relative;
+  text-align: left;
+
+  &.rst__rtl {
+    text-align: right;
+  }
+}
+
+.rst__nodeContent {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+/* =============================================================================
+  Scaffold
+  Line-overlaid blocks used for showing the tree structure
+============================================================================= */
+
+.rst__lineBlock {
+  height: 100%;
+  position: relative;
+  display: inline-block;
+}
+
+.rst__absoluteLineBlock {
+  height: 100%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+}
+
+.rst__lineHalfHorizontalRight::before,
+.rst__lineFullVertical::after,
+.rst__lineHalfVerticalTop::after,
+.rst__lineHalfVerticalBottom::after {
+  position: absolute;
+  content: '';
+  background-color: $color-line;
+}
+
+/**
+ * +-----+
+ * |     |
+ * |  +--+
+ * |     |
+ * +-----+
+ */
+
+.rst__lineHalfHorizontalRight::before {
+  height: 1px;
+  top: 50%;
+  right: 0;
+  width: 50%;
+}
+
+.rst__rtl.rst__lineHalfHorizontalRight::before {
+  left: 0;
+  right: initial;
+}
+
+/**
+ * +--+--+
+ * |  |  |
+ * |  |  |
+ * |  |  |
+ * +--+--+
+ */
+
+.rst__lineFullVertical::after, .rst__lineHalfVerticalTop::after, .rst__lineHalfVerticalBottom::after {
+  width: 1px;
+  left: 50%;
+  top: 0;
+  height: 100%;
+}
+
+/**
+ * +--+--+
+ * |  |  |
+ * |  |  |
+ * |  |  |
+ * +--+--+
+ */
+
+.rst__rtl {
+  &.rst__lineFullVertical::after, &.rst__lineHalfVerticalTop::after, &.rst__lineHalfVerticalBottom::after {
+    right: 50%;
+    left: initial;
+  }
+}
+
+/**
+ * +-----+
+ * |  |  |
+ * |  +  |
+ * |     |
+ * +-----+
+ */
+
+.rst__lineHalfVerticalTop::after {
+  height: 50%;
+}
+
+/**
+ * +-----+
+ * |     |
+ * |  +  |
+ * |  |  |
+ * +-----+
+ */
+
+.rst__lineHalfVerticalBottom::after {
+  top: auto;
+  bottom: 0;
+  height: 50%;
+}
+
+/* Highlight line for pointing to dragged row destination
+   ========================================================================== */
+/**
+ * +--+--+
+ * |  |  |
+ * |  |  |
+ * |  |  |
+ * +--+--+
+ */
+
+.rst__highlightLineVertical {
+  display: none!important;
+  z-index: 3;
+
+  &::before {
+    position: absolute;
+    content: '';
+    background-color: $color-highlight;
+    width: 8px;
+    margin-left: -4px;
+    left: 50%;
+    top: 0;
+    height: 100%;
+  }
+}
+
+.rst__rtl.rst__highlightLineVertical::before {
+  margin-left: initial;
+  margin-right: -4px;
+  left: initial;
+  right: 50%;
+}
+
+@keyframes arrow-pulse {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+
+  30% {
+    transform: translate(0, 300%);
+    opacity: 1;
+  }
+
+  70% {
+    transform: translate(0, 700%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(0, 1000%);
+    opacity: 0;
+  }
+}
+
+.rst__highlightLineVertical::after {
+  content: '';
+  position: absolute;
+  height: 0;
+  margin-left: -4px;
+  left: 50%;
+  top: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid white;
+  animation: arrow-pulse 1s infinite linear both;
+}
+
+.rst__rtl.rst__highlightLineVertical::after {
+  margin-left: initial;
+  margin-right: -4px;
+  right: 50%;
+  left: initial;
+}
+
+/**
+ * +-----+
+ * |     |
+ * |  +--+
+ * |  |  |
+ * +--+--+
+ */
+
+.rst__highlightTopLeftCorner::before {
+  z-index: 3;
+  content: '';
+  position: absolute;
+  border-top: solid 8px $color-highlight;
+  border-left: solid 8px $color-highlight;
+  box-sizing: border-box;
+  height: calc(50% + 4px);
+  top: 50%;
+  margin-top: -4px;
+  right: 0;
+  width: calc(50% + 4px);
+}
+
+.rst__rtl.rst__highlightTopLeftCorner::before {
+  border-right: solid 8px $color-highlight;
+  border-left: none;
+  left: 0;
+  right: initial;
+}
+
+/**
+ * +--+--+
+ * |  |  |
+ * |  |  |
+ * |  +->|
+ * +-----+
+ */
+
+.rst__highlightBottomLeftCorner {
+  z-index: 3;
+
+  &::before {
+    content: '';
+    position: absolute;
+    border-bottom: solid 8px $color-highlight;
+    border-left: solid 8px $color-highlight;
+    box-sizing: border-box;
+    height: calc(100% + 4px);
+    top: 0;
+    right: 12px;
+    width: calc(50% - 8px);
+  }
+}
+
+.rst__rtl.rst__highlightBottomLeftCorner::before {
+  border-right: solid 8px $color-highlight;
+  border-left: none;
+  left: 12px;
+  right: initial;
+}
+
+.rst__highlightBottomLeftCorner::after {
+  content: '';
+  position: absolute;
+  height: 0;
+  right: 0;
+  top: 100%;
+  margin-top: -12px;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid $color-highlight;
+}
+
+.rst__rtl.rst__highlightBottomLeftCorner::after {
+  left: 0;
+  right: initial;
+  border-right: 12px solid $color-highlight;
+  border-left: none;
+}
+
+.rst__rowWrapper {
+  padding: $row-padding;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.rst__rtl.rst__rowWrapper {
+  padding: $row-padding 0 $row-padding $row-padding;
+}
+
+.rst__row {
+  height: 100%;
+  white-space: nowrap;
+  display: flex;
+
+  > * {
+    box-sizing: border-box;
+  }
+}
+
+/**
+ * The outline of where the element will go if dropped, displayed while dragging
+ */
+
+.rst__rowLandingPad, .rst__rowCancelPad {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.rst__rowLandingPad > *, .rst__rowCancelPad > * {
+  opacity: 0 !important;
+}
+
+.rst__rowLandingPad::before {
+  background-color: $color-drop;
+  border: $border-drop;
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.rst__rowCancelPad::before {
+  border: $border-drop;
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background-color: $color-row-cancel;
+}
+
+/**
+ * Alternate appearance of the landing pad when the dragged location is invalid
+ */
+
+/**
+ * Nodes matching the search conditions are highlighted
+ */
+
+.rst__rowSearchMatch {
+  outline: solid 3px $color-search-match;
+}
+
+/**
+ * The node that matches the search conditions and is currently focused
+ */
+
+.rst__rowSearchFocus {
+  outline: solid 3px $color-search-focus;
+}
+
+.rst__rowContents, .rst__rowLabel, .rst__rowToolbar, .rst__moveHandle, .rst__toolbarButton {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.rst__rowContents {
+  position: relative;
+  height: 100%;
+  border: $row-border;
+  border-left: none;
+  box-shadow: $row-contents-shadow;
+  padding: $row-contents-padding;
+  border-radius: 2px;
+  min-width: 230px;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $row-bg;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.rst__rtl.rst__rowContents {
+  border-right: none;
+  border-left: $row-border;
+  padding: 0 10px 0 5px;
+}
+
+.rst__rowContentsDragDisabled {
+  border-left: $row-border;
+}
+
+.rst__rtl.rst__rowContentsDragDisabled {
+  border-right: $row-border;
+  border-left: $row-border;
+}
+
+.rst__rowLabel {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  * {
+    flex: 1;
+  }
+
+  .rst__rowSubtitle {
+    margin-left: auto;
+    flex: 0;
+  }
+}
+
+.rst__rtl.rst__rowLabel {
+  padding-left: 20px;
+  padding-right: inherit;
+}
+
+.rst__rowToolbar {
+  flex: 0 1 auto;
+  display: flex;
+}
+
+.rst__loadingHandle,
+.rst__moveHandle {
+  background: $color-handle-bg;
+  border-radius: 1px;
+  border: $handle-border;
+  height: 100%;
+  width: $handle-width;
+  z-index: 1;
+  background-size: 150%;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+.rst__moveHandle {
+  box-shadow: $handle-shadow;
+  cursor: move;
+}
+.rst__loadingHandle {
+  box-shadow: 0 2px 2px -2px;
+  cursor: default;
+}
+
+@keyframes pointFade {
+  0%,
+  19.999%,
+  100% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+}
+
+.rst__loadingCircle {
+  width: 80%;
+  height: 80%;
+  margin: 10%;
+  position: relative;
+}
+
+.rst__loadingCirclePoint {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.rst__rtl.rst__loadingCirclePoint {
+  right: 0;
+  left: initial;
+}
+
+.rst__loadingCirclePoint {
+  &::before {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    width: 11%;
+    height: 30%;
+    background-color: #fff;
+    border-radius: 30%;
+    animation: pointFade 800ms infinite ease-in-out both;
+  }
+
+  &:nth-of-type(1) { transform: rotate(0deg); }
+  &:nth-of-type(7) { transform: rotate(180deg); }
+  &:nth-of-type(1)::before, &:nth-of-type(7)::before { animation-delay: -800ms; }
+
+  &:nth-of-type(2) { transform: rotate(30deg); }
+  &:nth-of-type(8) { transform: rotate(210deg); }
+  &:nth-of-type(2)::before, &:nth-of-type(8)::before { animation-delay: -666ms; }
+
+  &:nth-of-type(3) { transform: rotate(60deg); }
+  &:nth-of-type(9) { transform: rotate(240deg); }
+  &:nth-of-type(3)::before, &:nth-of-type(9)::before { animation-delay: -533ms; }
+
+  &:nth-of-type(4) { transform: rotate(90deg); }
+  &:nth-of-type(10) { transform: rotate(270deg); }
+  &:nth-of-type(4)::before, &:nth-of-type(10)::before { animation-delay: -400ms; }
+
+  &:nth-of-type(5) { transform: rotate(120deg); }
+  &:nth-of-type(11) { transform: rotate(300deg); }
+  &:nth-of-type(5)::before, &:nth-of-type(11)::before { animation-delay: -266ms; }
+
+  &:nth-of-type(6) { transform: rotate(150deg); }
+  &:nth-of-type(12) { transform: rotate(330deg); }
+  &:nth-of-type(6)::before, &:nth-of-type(12)::before { animation-delay: -133ms; }
+
+  &:nth-of-type(7) { transform: rotate(180deg); }
+  &:nth-of-type(13) { transform: rotate(360deg); }
+  &:nth-of-type(7)::before, &:nth-of-type(13)::before { animation-delay: 0ms; }
+}
+
+.rst__rowTitle {
+  height: 100%;
+}
+// .rst__rowTitle {
+//   font-weight: bold;
+// }
+
+// .rst__rowTitleWithSubtitle {
+//   font-size: 85%;
+//   display: block;
+//   height: 0.8rem;
+// }
+
+// .rst__rowSubtitle {
+//   font-size: 70%;
+//   line-height: 1;
+// }
+
+.rst__collapseButton, .rst__expandButton {
+  appearance: none;
+  position: absolute;
+  border-radius: 100%;
+  border: $button-border;
+  box-shadow: $button-shadow;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.rst__rtl {
+  &.rst__collapseButton, &.rst__expandButton {
+    transform: translate(50%, -50%);
+  }
+}
+
+.rst__collapseButton:focus, .rst__expandButton:focus {
+  outline: none;
+  box-shadow: var(--glow-main);
+}
+
+.rst__collapseButton:hover:not(:active), .rst__expandButton:hover:not(:active) {
+  background-size: 24px;
+  height: 20px;
+  width: 20px;
+}
+
+.rst__collapseButton {
+  background: $button-collapse-bg;
+}
+
+.rst__expandButton {
+  background: $button-expand-bg;
+}
+
+/**
+ * Line for under a node with children
+ */
+
+.rst__lineChildren {
+  height: 100%;
+  display: inline-block;
+  position: absolute;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-color: $color-line;
+    width: 1px;
+    left: 50%;
+    bottom: 0;
+    height: 10px;
+  }
+}
+
+.rst__rtl.rst__lineChildren::after {
+  right: 50%;
+  left: initial;
+}
+
+.rst__placeholder {
+  position: relative;
+  height: 68px;
+  max-width: 300px;
+  padding: 10px;
+  box-sizing: border-box;
+
+  > * {
+    box-sizing: border-box;
+  }
+
+  &::before {
+    border: 3px dashed $color-handle-bg;
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    z-index: -1;
+  }
+}
+
+/**
+ * The outline of where the element will go if dropped, displayed while dragging
+ */
+
+.rst__placeholderLandingPad, .rst__placeholderCancelPad {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.rst__placeholderLandingPad *, .rst__placeholderCancelPad * {
+  opacity: 0 !important;
+}
+
+.rst__placeholderLandingPad::before {
+  background-color: $color-drop;
+  border-color: white;
+}
+
+.rst__placeholderCancelPad::before {
+  border-color: white;
+  background-color: $color-row-cancel;
+}
+
+
+/* Table default theme */
+
+.ReactVirtualized__Table__headerRow {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ReactVirtualized__Table__headerRow,
+.ReactVirtualized__Table__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.ReactVirtualized__Table__headerTruncatedText {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ReactVirtualized__Table__headerColumn {
+  margin-right: 10px;
+  min-width: 0px;
+}
+
+.ReactVirtualized__Table__rowColumn {
+  margin-right: 10px;
+  min-width: 0px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ReactVirtualized__Table__headerColumn:first-of-type, .ReactVirtualized__Table__rowColumn:first-of-type {
+  margin-left: 10px;
+}
+
+.ReactVirtualized__Table__sortableHeaderColumn {
+  cursor: pointer;
+}
+
+.ReactVirtualized__Table__sortableHeaderIconContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.ReactVirtualized__Table__sortableHeaderIcon {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  height: 1em;
+  width: 1em;
+  fill: currentColor;
+}

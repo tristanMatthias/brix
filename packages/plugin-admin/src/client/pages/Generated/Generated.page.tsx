@@ -39,9 +39,6 @@ export const GeneratedPage: React.FunctionComponent<GeneratedPageProps> = ({
     load();
   }, [page.query]);
 
-  console.log(linkParams(page.redirect!)());
-
-
   return <Switch>
     {page.pages?.map(p => <Route path={linkParams(`${page.path}${p.path}`)(false)} exact>
       <GeneratedPage page={p} parentPath={page.path} />
