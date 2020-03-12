@@ -19,6 +19,9 @@ export class ActionPick {
 
   @Field()
   queryKey: string;
+
+  @Field({ nullable: true })
+  pickKey: string;
 }
 
 @ObjectType()

@@ -7,6 +7,7 @@ export interface PickerProps {
   query: string;
   queryKey: string;
   itemMap: EntityGridProps['itemMap'];
+  pickKey?: string;
 }
 export type PickerCB = (value: any) => void;
 
@@ -20,9 +21,10 @@ export const Picker = createContainer(() => {
     setCallBack(() => cb);
   };
   const close = (useValue?: boolean) => {
-    callBack; useValue;
+    let v = useValue ? value : null;
+    if (v && picker?.pickKey) v = v[picker.pickKey as keyof typeof v];
     setPicker(null);
-    callBack?.(useValue ? value : null);
+    callBack?.(v);
     setCallBack(null);
   };
 
