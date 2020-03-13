@@ -1,0 +1,22 @@
+{
+  "name": "@brix/plugin-static",
+  "version": "0.2.2-alpha.54+012eb64",
+  "description": "Brix plugin to serve static directories",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./"
+  },
+  "dependencies": {
+    "@brix/core": "^0.2.2-alpha.54+012eb64",
+    "serve-static": "^1.14.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "012eb64f698ac8fcf181a71550d46c95198595d0"
+}
