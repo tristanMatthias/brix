@@ -1,0 +1,17 @@
+@each $color in $colors {
+  .color-#{$color} { color: var(--color-#{$color}); }
+  .bg-#{$color} {
+    background-color: var(--color-#{$color});
+    &.hollow {
+      color: var(--color-#{$color});
+    }
+  }
+}
+.hollow {
+  background-color: transparent;
+  color: var(--color-grey-40);
+
+  &:hover {
+    background: var(--color-grey-10);
+  }
+}

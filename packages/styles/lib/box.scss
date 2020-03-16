@@ -1,0 +1,19 @@
+@for $i from 1 to 10 {
+
+  .p-#{$i} { padding: calc(var(--spacing) * #{$i}); }
+  .pl-#{$i} { padding-left: calc(var(--spacing) * #{$i}); }
+  .pr-#{$i} { padding-right: calc(var(--spacing) * #{$i}); }
+  .pt-#{$i} { padding-top: calc(var(--spacing) * #{$i}); }
+  .pb-#{$i} { padding-bottom: calc(var(--spacing) * #{$i}); }
+  .ph-#{$i} { padding-left: calc(var(--spacing) * #{$i}); padding-right: calc(var(--spacing) * #{$i}); }
+  .pv-#{$i} { padding-top: calc(var(--spacing) * #{$i}); padding-bottom: calc(var(--spacing) * #{$i}); }
+
+  .m-#{$i} { margin: calc(var(--spacing) * #{$i}); }
+  .ml-#{$i} { margin-left: calc(var(--spacing) * #{$i}); }
+  .mr-#{$i} { margin-right: calc(var(--spacing) * #{$i}); }
+  .mt-#{$i} { margin-top: calc(var(--spacing) * #{$i}); }
+  .mb-#{$i} { margin-bottom: calc(var(--spacing) * #{$i}); }
+  .mh-#{$i} { margin-left: calc(var(--spacing) * #{$i}); margin-right: calc(var(--spacing) * #{$i}); }
+  .mv-#{$i} { margin-top: calc(var(--spacing) * #{$i}); margin-bottom: calc(var(--spacing) * #{$i}); }
+
+}

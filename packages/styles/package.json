@@ -1,0 +1,13 @@
+{
+  "name": "@brix/styles",
+  "version": "0.2.2-alpha.54+012eb64",
+  "description": "Highly themeable css/sass design system",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "main": "./index.scss",
+  "scripts": {},
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}

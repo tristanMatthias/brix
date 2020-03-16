@@ -1,0 +1,41 @@
+a {
+  text-decoration: none;
+}
+
+:root {
+  @include generate-type-vars(
+    'h1',
+    $font-weight: 900,
+    $font-size: var(--fs-huge),
+    $font-family: var(--ff-headings)
+  );
+
+  @include generate-type-vars(
+    'h2',
+    $font-size: var(--fs-large),
+    $font-family: var(--ff-headings)
+  );
+
+  @include generate-type-vars(
+    'h3',
+    $font-family: var(--ff-headings)
+  );
+
+  @include generate-type-vars(
+    'h5',
+    $font-family: var(--ff-headings)
+  );
+
+  @include generate-type-vars(
+    'small',
+    $font-family: var(--ff-headings)
+  );
+
+  @include generate-type-vars( 'body' );
+}
+
+body { @include type-vars('body'); }
+h1 { @include type-vars('h1'); }
+h3 { @include type-vars('h3'); }
+h5 { @include type-vars('h5'); }
+small { @include type-vars('small'); }

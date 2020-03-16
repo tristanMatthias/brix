@@ -1,0 +1,128 @@
+@import './utils.scss';
+@import './reset';
+
+:root {
+
+  --spacing: 1rem;
+
+  $color-main:#2e31ff;
+  $color-error:#f84a4a;
+  $color-success:#13d28b;
+
+  --color-main: #{$color-main};
+  --color-main-soft: #{rgba($color-main, 0.5)};
+  --color-main-dark: #{darken($color-main, 10%)};
+  --color-main-darkest: #{darken($color-main, 20%)};
+  --color-text: var(--color-grey-60);
+  --color-paper: white;
+  --color-bg-off: #f9f9fb;
+  --color-bg: #f1f1fb;
+  --color-error: #{$color-error};
+  --color-error-soft: #{rgba($color-error, 0.5)};
+  --color-success: #{$color-success};
+  --color-success-soft: #{rgba($color-success, 0.5)};
+  --color-hover: #{rgba($color-main, 0.05)};
+  --color-disabled: var(--color-grey-40);
+
+
+  --color-grey-10: #{desaturate(lighten($color-main, 35%), 60%)};
+  --color-grey-20: #{desaturate(lighten($color-main, 30%), 60%)};
+  --color-grey-30: #{desaturate(lighten($color-main, 20%), 60%)};
+  --color-grey-40: #{desaturate(lighten($color-main, 10%), 60%)};
+  --color-grey-50: #{desaturate(darken($color-main, 2%), 60%)};
+  --color-grey-60: #{desaturate(darken($color-main, 10%), 60%)};
+  --color-grey-70: #{desaturate(darken($color-main, 20%), 60%)};
+  --color-grey-80: #{desaturate(darken($color-main, 30%), 60%)};
+  --color-grey-90: #{desaturate(darken($color-main, 40%), 60%)};
+  --color-grey-100: #{desaturate(darken($color-main, 50%), 60%)};
+  --color-black-soft: #{transparentize(desaturate(darken($color-main, 80%), 50%), 0.6)};
+
+
+  --ff-main: Roboto, Helvetica, sans-serif;
+  --ff-headings: "Butler";
+  --fs-root: 10px;
+  --fs-huge: 3.6rem;
+  --fs-large: 2.4rem;
+  --fs-main: 1.8rem;
+  --fs-medium: 1.4rem;
+  --fs-small: 1.2rem;
+
+  --transition-time: 0.15s;
+
+  --shadow-inset: inset 0 0 4px var(--color-grey-20);
+  --shadow-10: 0 2px 4px var(--color-grey-30);
+  --shadow-20: 0 4px 8px var(--color-grey-20);
+  --shadow-60: 0 0 20px var(--color-grey-60);
+  --shadow-80: 0 0 20px var(--color-grey-80);
+  --glow-main: 0 2px 4px var(--color-main-soft);
+  --glow-error: 0 2px 4px var(--color-error-soft);
+
+  --border-width: 1px;
+  --border-main: var(--border-width) solid var(--color-main);
+  --border-10: var(--border-width) solid var(--color-grey-10);
+  --border-20: var(--border-width) solid var(--color-grey-20);
+  --border-30: var(--border-width) solid var(--color-grey-30);
+  --border-radius: 4px;
+
+  --header-height: 6rem;
+  --header-bg: var(--color-bg-off);
+  --sidebar-width: 6rem;
+
+  --comp-height: 4rem;
+  --comp-padding: 1rem;
+  --comp-fs: 1.4rem;
+
+  --input-bg: var(--color-bg);
+  --input-color: var(--color-text);
+  --input-border: var(--border-20);
+
+  --label-fs: var(--fs-medium);
+  --label-color: var(--color-grey-50);
+
+  --button-bg: var(--color-main);
+  --button-color: var(--color-paper);
+  --button-border: none;
+  --button-fw: 400;
+
+  --checkbox-bg: var(--input-bg);
+  --checkbox-border: var(--border-30);
+  --checkbox-size: #{spacing(1.6)};
+
+  --table-header-height: #{spacing(3)};
+  --table-header-fs: var(--fs-small);
+  --table-header-fw: 700;
+  --table-header-color: var(--color-grey-40);
+  --table-header-letter-spacing: 1px;
+  --table-header-bg: var(--color-paper);
+  --table-header-border: solid var(--color-grey-10);
+  --table-header-border-width: 0 0 1px 0;
+
+
+  --table-cell-height: #{spacing(4)};
+  --table-cell-fs: var(--fs-medium);
+  --table-cell-padding: #{spacing(1)};
+  --table-cell-color: var(--color-grey-60);
+  --table-cell-border-width: 1px 0;
+  --table-cell-border: solid var(--color-grey-10);
+  --table-cell-border-width: 0 0 1px 0;
+
+
+  --side-menu-width: #{spacing(20)};
+  --side-menu-fs: var(--fs-small);
+  --side-menu-fw: 700;
+  --side-menu-color: var(--color-grey-40);
+  --side-menu-letter-spacing: 1px;
+
+  --modal-bg: var(--color-black-soft);
+
+}
+
+
+html {
+  font-size: var(--fs-root);
+  background-color: var(--color-bg);
+}
+
+body {
+  min-height: 100vh;
+}

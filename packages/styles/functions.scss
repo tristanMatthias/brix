@@ -1,0 +1,33 @@
+@function spacing($size: 1) {
+  @return calc(var(--spacing) * #{$size});
+}
+
+
+@mixin type-vars($prefix) {
+  color: var(--#{$prefix}-color);
+  font-weight: var(--#{$prefix}-fw);
+  font-family: var(--#{$prefix}-ff);
+  font-size: var(--#{$prefix}-fs);
+  letter-spacing: var(--#{$prefix}-letter-spacing);
+  text-transform: var(--#{$prefix}-text-trans);
+  line-height: var(--#{$prefix}-lh);
+}
+
+@mixin generate-type-vars(
+  $prefix,
+  $color: var(--color-text),
+  $font-weight: 400,
+  $font-family: var(--ff-main),
+  $font-size: var(--fs-main),
+  $letter-spacing: 0,
+  $text-transform: none,
+  $line-height: 1.75
+) {
+  --#{$prefix}-color: #{$color};
+  --#{$prefix}-fw: #{$font-weight};
+  --#{$prefix}-fs: #{$font-size};
+  --#{$prefix}-letter-spacing: #{$letter-spacing};
+  --#{$prefix}-text-trans: #{$text-transform};
+  --#{$prefix}-ff: #{$font-family};
+  --#{$prefix}-lh: #{$line-height};
+}

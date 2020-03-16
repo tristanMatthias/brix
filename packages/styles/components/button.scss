@@ -1,0 +1,62 @@
+:root {
+  @include generate-type-vars(
+    'button' ,
+    $color: white,
+    $letter-spacing: 0.5px,
+    $text-transform: capitalize
+  );
+}
+
+button, .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  border: var(--button-border);
+  height: var(--button-height, var(--comp-height));
+  padding: var(--comp-padding);
+  box-shadow: var(--shadow-10);
+  background: var(--button-bg);
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition-time);
+  @include type-vars('button');
+
+  &:visited { color: var(--button-color) }
+  &:hover {
+    // background:var(--color-main-dark);
+    filter: brightness(0.9);
+  }
+  &:focus {
+    filter: brightness(0.9);
+    box-shadow: var(--glow-main);
+  }
+  &:active {
+    filter: brightness(0.8);
+  }
+
+  &:disabled {
+    background-color: var(--color-disabled);
+    opacity: 0.5;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  &.circle {
+    border-radius: 50%;
+    width: var(--comp-height);
+  }
+
+  &.hollow {
+    box-shadow: none;
+  }
+
+  &.bg-grey-10,
+  &.bg-grey-20 {
+    color: var(--color-grey-50);
+  }
+
+  &  +& {
+    margin-left: spacing(2);
+  }
+}
