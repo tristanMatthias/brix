@@ -6,7 +6,7 @@ import path from 'path';
 import { buildSchema as buildSchemaGQL, BuildSchemaOptions, emitSchemaDefinitionFile } from 'type-graphql';
 
 import { Config } from '../config';
-import { ErrorGQLNoResolvers, ErrorGQLGenerateSchemaError } from '../errors';
+import { ErrorGQLGenerateSchemaError, ErrorGQLNoResolvers } from '../errors';
 import { BrixPlugins } from '../plugins';
 import { dirOrDist, logger } from './';
 import { getHash } from './hash';
@@ -83,6 +83,11 @@ export const buildSchema = async (
 
   return schema;
 };
+
+/**
+ * Expose the global no authed schema
+ */
+export const getSchema = () => schema;
 
 
 let prevSchema: string;

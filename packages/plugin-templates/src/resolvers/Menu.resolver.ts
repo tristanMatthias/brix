@@ -9,13 +9,13 @@ import { EPage } from '../entities/Page.entity';
 export class MenuResolver {
   model = getStore().model<EMenu>('Menu');
 
-  @Authorized()
+  // @Authorized()
   @Query(() => EMenu)
   async menu(@Arg('id') id: string) {
     return this.model.findById(id);
   }
 
-  @Authorized()
+  // @Authorized()
   @Query(() => [EMenu])
   async menus() {
     return await this.model.findAll();

@@ -12,7 +12,7 @@ export class PageResolver {
   model = getStore().model<EPage>('Page');
   user = getStore().model<EPage>('User');
 
-  @Authorized()
+  // @Authorized()
   @Query(() => EPage)
   async page(@Arg('id') id: string) {
     return this.model.findById(id);
