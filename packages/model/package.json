@@ -15,10 +15,20 @@
     "@brix/core": "^0.2.2-alpha.54+012eb64",
     "@types/request-promise": "^4.1.45",
     "cloudinary": "^1.19.0",
-    "request-promise": "^4.2.5"
+    "lodash": "^4.17.15",
+    "pluralize": "^8.0.0",
+    "request-promise": "^4.2.5",
+    "ts-mixer": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "012eb64f698ac8fcf181a71550d46c95198595d0"
+  "gitHead": "012eb64f698ac8fcf181a71550d46c95198595d0",
+  "peerDependencies": {
+    "type-graphql": "^0.17.6"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.149",
+    "@types/pluralize": "^0.0.29"
+  }
 }
