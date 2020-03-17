@@ -20,6 +20,10 @@
     "noImplicitThis": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
+    "types": [
+      "reflect-metadata"
+    ]
   }
 }
