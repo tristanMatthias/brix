@@ -49,6 +49,8 @@ export type BrixStoreModel<T> = {
   findAll(): Promise<T[]>
   /** Create a new record */
   create(data: Partial<T>): Promise<T>
+  /** Bulk create new records */
+  bulkCreate(values: Partial<T>[]): Promise<T[]>;
   /** Find a record by the primary key */
   findById(id: string): Promise<T>
   /** Find a record with filter options */

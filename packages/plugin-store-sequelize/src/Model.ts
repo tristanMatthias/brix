@@ -16,6 +16,10 @@ export class SequelizeModel<T> implements BrixStoreModel<T> {
     return (await this._seqModel.create(data, globalOptions)).toJSON() as unknown as T;
   }
 
+  async bulkCreate(data: object[]) {
+    return (await this._seqModel.bulkCreate(data, globalOptions)).map(r => r.toJSON()) as unknown as T[];
+  }
+
   async findById(id: string) {
     return (await this._seqModel.findByPk(id))?.toJSON() as unknown as T;
   }
