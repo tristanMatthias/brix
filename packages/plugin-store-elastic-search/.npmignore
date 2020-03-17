@@ -1,0 +1,5 @@
+src/
+*.log
+webpack.config.ts
+coverage
+jest.config.js

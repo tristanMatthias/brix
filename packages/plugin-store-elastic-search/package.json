@@ -1,0 +1,26 @@
+{
+  "name": "@brix/plugin-store-elastic-search",
+  "version": "0.2.2-alpha.54+012eb64",
+  "description": "Enable Elastic Search as a store for Brix",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/tristanMatthias/brix",
+  "author": "Tristan Matthias <hello@tristanmatthias.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc -p ./ -w",
+    "build": "rimraf dist; tsc -p ./"
+  },
+  "peerDependencies": {
+    "express": "^4.17.1"
+  },
+  "dependencies": {
+    "@brix/core": "^0.2.2-alpha.54+012eb64",
+    "@brix/model": "^0.2.2-alpha.54+012eb64",
+    "@elastic/elasticsearch": "^7.6.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "012eb64f698ac8fcf181a71550d46c95198595d0"
+}
