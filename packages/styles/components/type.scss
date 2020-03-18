@@ -36,6 +36,7 @@ a {
 
 body { @include type-vars('body'); }
 h1 { @include type-vars('h1'); }
+h2 { @include type-vars('h2'); }
 h3 { @include type-vars('h3'); }
 h5 { @include type-vars('h5'); }
 small { @include type-vars('small'); }
