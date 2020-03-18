@@ -17,7 +17,8 @@
   "dependencies": {
     "@brix/core": "^0.2.2-alpha.54+012eb64",
     "@brix/model": "^0.2.2-alpha.54+012eb64",
-    "@elastic/elasticsearch": "^7.6.1"
+    "@elastic/elasticsearch": "^7.6.1",
+    "deepmerge": "^4.2.2"
   },
   "publishConfig": {
     "access": "public"

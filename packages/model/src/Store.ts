@@ -18,12 +18,13 @@ export interface BrixStoreBuildOptions {
  * each of the functions and properties described here so the rest of Brix can
  * interact with the plugin in a standard way.
  */
-export interface BrixStore {
+export interface BrixStore<T extends any = any> {
+  db: T;
   /**
    * Called by `ModelBuilder` with the metadata collected
    * @param data Metadata collected from decorators and plugins to build the models
    */
-  build(data: BrixStoreBuildOptions): BrixStore;
+  build(data: BrixStoreBuildOptions): BrixStore<T>;
   /**
    * Connect to the store/database
    * @param config Store connection details
@@ -37,28 +38,32 @@ export interface BrixStore {
    * Lookup a model on the store
    * @param name Model name
    */
-  model<T>(name: string): BrixStoreModel<T>;
+  model<T, AdapterOptions extends BrixStoreAdapterOptions = {}>(name: string): BrixStoreModel<T, AdapterOptions>;
+}
+
+export interface BrixStoreAdapterOptions {
+  [key: string]: any;
 }
 
 /**
  * An standardized instance of an individual model in Brix.
  * Created with the `@Model` decorator
  */
-export type BrixStoreModel<T> = {
+export type BrixStoreModel<T, AdapterOptions extends BrixStoreAdapterOptions = {}> = {
   /** Find all records of the model */
-  findAll(): Promise<T[]>
+  findAll(adapterOptions?: AdapterOptions): Promise<T[]>
   /** Create a new record */
-  create(data: Partial<T>): Promise<T>
+  create(data: Partial<T>, adapterOptions?: AdapterOptions): Promise<T>
   /** Bulk create new records */
-  bulkCreate(values: Partial<T>[]): Promise<T[]>;
+  bulkCreate(values: Partial<T>[], adapterOptions?: AdapterOptions): Promise<T[]>;
   /** Find a record by the primary key */
-  findById(id: string): Promise<T>
+  findById(id: string, adapterOptions?: AdapterOptions): Promise<T>
   /** Find a record with filter options */
-  findOne(options: BrixStoreModelFindOptions<T>): Promise<T>;
+  findOne(options: BrixStoreModelFindOptions<T>, adapterOptions?: AdapterOptions): Promise<T>;
   /** Delete a record by the ID */
-  deleteById(id: string): Promise<boolean>;
+  deleteById(id: string, adapterOptions?: AdapterOptions): Promise<boolean>;
   /** Update a record by the ID */
-  updateById(id: string, values: Partial<T>): Promise<T>;
+  updateById(id: string, values: Partial<T>, adapterOptions?: AdapterOptions): Promise<T>;
 };
 
 /**
@@ -84,4 +89,4 @@ export const setStore = (store: BrixStore) => Store = store;
 /**
  * Get the global `BrixStore`
  */
-export const getStore = () => Store;
+export const getStore = <T extends any = any>() => Store as BrixStore<T>;

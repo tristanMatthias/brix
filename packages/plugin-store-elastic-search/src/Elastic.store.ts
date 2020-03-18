@@ -5,7 +5,7 @@ import { Client } from '@elastic/elasticsearch';
 import { ElasticModel } from './Model';
 
 
-export class ElasticStore implements BrixStore {
+export class ElasticStore implements BrixStore<Client> {
   db: Client;
   models: { [key: string]: any } = {};
   private _config: BrixStoreBuildOptions;

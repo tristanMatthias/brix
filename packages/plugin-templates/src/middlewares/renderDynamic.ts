@@ -31,8 +31,6 @@ export const renderDynamic = (options: PluginTemplateOptions) =>
           url: req.url,
           ...page.data
         });
-        console.log(query, page.data);
-
 
         const render = await (consolidate[TemplateService.getEngine(template.type)] as any)(
           path.join(options.templatesDir, template.url),

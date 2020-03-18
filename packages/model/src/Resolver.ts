@@ -1,9 +1,9 @@
 import { capitalize } from 'lodash';
 import pluralize from 'pluralize';
-import { Arg, Query, Resolver as TResolver, Mutation } from 'type-graphql';
-
-import { getStore } from './Store';
 import { Mixin } from 'ts-mixer';
+import { Arg, Mutation, Query, Resolver as TResolver } from 'type-graphql';
+
+import { getStore, BrixStoreAdapterOptions } from './Store';
 
 export interface ResolverAuthOptions {
   findById?: boolean;
@@ -14,20 +14,29 @@ export interface ResolverAuthOptions {
   updateById?: boolean;
 }
 
-export interface ResolverOptions<T extends any> {
+export interface ResolverOptions<Entity extends any> {
   /** Entity to return from each mutation/query */
-  entity: T;
+  entity: Entity;
   /** Entity to use as argument for create mutation */
   createInput?: any;
   /** Entity to use as argument for update mutation */
   updateInput?: any;
   /** Enable/disable delete mutation */
-  deletable: boolean;
+  deletable?: boolean;
   /** Override the plural name of the entity for the list query */
   plural?: string;
   /** Override the model name to map the resolvers to */
   model?: string;
   auth?: boolean | ResolverAuthOptions;
+  /** Pass specific options to the Store adapter for each mutation/query */
+  adapterOptions?: {
+    get?: BrixStoreAdapterOptions,
+    list?: BrixStoreAdapterOptions,
+    create?: BrixStoreAdapterOptions,
+    bulkCreate?: BrixStoreAdapterOptions,
+    update?: BrixStoreAdapterOptions,
+    delete?: BrixStoreAdapterOptions
+  };
 }
 
 /**
@@ -52,8 +61,15 @@ export interface ResolverOptions<T extends any> {
  * })
  * ```
  */
-export const Resolver = <T extends any>(name: string, options: ResolverOptions<T>): any => {
-  const { entity, createInput, updateInput } = options;
+export function Resolver<Entity extends any>(name: string, entity: object): any;
+export function Resolver<Entity extends any>(name: string, options: ResolverOptions<Entity>): any;
+export function Resolver<Entity extends any>(name: string, entityOrOptions: object | ResolverOptions<Entity>): any {
+  type RT = ResolverOptions<Entity>;
+  const options = (entityOrOptions as RT).entity
+    ? entityOrOptions as RT
+    : { entity: entityOrOptions } as RT;
+
+  const { entity, createInput, updateInput, adapterOptions } = options;
   if (!entity) throw new Error(`Resolver '${name}' needs an entity`);
   const plural = options.plural || pluralize(name);
   const modelName = options.model || capitalize(pluralize.singular(name));
@@ -63,14 +79,17 @@ export const Resolver = <T extends any>(name: string, options: ResolverOptions<T
 
   @TResolver()
   class AutoResolverBase {
-    model = getStore().model<T>(modelName);
+    model = getStore().model<Entity>(modelName);
     @Query(() => entity)
     async [name](
       @Arg('id') id: string
-    ) { return this.model.findById(id); }
+    ) { return this.model.findById(id, adapterOptions?.get); }
 
     @Query(() => [entity])
-    async [plural]() { return this.model.findAll(); }
+    async [plural]() {
+      const res = await this.model.findAll(adapterOptions?.list);
+      return res;
+    }
 
   }
   let returning = AutoResolverBase;
@@ -78,12 +97,12 @@ export const Resolver = <T extends any>(name: string, options: ResolverOptions<T
   // Add the `createResource` mutation to the resolver
   if (options.createInput) {
     class Create extends Mixin(returning) {
-      model = getStore().model<T>(modelName);
+      model = getStore().model<Entity>(modelName);
 
       @Mutation(() => entity)
       async [`create${modelName}`](
-        @Arg(name, () => createInput) value: T
-      ) { return this.model.create(value); }
+        @Arg(name, () => createInput) value: Entity
+      ) { return this.model.create(value, adapterOptions?.create); }
     }
     returning = Create;
   }
@@ -91,12 +110,12 @@ export const Resolver = <T extends any>(name: string, options: ResolverOptions<T
   // Add the `updateResource` mutation to the resolver
   if (options.updateInput) {
     class Update extends Mixin(returning) {
-      model = getStore().model<T>(modelName);
+      model = getStore().model<Entity>(modelName);
 
       @Mutation(() => entity)
       async [`update${modelName}`](
-        @Arg(name, () => updateInput) value: T
-      ) { return this.model.updateById(value.id, value); }
+        @Arg(name, () => updateInput) value: Entity
+      ) { return this.model.updateById(value.id, value, adapterOptions?.update); }
     }
     returning = Update;
   }
@@ -104,15 +123,15 @@ export const Resolver = <T extends any>(name: string, options: ResolverOptions<T
   // Add the `deleteResource` mutation to the resolver
   if (options.deletable) {
     class Delete extends Mixin(returning) {
-      model = getStore().model<T>(modelName);
+      model = getStore().model<Entity>(modelName);
 
       @Mutation(() => Boolean)
       async [`delete${modelName}`](
         @Arg('id') id: string
-      ) { return this.model.deleteById(id); }
+      ) { return this.model.deleteById(id, adapterOptions?.delete); }
     }
     returning = Delete;
   }
 
   return returning;
-};
+}
