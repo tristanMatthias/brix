@@ -11,6 +11,7 @@ import { authChecker } from './lib/auth';
 import { setupDatabase } from './lib/database';
 import { apollo } from './middleware/apollo';
 import { loadMiddleware } from './middleware/loadMiddleware';
+import bodyParser from 'body-parser';
 
 
 let httpServer: Server;
@@ -50,6 +51,7 @@ export const server = async (config?: Partial<BrixConfig>) => {
   app.use(helmet({
     xssFilter: true
   }));
+  app.use(bodyParser.json({ limit: Config.bodySizeLimit }));
 
   await loadMiddleware(app);
   await apollo(app, httpServer, schema);

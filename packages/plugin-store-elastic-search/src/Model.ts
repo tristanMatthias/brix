@@ -15,11 +15,10 @@ export class ElasticModel<T> implements BrixStoreModel<T> {
     private _client: Client) { }
 
   async findAll(options: any = {}) {
-    return this._parseMany(this._client.search({
+    return this._parseMany(this._client.search(merge({
       index: this._index,
-      q: '*',
-      ...options
-    }));
+      q: '*'
+    }, options)));
   }
 
   async create(data: T, options: any = {}) {

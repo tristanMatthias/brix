@@ -39,6 +39,7 @@ export abstract class Config {
   static clsNamespace: BrixConfig['clsNamespace'];
   static logLevel: BrixConfig['logLevel'];
   static installPlugins: BrixConfig['installPlugins'];
+  static bodySizeLimit: BrixConfig['bodySizeLimit'];
 
   private static loaded?: Partial<BrixConfig>;
 
@@ -159,7 +160,8 @@ export abstract class Config {
       plugins: this.plugins,
       clsNamespace: this.clsNamespace,
       logLevel: this.logLevel,
-      installPlugins: this.installPlugins
+      installPlugins: this.installPlugins,
+      bodySizeLimit: this.bodySizeLimit
     };
   }
 

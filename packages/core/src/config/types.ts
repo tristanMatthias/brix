@@ -99,6 +99,8 @@ export interface BrixConfig {
    * `success` Logs everything
    */
   logLevel: 'error' | 'warning' | 'info' | 'success';
+  /** Size limit of body (passed to body-parser) */
+  bodySizeLimit?: string;
 }
 
 /** Brix context to use in Apollo */

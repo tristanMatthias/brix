@@ -19,6 +19,7 @@
     "@brix/model": "^0.2.2-alpha.54+012eb64",
     "apollo-server-core": "^2.9.13",
     "apollo-server-express": "^2.9.13",
+    "body-parser": "^1.19.0",
     "chalk": "^3.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
