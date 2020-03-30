@@ -33,6 +33,7 @@
     "node-fetch": "^2.6.0",
     "reflect-metadata": "^0.1.13",
     "shortid": "^2.2.14",
+    "strip-ansi": "^6.0.0",
     "traverse": "^0.6.6",
     "type-graphql": "^0.17.6",
     "useragent": "^2.3.0"

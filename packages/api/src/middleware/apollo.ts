@@ -8,6 +8,7 @@ import { Server } from 'http';
 
 import { createContext as context } from '../lib/context';
 import { loadMocks } from '../lib/mocks';
+import strip from 'strip-ansi';
 
 
 export interface SubscriptionOptions { token: string; }
@@ -36,7 +37,11 @@ export const apollo = async (
   const apolloServer = new ApolloServer({
     schema,
     context,
-    mocks
+    mocks,
+    formatError: err => {
+      err.message = strip(err.message);
+      return err;
+    }
 
     // subscriptions: {
     //   onConnect: async (connectionParams, _websocket, context) => {
