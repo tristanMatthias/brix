@@ -1,14 +1,21 @@
 import { BrixConfig } from '@brix/core';
-import { BrixStore, BrixStoreBuildOptions, BrixStoreModel } from '@brix/model';
+import { BrixStore, BrixStoreBuildOptions, BrixStoreModel, ErrorNoModelRegistered } from '@brix/model';
 import { Client } from '@elastic/elasticsearch';
 
 import { ElasticModel } from './Model';
+import pluralize from 'pluralize';
+
+const modelName = (name: string) => {
+  const n = pluralize.singular(name).toLowerCase();
+  return (n[0].toUpperCase() + n.slice(1)).toLowerCase();
+};
 
 
 export class ElasticStore implements BrixStore<Client> {
   db: Client;
   models: { [key: string]: any } = {};
   private _config: BrixStoreBuildOptions;
+  private _modelCache: { [model: string]: ElasticModel<any> } = {};
 
   build(options: BrixStoreBuildOptions) {
     this._config = options;
@@ -24,16 +31,6 @@ export class ElasticStore implements BrixStore<Client> {
       node: options.host
 
     });
-
-
-    if (this._config.models) {
-      await Promise.all(this._config.models.map(async m => {
-        await this.db.index({
-          index: m.name.toLowerCase(),
-          body: {}
-        });
-      }));
-    }
   }
 
   async connect(options: BrixConfig['dbConnection']) {
@@ -47,6 +44,16 @@ export class ElasticStore implements BrixStore<Client> {
   }
 
   model<T>(name: string) {
-    return new ElasticModel<T>(name.toLowerCase(), this.db) as BrixStoreModel<T>;
+    const n = modelName(name);
+
+    if (!this._config.models || !this._config.models.find(m => modelName(m.name) === n)) {
+      throw new ErrorNoModelRegistered(name);
+    }
+    if (this._modelCache[n]) return this._modelCache[n];
+
+    const m = this._config.models.find(m => modelName(m.name) === n)!;
+    const model = new ElasticModel<T>(n, m.fields!, this.db);
+    this._modelCache[n] = model;
+    return model as BrixStoreModel<T>;
   }
 }

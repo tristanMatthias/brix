@@ -1,5 +1,5 @@
-import { BrixStoreModel, BrixStoreModelFindOptions } from '@brix/model';
-import { Client, ApiResponse, } from '@elastic/elasticsearch';
+import { BrixModelFieldMetadata, BrixStoreModel, BrixStoreModelFindOptions, FieldType } from '@brix/model';
+import { ApiResponse, Client } from '@elastic/elasticsearch';
 import merge from 'deepmerge';
 
 interface SearchResponse<T> {
@@ -12,12 +12,13 @@ export class ElasticModel<T> implements BrixStoreModel<T> {
 
   constructor(
     private _index: string,
+    private _fields: BrixModelFieldMetadata[],
     private _client: Client) { }
 
   async findAll(options: any = {}) {
     return this._parseMany(this._client.search(merge({
       index: this._index,
-      q: '*'
+      q: options ? undefined : '*'
     }, options)));
   }
 
@@ -27,10 +28,10 @@ export class ElasticModel<T> implements BrixStoreModel<T> {
       body: data
     }, options));
 
-    return {
+    return this._serialize({
       id: res.body._id,
       ...data
-    };
+    });
   }
 
   async bulkCreate(data: Partial<T>[], options: any = {}) {
@@ -55,13 +56,14 @@ export class ElasticModel<T> implements BrixStoreModel<T> {
   }
 
   async findOne(options: BrixStoreModelFindOptions<T>, adapterOptions: any = {}) {
-    const res: ApiResponse<T> = await this._client.search(merge({
+    const res = await this._client.search(merge({
       index: this._index,
       body: {
         query: options.where
       }
     }, adapterOptions));
-    return res.body;
+    if (!res.body.hits.hits.length) return null;
+    return this._serialize(res.body.hits.hits[0]._source);
   }
 
   async deleteById(id: string, options: any = {}) {
@@ -83,8 +85,19 @@ export class ElasticModel<T> implements BrixStoreModel<T> {
 
   private async _parseMany(func: Promise<ApiResponse<SearchResponse<T>>>) {
     const { body } = await func;
+    this._fields;
     return body.hits.hits.map(h => {
-      return { id: h._id, ...h._source };
+      return { id: h._id, ...this._serialize(h._source) };
     });
+  }
+
+  private _serialize(obj: T): T {
+    this._fields
+      .forEach(f => {
+        const n = f.name as keyof T;
+        const v = obj[n];
+        if (typeof v === 'string' && f.type === FieldType.DATE) obj[n] = new Date(v) as any;
+      });
+    return obj;
   }
 }
