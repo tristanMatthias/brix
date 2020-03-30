@@ -10,7 +10,7 @@ import { dirOrDist } from '../lib/dirOrDist';
 import { CONFIG_BASE, CONFIG_DEVELOPMENT, CONFIG_PRODUCTION, CONFIG_TEST, CONFIGS } from './defaults';
 import { BrixConfig, Env } from './types';
 import { validateConfig } from './validate';
-import { setupLogger } from '../lib';
+import { setupLogger, logger } from '../lib';
 
 
 // Allow for `.env` files to override config
@@ -110,9 +110,27 @@ export abstract class Config {
       this.loaded = config;
     }
 
+    this.hydrateEnv(config);
 
     if (config && Object.keys(config).length) await this.update(config);
     return this.toJSON();
+  }
+
+
+  static hydrateEnv(config: any) {
+    if (!config) return;
+    if (config instanceof Array) config.forEach(this.hydrateEnv);
+    else if (typeof config === 'object') {
+      Object.entries(config).forEach(([k, v]) => {
+        if (typeof v === 'string'){
+          if (v.startsWith('$')) {
+            const env = v.slice(1);
+            if (process.env[env] !== undefined) config[k] = process.env[env];
+            else logger.warning(`[CONFIG] Tried to use the ${env} variable, but it was not set`)
+          }
+        } else this.hydrateEnv(config[k]);
+      })
+    }
   }
 
 
