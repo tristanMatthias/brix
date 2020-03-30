@@ -19,8 +19,15 @@ export class ErrorStoreAlreadyRegistered extends BaseError {
     super(`Model Builder already has a store registered`);
   }
 }
-export class ErrorNoStoreyRegistered extends BaseError {
+export class ErrorNoStoreRegistered extends BaseError {
   constructor() {
     super(`Model Builder does not have a store registered`);
+  }
+}
+
+// ---------------------------------------------------------------------- Models
+export class ErrorNoModelRegistered extends BaseError {
+  constructor(model: string) {
+    super(`No model registered with name ${chalk.yellow(`'${model}'`)}`);
   }
 }

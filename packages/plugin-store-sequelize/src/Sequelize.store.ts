@@ -1,5 +1,5 @@
 import { BrixConfig } from '@brix/core';
-import { BrixModelFieldMetadata, BrixStore, BrixStoreBuildOptions, FieldType } from '@brix/model';
+import { BrixModelFieldMetadata, BrixStore, BrixStoreBuildOptions, FieldType, BrixStoreModel } from '@brix/model';
 import Seq, { BIGINT, DataType, ModelAttributeColumnOptions, ModelAttributes, Sequelize } from 'sequelize';
 
 import { SequelizeModel } from './Model';
@@ -67,7 +67,7 @@ export class SequelizeStore implements BrixStore {
 
   model<T>(name: string) {
     const model = this.db.model(name);
-    return new SequelizeModel<T>(model);
+    return new SequelizeModel<T>(model) as BrixStoreModel<T>;
   }
 }
 

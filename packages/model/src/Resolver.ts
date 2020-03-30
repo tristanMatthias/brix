@@ -87,8 +87,7 @@ export function Resolver<Entity extends any>(name: string, entityOrOptions: obje
 
     @Query(() => [entity])
     async [plural]() {
-      const res = await this.model.findAll(adapterOptions?.list);
-      return res;
+      return await this.model.findAll(adapterOptions?.list);
     }
 
   }

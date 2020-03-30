@@ -57,13 +57,13 @@ export type BrixStoreModel<T, AdapterOptions extends BrixStoreAdapterOptions = {
   /** Bulk create new records */
   bulkCreate(values: Partial<T>[], adapterOptions?: AdapterOptions): Promise<T[]>;
   /** Find a record by the primary key */
-  findById(id: string, adapterOptions?: AdapterOptions): Promise<T>
+  findById(id: string, adapterOptions?: AdapterOptions): Promise<T | null>
   /** Find a record with filter options */
-  findOne(options: BrixStoreModelFindOptions<T>, adapterOptions?: AdapterOptions): Promise<T>;
+  findOne(options: BrixStoreModelFindOptions<T>, adapterOptions?: AdapterOptions): Promise<T | null>;
   /** Delete a record by the ID */
   deleteById(id: string, adapterOptions?: AdapterOptions): Promise<boolean>;
   /** Update a record by the ID */
-  updateById(id: string, values: Partial<T>, adapterOptions?: AdapterOptions): Promise<T>;
+  updateById(id: string, values: Partial<T>, adapterOptions?: AdapterOptions): Promise<T | null>;
 };
 
 /**

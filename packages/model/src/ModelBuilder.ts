@@ -1,5 +1,5 @@
 import { BrixConfig } from '@brix/core';
-import { ErrorNoStoreyRegistered, ErrorStoreAlreadyRegistered } from './errors';
+import { ErrorNoStoreRegistered, ErrorStoreAlreadyRegistered } from './errors';
 import { BrixStore, setStore } from './Store';
 import { BrixModelFieldMetadata, BrixModelMetadata, BrixModelRelationMetadata } from './metadata';
 
@@ -36,7 +36,7 @@ export abstract class ModelBuilder {
    * Pass all metadata to the BrixStore for it to build the models
    */
   static async build() {
-    if (!this._store) throw new ErrorNoStoreyRegistered();
+    if (!this._store) throw new ErrorNoStoreRegistered();
 
     this.modelMetadata.forEach(m => {
       m.fields = this.fieldMetadata.filter(f => f.target === m.target);
