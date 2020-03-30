@@ -1,10 +1,11 @@
-import API from '@brix/api';
-import { BrixContextUser, BrixContext, comparePassword } from '@brix/core';
+import { ErrorAuthInvalidDetails } from '@brix/api';
+import { BrixContext, BrixContextUser, comparePassword } from '@brix/core';
 import { getStore } from '@brix/model';
-import { Arg, Ctx, Field, ObjectType, Query, Resolver, Authorized } from 'type-graphql';
+import { User } from '@brix/plugin-entity-user';
+import { Arg, Authorized, Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
 
 import { generateToken, verifyToken } from './lib/tokens';
-import { User } from '@brix/plugin-entity-user';
+
 
 
 @ObjectType()
@@ -34,7 +35,7 @@ export class AuthResolver {
     const user = await this.User.findOne({ where: { email } });
 
     // Check user exists
-    if (!user) throw new API.errors.ErrorAuthInvalidDetails();
+    if (!user) throw new ErrorAuthInvalidDetails();
     const userId = user.id;
 
     // TODO: Email verification
@@ -42,7 +43,7 @@ export class AuthResolver {
     // if (!user.verifiedEmail) throw new ErrorAuthInvalidDetails();
 
     // Check password
-    if (!(await comparePassword(password, user.password))) throw new API.errors.ErrorAuthInvalidDetails();
+    if (!(await comparePassword(password, user.password))) throw new ErrorAuthInvalidDetails();
 
     const { accessToken, expiry } = await generateToken(fingerprint, user);
 

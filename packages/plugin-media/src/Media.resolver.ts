@@ -8,7 +8,7 @@ import uuid from 'uuid';
 import { OPTIONS } from '.';
 import { ECreateMediaInput, EMedia, EUpdateMediaInput } from './Media.entity';
 import { providers } from './providers';
-
+import {ErrorResourceNotFound} from '@brix/api';
 
 @Resolver(EMedia)
 export class MediaResolver {
@@ -71,8 +71,9 @@ export class MediaResolver {
   @Authorized()
   @Mutation(() => Boolean)
   async deleteMedia(@Arg('id') id: string) {
-    const name = (await this.model.findById(id)).name;
-    await this.service.delete(id, name);
+    const m = await this.model.findById(id);
+    if (!m) throw new ErrorResourceNotFound('media', id);
+    await this.service.delete(id, m.name);
     return this.model.deleteById(id);
   }
 

@@ -19,6 +19,7 @@
   },
   "gitHead": "012eb64f698ac8fcf181a71550d46c95198595d0",
   "dependencies": {
+    "@brix/api": "^0.2.2-alpha.54+012eb64",
     "@brix/core": "^0.2.2-alpha.54+012eb64",
     "@brix/model": "^0.2.2-alpha.54+012eb64",
     "cloudinary": "^1.19.0",

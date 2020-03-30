@@ -1,8 +1,8 @@
-import API from '@brix/api';
+import { ErrorAuthInvalidAuthorizationHeader, ErrorAuthUnauthenticated } from '@brix/api';
 import { BrixAuthChecker, BrixContextMiddleware, BrixPlugins } from '@brix/core';
-
 import { AuthResolver } from './Auth.resolver';
 import { setContextFromToken } from './lib/context';
+
 
 
 /**
@@ -16,9 +16,9 @@ const addJWTToContext: BrixContextMiddleware = (req, context) => {
   if (accessToken) {
     try {
       [, accessToken] = /^Bearer\s(.+)$/.exec(accessToken)!;
-      if (!accessToken.length) throw new API.errors.ErrorAuthInvalidAuthorizationHeader();
+      if (!accessToken.length) throw new ErrorAuthInvalidAuthorizationHeader();
     } catch (e) {
-      throw new API.errors.ErrorAuthInvalidAuthorizationHeader();
+      throw new ErrorAuthInvalidAuthorizationHeader();
     }
   }
 
@@ -36,7 +36,7 @@ const addJWTToContext: BrixContextMiddleware = (req, context) => {
  */
 const authChecker: BrixAuthChecker = async (context, roles) => {
   // If unauthenticated, throw 400 error
-  if (!context.accessToken) throw new API.errors.ErrorAuthUnauthenticated();
+  if (!context.accessToken) throw new ErrorAuthUnauthenticated();
   // Attempt to decrypt and verify the accessToken and assign data to context
   const { role } = await setContextFromToken(context.accessToken, context);
   // No need to check against role permissions, as there is none

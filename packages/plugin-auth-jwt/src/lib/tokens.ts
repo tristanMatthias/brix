@@ -1,6 +1,6 @@
-import { Config, Env, BrixContextUser } from '@brix/core';
+import { ErrorAuthInvalidToken } from '@brix/api';
+import { BrixContextUser, Config, Env } from '@brix/core';
 import jwt from 'jsonwebtoken';
-import API from '@brix/api';
 
 /** Data stored in JWTs */
 interface JWTData {
@@ -51,11 +51,11 @@ export const verifyToken = async (
   try {
     data = jwt.verify(token, Config.accessTokenSecret) as JWTVerifyResult;
   } catch (e) {
-    throw new API.errors.ErrorAuthInvalidToken();
+    throw new ErrorAuthInvalidToken();
   }
 
   // NOTE: Potentially may want to invalidate this JWT too, to prevent it's reuse
-  if (data.fingerprint !== fingerprint && !data.isDevelopment) throw new API.errors.ErrorAuthInvalidToken();
+  if (data.fingerprint !== fingerprint && !data.isDevelopment) throw new ErrorAuthInvalidToken();
 
   return data;
 };

@@ -1,17 +1,15 @@
-import * as Errors from './errors';
 import * as Auth from './lib/auth';
 import * as Context from './lib/context';
 import * as Database from './lib/database';
 import * as Fingerprint from './lib/fingerprint';
 import { server as Server } from './server';
 
-
+export * from './errors';
 export * from './types';
 
 namespace API {
   /** Configuration helpers */
   export const server = Server;
-  export const errors = Errors;
 
   export module lib {
     export const auth = Auth;
