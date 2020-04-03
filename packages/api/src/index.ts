@@ -4,7 +4,6 @@ import * as Database from './lib/database';
 import * as Fingerprint from './lib/fingerprint';
 import { server as Server } from './server';
 
-export * from './errors';
 export * from './types';
 
 namespace API {

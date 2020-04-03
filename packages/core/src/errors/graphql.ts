@@ -1,8 +1,8 @@
 import { GraphQLError } from 'graphql';
 
-import { ErrorGeneral } from './general';
+import { ErrorAPIGeneral } from './general';
 import { ErrorValidationRequired } from './validation';
-import { Config, Env, logger } from '@brix/core';
+import { Config, Env, logger } from '../';
 
 const gqlRegex = {
   required: /Variable "\$(\w+)" .* Field (\w*) of required type (\w+)! was not provided.$/
@@ -25,5 +25,5 @@ export const handleGraphQLError = (e: GraphQLError): Error => {
 
   logger.error(e);
   // Otherwise return a general error in prod-like environment
-  return new ErrorGeneral();
+  return new ErrorAPIGeneral();
 };

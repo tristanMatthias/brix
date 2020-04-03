@@ -1,6 +1,6 @@
 // tslint:disable variable-name
-import { ErrorBadRequest, ErrorNotFound } from './general';
 import { ErrorCode } from './codes';
+import { ErrorBadRequest, ErrorNotFound } from './general';
 
 /** Resource not found error (404) */
 export class ErrorResourceNotFound extends ErrorNotFound {

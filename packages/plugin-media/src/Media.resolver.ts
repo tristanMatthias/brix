@@ -1,4 +1,4 @@
-import { BrixContextUser, FileUpload } from '@brix/core';
+import { BrixContextUser, ErrorResourceNotFound, FileUpload } from '@brix/core';
 import { getStore } from '@brix/model';
 import fs from 'fs-extra';
 import path from 'path';
@@ -8,7 +8,6 @@ import uuid from 'uuid';
 import { OPTIONS } from '.';
 import { ECreateMediaInput, EMedia, EUpdateMediaInput } from './Media.entity';
 import { providers } from './providers';
-import {ErrorResourceNotFound} from '@brix/api';
 
 @Resolver(EMedia)
 export class MediaResolver {
