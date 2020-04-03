@@ -1,6 +1,12 @@
-import { BrixContext, BrixContextUser, setInCLSContext } from '@brix/core';
+import {
+  BrixContext,
+  BrixContextMiddleware,
+  BrixContextUser,
+  ErrorAuthInvalidAuthorizationHeader,
+  setInCLSContext,
+  verifyToken
+} from '@brix/core';
 
-import { verifyToken } from './tokens';
 
 /**
  * Upon a successful authentication, decrypt the access token and assign important
@@ -19,4 +25,26 @@ export const setContextFromToken = async (
   setInCLSContext('context', ctx);
 
   return ctx;
+};
+
+
+/**
+ * Attempt to load the JWT from the `Authorization` header in `Bearer XYZ` format
+ * @param req Express.Request
+ * @param context BrixContext
+ */
+export const addJWTToContext: BrixContextMiddleware = (req, context) => {
+  let accessToken = req.headers.authorization;
+
+  if (accessToken) {
+    try {
+      [, accessToken] = /^Bearer\s(.+)$/.exec(accessToken)!;
+      if (!accessToken.length) throw new ErrorAuthInvalidAuthorizationHeader();
+    } catch (e) {
+      throw new ErrorAuthInvalidAuthorizationHeader();
+    }
+  }
+
+  context.accessToken = accessToken;
+  return context;
 };

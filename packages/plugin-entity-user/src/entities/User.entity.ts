@@ -1,7 +1,7 @@
 import { Model, ModelField } from '@brix/model';
 import { Store } from '@brix/model/dist/Store';
-import { Arg, Field, InputType, Mutation, ObjectType, Query, Resolver, Authorized } from 'type-graphql';
-import { hashPassword } from '@brix/core';
+import { Arg, Field, InputType, Mutation, ObjectType, Query, Resolver, Authorized, Ctx } from 'type-graphql';
+import { hashPassword, BrixContext } from '@brix/core';
 
 
 @ObjectType()
@@ -60,5 +60,12 @@ export class UserResolver {
   ) {
     user.password = await hashPassword(user.password);
     return this.model.create(user);
+  }
+
+  /** Get the current user */
+  @Query(() => User)
+  @Authorized()
+  me(@Ctx() ctx: BrixContext) {
+    return this.model.findById(ctx.user!.id);
   }
 }

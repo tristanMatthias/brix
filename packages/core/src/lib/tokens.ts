@@ -1,6 +1,6 @@
-import { ErrorAuthInvalidToken } from '@brix/api';
-import { BrixContextUser, Config, Env } from '@brix/core';
 import jwt from 'jsonwebtoken';
+import { ErrorAuthInvalidToken } from '../errors';
+import { BrixContextUser, Config, Env } from '../config';
 
 /** Data stored in JWTs */
 interface JWTData {
