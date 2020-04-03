@@ -100,7 +100,9 @@ export abstract class BrixPlugins {
         try {
           res(await importLib(pkg));
         } catch (e) {
-          if (e.code === 'MODULE_NOT_FOUND') res(false);
+          if ((e.message as string).match(new RegExp(`Cannot find module '${pkg}'`))) {
+            res(false);
+          }
           else throw e;
         }
       });
