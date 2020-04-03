@@ -105,6 +105,10 @@ export interface BrixConfig {
 
 /** Brix context to use in Apollo */
 export interface BrixContext {
+  /** Express Request */
+  req: Request;
+  /** Express Response */
+  res: Response;
   /** Unique fingerprint for the request */
   fingerprint: string;
   /** User object decoded from JWT */

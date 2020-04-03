@@ -12,11 +12,13 @@ export interface SubscriptionContext extends BrixContext { }
  * return the connection context.
  * Additionally loads context middleware from plugins
  */
-export const createContext: ContextFunction = async ({ req, connection }) => {
+export const createContext: ContextFunction = async ({ req, connection, res }) => {
 
   if (!req || !req.headers) return connection.context;
 
   const context: Partial<BrixContext> = {
+    req,
+    res,
     valid: false,
     fingerprint: fingerprint(req)
   };
