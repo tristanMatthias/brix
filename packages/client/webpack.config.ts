@@ -5,7 +5,7 @@ import ExtractText from 'extract-text-webpack-plugin';
 import HTMLWebpack from 'html-webpack-plugin';
 import { Configuration } from 'webpack';
 
-const favicon = require('favicons-webpack-plugin');
+// const favicon = require('favicons-webpack-plugin');
 const replacePlugin = require('webpack-plugin-replace');
 
 const CSS = new ExtractText('app.css');
@@ -48,7 +48,7 @@ const config: Configuration = {
       template: './src/index.html'
     }),
     CSS,
-    new favicon('./src/images/logo.jpg'),
+    // new favicon('./src/images/logo.jpg'),
     // new Copy([
     // { from: './src/images/social', to: 'social' },
     // { from: './src/images/', to: 'images' },
