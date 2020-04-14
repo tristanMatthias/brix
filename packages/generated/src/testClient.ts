@@ -87,10 +87,9 @@ export const generateGQLTestClient = async () => {
 
 
   const importTypes = Object.values(queries)
-    .map(f => fieldType(f as Field))
-    // Unique
-    .filter((value, index, self) => self.indexOf(value) === index);
-
+  .map(f => fieldType(f as Field))
+  // Unique
+  .filter((value, index, self) => self.indexOf(value) === index);
 
   const funcs = Object.entries(queries)
     .map(([name, f]) => generateTestClientQuery(name, f as Field, importTypes))
@@ -104,8 +103,9 @@ export const generateGQLTestClient = async () => {
   template = template.replace(funcReg, funcs);
 
 
+  template = `import {${importTypes.join(', ')}} from './queries'\n\n${template}`;
   const importReg = /\/\*\*\s\%IMPORT\%\s\*\//;
-  template = template.replace(importReg, `import {${importTypes.join(', ')}} from './schema'`);
+  template = template.replace(importReg, `import {${importTypes.join(', ')}} from './queries'`);
 
 
   return await compile('TestClient.ts', template);

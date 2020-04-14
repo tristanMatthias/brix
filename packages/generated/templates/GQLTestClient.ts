@@ -1,19 +1,23 @@
-import API, { Upload } from '@brix/api';
+import API from '@brix/api';
 import { BrixConfig } from '@brix/core';
 import { MailTester } from '@brix/mail-tester';
+import { BrixStore } from '@brix/model';
 import formData from 'form-data';
 import getPort from 'get-port';
 import { Server } from 'http';
 import fetch from 'isomorphic-fetch';
-import { Sequelize } from 'sequelize/types';
 import { Readable } from 'stream';
 import uuid from 'uuid';
+
+// NOTE: Very strange bug with JSON.stringify being re-written on TS compile
+const stringify = eval('JSON.stringify');
 
 /** %IMPORT% */
 
 // import { createDatabase, dropDatabase } from '../../src/lib/database';
 export class TestClient {
 
+  db: BrixStore;
   emailServer?: MailTester;
   defaultOrganizationId: number;
 
@@ -24,7 +28,6 @@ export class TestClient {
 
   private _server: Server;
   private _serverConfig: Partial<BrixConfig>;
-  private _db: Sequelize;
   private _url: string;
 
   // Generated queries and mutations to test
@@ -66,7 +69,7 @@ export class TestClient {
       rootDir: process.cwd()
     });
 
-    this._db = db!;
+    this.db = db!;
     this._server = httpServer;
 
 
@@ -81,7 +84,7 @@ export class TestClient {
    * Stop the API and drop the test database
    */
   async stop() {
-    if (this._db) await this._db.close();
+    if (this.db) await this.db.disconnect();
 
     // TODO: Database integration
     // await dropDatabase(this._dbName);
@@ -92,9 +95,9 @@ export class TestClient {
   }
 
 
-  async resetDb() {
-    if (this._db) await this._db.sync({ force: true });
-  }
+  // async resetDb() {
+  //   if (this._db) await this._db.sync({ force: true });
+  // }
 
 
   clearToken() {
@@ -143,7 +146,7 @@ export class TestClient {
     const files = this._extractFiles(variables || {});
 
     const body = new formData();
-    body.append('operations', JSON.stringify({ query, variables }));
+    body.append('operations', stringify({ query, variables }));
 
     // Generate the `map` field for the spec
     const map = Object.keys(files).reduce((obj, key, i) => {
@@ -151,7 +154,7 @@ export class TestClient {
       return obj;
     }, {} as any);
 
-    body.append('map', JSON.stringify(map));
+    body.append('map', stringify(map));
 
     // Loop over file object, and append files linked to the map
     Object.values(files).forEach((stream, i) => {
@@ -187,7 +190,7 @@ export class TestClient {
 
 
   private _extractFiles(
-    obj: { [file: string]: Upload | null | any },
+    obj: { [file: string]: null | any },
     path = 'variables',
     returning: { [file: string]: Readable } = {}
   ): { [key: string]: Readable } {
