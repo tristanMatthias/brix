@@ -54,8 +54,7 @@ export const generateTestClientQuery = (
   field: Field,
   deps: string[]
 ) => {
-
-  const args = field.args.map(v => {
+  let args = field.args.map(v => {
     const arg = argType(v.type.toString());
     if (!arg) return v.name;
 
@@ -63,6 +62,8 @@ export const generateTestClientQuery = (
     if (isUnknown && !deps.includes(type)) deps.push(type);
     return v.name + (isRequired ? ':' : '?:') + (isArray ? `${type}[]` : type);
   }).join(', ');
+
+  if (args.length) args = `args: {${args}}`;
 
   const variables = field.args.length ? `, { ${field.args.map(f => f.name).join(', ')} }` : '';
 
@@ -85,11 +86,12 @@ export const generateGQLTestClient = async () => {
   const query = schema.getQueryType()!;
   const queries = query.getFields();
 
+  const BASE_TYPES = ['String', 'Boolean'];
 
   const importTypes = Object.values(queries)
   .map(f => fieldType(f as Field))
   // Unique
-  .filter((value, index, self) => self.indexOf(value) === index);
+  .filter((value, index, self) => (self.indexOf(value) === index) && !BASE_TYPES.includes(value));
 
   const funcs = Object.entries(queries)
     .map(([name, f]) => generateTestClientQuery(name, f as Field, importTypes))
@@ -103,7 +105,7 @@ export const generateGQLTestClient = async () => {
   template = template.replace(funcReg, funcs);
 
 
-  template = `import {${importTypes.join(', ')}} from './queries'\n\n${template}`;
+  template = `import {${importTypes.join(', ')}} from './schema'\n\n${template}`;
   const importReg = /\/\*\*\s\%IMPORT\%\s\*\//;
   template = template.replace(importReg, `import {${importTypes.join(', ')}} from './queries'`);
 
