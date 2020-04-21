@@ -9,9 +9,30 @@ import { Server } from 'http';
 import { createContext as context } from '../lib/context';
 import { loadMocks } from '../lib/mocks';
 import strip from 'strip-ansi';
+import depthLimit from 'graphql-depth-limit';
 
 
 export interface SubscriptionOptions { token: string; }
+
+
+class BrixApolloServer extends ApolloServer {
+  async createGraphQLServerOptions(req: any, res: any) {
+    const options = await super.createGraphQLServerOptions(req, res);
+
+    const settings: any = {
+      ...options,
+      validationRules: []
+    };
+
+    if (Config.depthLimit !== undefined) {
+      settings.validationRules.push(
+        depthLimit(Config.depthLimit)
+      );
+    }
+
+    return settings;
+  }
+}
 
 
 /**
@@ -34,7 +55,7 @@ export const apollo = async (
   }
 
 
-  const apolloServer = new ApolloServer({
+  const apolloServer = new BrixApolloServer({
     schema,
     context,
     mocks,

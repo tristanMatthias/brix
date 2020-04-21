@@ -92,6 +92,7 @@ export const generateQueries = async (
     crossReferenceKeyList: string[] = [], // [`${curParentName}To${curName}Key`]
     curDepth = 1
   ) => {
+    if (Config.depthLimit && curDepth > Config.depthLimit) return null;
 
     const field = (schema.getType(curParentType) as GraphQLObjectType)
       .getFields()[curName];
@@ -123,8 +124,9 @@ export const generateQueries = async (
           duplicateArgCounts,
           crossReferenceKeyList,
           curDepth + 1
-        ).queryStr)
+        ))
         .filter(cur => cur)
+        .map(cur => cur!.queryStr)
         .join('\n');
     }
 
@@ -161,8 +163,9 @@ export const generateQueries = async (
               duplicateArgCounts,
               crossReferenceKeyList,
               curDepth + 2
-            ).queryStr)
+            ))
             .filter(cur => cur)
+            .map(cur => cur!.queryStr)
             .join('\n');
 
           queryStr += `${fragIndent}... on ${valueTypeName} {\n${unionChildQuery}\n${fragIndent}}\n`;
@@ -216,7 +219,7 @@ export const generateQueries = async (
       const field = (schema.getType(description) as GraphQLObjectType).getFields()[type];
       /* Only process non-deprecated queries/mutations: */
       if (includeDeprecatedFields || !field.isDeprecated) {
-        const queryResult = generateQuery(type, description);
+        const queryResult = generateQuery(type, description)!;
         const varsToTypesStr = getVarsToTypesStr(queryResult.argumentsDict);
         let query = queryResult.queryStr;
         query = `${description.toLowerCase()} ${type}${varsToTypesStr ? `(${varsToTypesStr})` : ''}{\n${query}\n}`;

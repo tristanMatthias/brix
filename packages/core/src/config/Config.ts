@@ -40,6 +40,7 @@ export abstract class Config {
   static logLevel: BrixConfig['logLevel'];
   static installPlugins: BrixConfig['installPlugins'];
   static bodySizeLimit: BrixConfig['bodySizeLimit'];
+  static depthLimit: BrixConfig['depthLimit'];
 
   private static loaded?: Partial<BrixConfig>;
 
@@ -122,14 +123,14 @@ export abstract class Config {
     if (config instanceof Array) config.forEach(this.hydrateEnv);
     else if (typeof config === 'object') {
       Object.entries(config).forEach(([k, v]) => {
-        if (typeof v === 'string'){
+        if (typeof v === 'string') {
           if (v.startsWith('$')) {
             const env = v.slice(1);
             if (process.env[env] !== undefined) config[k] = process.env[env];
-            else logger.warning(`[CONFIG] Tried to use the ${env} variable, but it was not set`)
+            else logger.warning(`[CONFIG] Tried to use the ${env} variable, but it was not set`);
           }
         } else this.hydrateEnv(config[k]);
-      })
+      });
     }
   }
 
@@ -179,7 +180,8 @@ export abstract class Config {
       clsNamespace: this.clsNamespace,
       logLevel: this.logLevel,
       installPlugins: this.installPlugins,
-      bodySizeLimit: this.bodySizeLimit
+      bodySizeLimit: this.bodySizeLimit,
+      depthLimit: this.depthLimit
     };
   }
 

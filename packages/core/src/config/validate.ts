@@ -61,7 +61,8 @@ export const validateConfig = yup.object().shape({
   logLevel: yup.string().oneOf(['error', 'warning', 'info', 'success']),
   plugins: yup.object(),
   installPlugins: yup.boolean(),
-  bodySizeLimit: yup.string()
+  bodySizeLimit: yup.string(),
+  depthLimit: yup.number()
 
 }).test(validateProps([
   'env',
@@ -82,5 +83,6 @@ export const validateConfig = yup.object().shape({
   'installPlugins',
   'clsNamespace',
   'logLevel',
-  'bodySizeLimit'
+  'bodySizeLimit',
+  'depthLimit'
 ]));

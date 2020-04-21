@@ -101,6 +101,8 @@ export interface BrixConfig {
   logLevel: 'error' | 'warning' | 'info' | 'success';
   /** Size limit of body (passed to body-parser) */
   bodySizeLimit?: string;
+  /** Depth limit for GQL queries (passed to graphql-depth-limit) */
+  depthLimit?: number;
 }
 
 /** Brix context to use in Apollo */

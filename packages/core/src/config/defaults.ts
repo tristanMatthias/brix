@@ -27,7 +27,8 @@ export const CONFIG_BASE: Partial<BrixConfig> = {
   accessTokenSecret: process.env.JWT_SECRET || shortid(),
   clsNamespace: 'brix-namespace',
   logLevel: 'warning',
-  installPlugins: true
+  installPlugins: true,
+  depthLimit: 4
 };
 
 
