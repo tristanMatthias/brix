@@ -65,7 +65,7 @@ export const generateTestClientQuery = (
 
   if (args.length) args = `args: {${args}}`;
 
-  const variables = field.args.length ? `, { ${field.args.map(f => f.name).join(', ')} }` : '';
+  const variables = args.length ? `, args` : '';
 
   let returnType = fieldType(field);
   if (field.type.toString().startsWith('[')) returnType = `${returnType}[]`;
