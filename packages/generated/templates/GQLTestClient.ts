@@ -33,6 +33,7 @@ export class TestClient {
   // Generated queries and mutations to test
   private _mutations: { [name: string]: string };
   private _queries: { [name: string]: string };
+  private _headers: { [name: string]: string } = {};
 
 
   private _token?: string;
@@ -104,6 +105,10 @@ export class TestClient {
     this._token = undefined;
   }
 
+  setHeader(header: string, value: string) {
+    this._headers[header] = value;
+  }
+
 
   // ---------------------------------------------------------------------------
   // ------------------------------------------------------------------- Queries
@@ -113,8 +118,8 @@ export class TestClient {
   // ---------------------------------------------------------------------------
   // ------------------------------------------------------------------ Requests
   // ---------------------------------------------------------------------------
-  private get _headers() {
-    const headers: HeadersInit = {};
+  private _getHeaders() {
+    const headers: HeadersInit = { ...this._headers };
     if (this._token) headers.authorization = `Bearer ${this._token}`;
     return headers;
   }
@@ -169,7 +174,7 @@ export class TestClient {
 
     const result = await fetch(this._url, {
       headers: {
-        ...this._headers,
+        ...this._getHeaders(),
         ...headers
       },
       method: 'post',
