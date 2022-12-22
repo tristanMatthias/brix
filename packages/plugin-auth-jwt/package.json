@@ -18,7 +18,7 @@
     "@brix/core": "^0.2.2-alpha.54+012eb64",
     "@brix/model": "^0.2.2-alpha.54+012eb64",
     "@brix/plugin-entity-user": "^0.2.2-alpha.54+012eb64",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.3.7"
